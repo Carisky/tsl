@@ -6,7 +6,7 @@ import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 import { homeStatic } from '@/endpoints/seed/home-static'
-
+import { cookies } from 'next/headers'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
@@ -80,6 +80,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+
   const { slug = 'home' } = await paramsPromise
   const page = await queryPageBySlug({
     slug,
@@ -89,6 +90,8 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+  const localeCookie = (await cookies()).get('locale')
+  const locale = (localeCookie?.value as "pl" | "en" | "ua" | "ru" | "all" | undefined) || 'en'
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
@@ -98,6 +101,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     draft,
     limit: 1,
     pagination: false,
+    locale,
     overrideAccess: draft,
     where: {
       slug: {

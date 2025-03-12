@@ -34,6 +34,7 @@ const columnFields: Field[] = [
     ],
   },
   {
+    localized:true,
     name: 'richText',
     type: 'richText',
     editor: lexicalEditor({

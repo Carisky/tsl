@@ -8,6 +8,7 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import LanguageSwitcher from '@/app/(frontend)/components/LanguageSwitcher'
 
 interface HeaderClientProps {
   data: Header
@@ -18,7 +19,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
   const pathname = usePathname()
-
+  console.log(data)
   useEffect(() => {
     setHeaderTheme(null)
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -35,6 +36,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
+        <LanguageSwitcher/>
         <HeaderNav data={data} />
       </div>
     </header>
