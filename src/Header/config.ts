@@ -12,12 +12,13 @@ export const Header: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+
       fields: [
         link({
           appearances: false,
         }),
       ],
-      maxRows: 6,
+      maxRows: 15,
       admin: {
         initCollapsed: true,
         components: {
