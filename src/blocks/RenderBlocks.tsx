@@ -2,13 +2,20 @@ import React, { Fragment } from 'react'
 
 import type { Page } from '@/payload-types'
 
+import { BannerBlock as BannerComponent } from '@/blocks/Banner/Component'
+import { CodeBlock as CodeComponent } from '@/blocks/Code/Component'
+
+
 import { ArchiveBlock } from '@/blocks/ArchiveBlock/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+// Расширяем объект с компонентами, добавляя новые ключи
+const blockComponents: Record<string, React.FC<any>> = {
+  banner: BannerComponent,
+  code: CodeComponent,
 
-const blockComponents = {
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,
@@ -35,7 +42,7 @@ export const RenderBlocks: React.FC<{
             if (Block) {
               return (
                 <div className="my-16" key={index}>
-                  {/* @ts-expect-error there may be some mismatch between the expected types here */}
+
                   <Block {...block} disableInnerContainer />
                 </div>
               )
