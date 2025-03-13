@@ -18,6 +18,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
 import { Content } from '@/blocks/Content/config'
+import { IconsList } from '@/blocks/IconsList/config'
 
 
 export const Posts: CollectionConfig<'posts'> = {
@@ -79,7 +80,7 @@ export const Posts: CollectionConfig<'posts'> = {
               // чтобы можно было добавлять ListWithIcon вместе с другими блоками.
               name: 'content',
               type: 'blocks',
-              blocks: [Banner, Code, MediaBlock, Content],
+              blocks: [Banner, Code, MediaBlock, Content, IconsList ],
               required: true,
               admin: {
                 initCollapsed: true,

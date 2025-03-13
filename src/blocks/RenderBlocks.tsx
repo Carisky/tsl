@@ -11,11 +11,12 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
+import { IconsListBlock } from './IconsList/IconsListBlock'
 // Расширяем объект с компонентами, добавляя новые ключи
 const blockComponents: Record<string, React.FC<any>> = {
   banner: BannerComponent,
   code: CodeComponent,
-
+  'icons-list': IconsListBlock, // добавляем наш компонент
   archive: ArchiveBlock,
   content: ContentBlock,
   cta: CallToActionBlock,

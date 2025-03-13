@@ -214,7 +214,24 @@ export interface Post {
   id: number;
   title: string;
   heroImage?: (number | null) | Media;
-  content: (BannerBlock | CodeBlock | MediaBlock | ContentBlock)[];
+  content: (
+    | BannerBlock
+    | CodeBlock
+    | MediaBlock
+    | ContentBlock
+    | {
+        items?:
+          | {
+              icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'icons-list';
+      }
+  )[];
   relatedPosts?: (number | Post)[] | null;
   categories?: (number | Category)[] | null;
   meta?: {
@@ -1150,6 +1167,19 @@ export interface PostsSelect<T extends boolean = true> {
         code?: T | CodeBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
+        'icons-list'?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
   relatedPosts?: T;
   categories?: T;
