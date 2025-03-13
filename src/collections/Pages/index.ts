@@ -59,6 +59,7 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   fields: [
     {
+      localized:true,
       name: 'title',
       type: 'text',
       required: true,
