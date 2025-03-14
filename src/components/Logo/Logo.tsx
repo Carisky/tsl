@@ -23,7 +23,7 @@ export const Logo = (props: Props) => {
       fetchPriority={priority}
       decoding="async"
       className={clsx('max-w-[9.375rem] w-full h-[80px]')}
-      src="/media/logo-z-napisem-z-R_przez-600x599.png"
+      src="/api/media/file/logo.jpg"
     />
   )
 }
