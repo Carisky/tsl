@@ -14,7 +14,6 @@ export interface IconsListBlockProps {
 
 export const IconsListBlock: React.FC<IconsListBlockProps> = ({
   items,
-  disableInnerContainer,
 }) => {
   if (!items || items.length === 0) {
     return null
@@ -30,7 +29,7 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
   }
 
   return (
-    <div className={disableInnerContainer ? '' : 'container'}>
+    <div className={ 'container'}>
       <ul className="icons-list">
         {items.map((item) => (
           <li

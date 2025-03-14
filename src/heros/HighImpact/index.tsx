@@ -27,7 +27,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
         >
           {richText && (
             <RichText
-              className="text-white flex items-center justify-center"
+              className="text-white flex items-center justify-center text-4xl font-semibold"
               data={richText}
               enableGutter={false}
             />
