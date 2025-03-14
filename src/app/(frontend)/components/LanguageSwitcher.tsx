@@ -46,7 +46,7 @@ const LanguageSwitcher: React.FC = () => {
     <div className="relative inline-block text-left" ref={containerRef}>
       <button 
         onClick={toggleDropdown} 
-        className="w-56 px-4 py-2 border border-gray-300 bg-white rounded-lg shadow-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg flex justify-between items-center"
+        className="w-36 px-4 py-2 border border-gray-300 bg-white rounded-lg shadow-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200 ease-in-out cursor-pointer hover:shadow-lg flex justify-between items-center"
       >
         <span>{languageLabels[currentLocale as "en" | "ua" | "ru" | "pl" | "all"] || currentLocale.toUpperCase()}</span>
         <svg className="h-5 w-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +55,7 @@ const LanguageSwitcher: React.FC = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+        <div className="absolute right-0 mt-2 w-36 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
           <div className="py-1">
             {options.map((option, index) => (
               <div 
