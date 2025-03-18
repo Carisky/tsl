@@ -17,7 +17,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
   // Если vertical=true, располагаем элементы вертикально, иначе горизонтально.
   const navClassName = vertical 
     ? "flex flex-col gap-4" 
-    : "flex gap-3 items-center"
+    : "flex gap-3 items-center h-20" 
 
   return (
     <nav className={navClassName}>

@@ -9,6 +9,7 @@ import { HeaderNav } from './Nav'
 import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { useLocaleStore } from '@/app/(frontend)/store/useLocaleStore'
 import LanguageSwitcher from '@/app/(frontend)/components/LanguageSwitcher'
+import palette from '@/palette'
 
 interface HeaderClientProps {
   data: Header
@@ -35,7 +36,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     setIsMobileMenuOpen((prev) => !prev)
   }
 
-  const handleLanguage = (option: "pl" | "en" | "ua" | "ru" | "all") => {
+  const handleLanguage = (option: 'pl' | 'en' | 'ua' | 'ru' | 'all') => {
     setLocale(option)
     document.cookie = `locale=${option}; path=/`
     setIsMobileMenuOpen(false)
@@ -43,8 +44,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
   }
 
   return (
-    <header className="container relative z-20" {...(theme ? { 'data-theme': theme } : {})}>
-      <div className="py-4 flex items-center justify-between">
+    <header
+      className="container relative max-w-full z-20"
+      {...(theme ? { 'data-theme': theme } : {})}
+      style={{ backgroundColor: palette.nav.background}}
+    >
+      <div className={`flex items-center justify-between`}>
         <Link href="/">
           <Logo loading="eager" priority="high" className="invert dark:invert-0" />
         </Link>
