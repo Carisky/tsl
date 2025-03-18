@@ -28,7 +28,7 @@ export const Logo = (props: Props) => {
         filter: 'invert(0)',              // Запрещаем инверсию логотипа
       }}
       className={clsx('max-w-[9.375rem] p-3 w-full h-[80px] rounded-2xl', props.className)}
-      src="/media/firm_logo.png"
+      src="/api/media/file/firm_logo.png"
     />
   )
 }
