@@ -23,9 +23,12 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      style={{ backgroundColor: palette.logo.bg }}  // Используем inline-стиль для динамического цвета
-      className={clsx('max-w-[9.375rem] w-full h-[80px] rounded-2xl', props.className)}
-      src="/api/media/file/firm_logo.png"
+      style={{
+        backgroundColor: palette.logo.bg, // Динамический цвет фона
+        filter: 'invert(0)',              // Запрещаем инверсию логотипа
+      }}
+      className={clsx('max-w-[9.375rem] p-3 w-full h-[80px] rounded-2xl', props.className)}
+      src="/media/firm_logo.png"
     />
   )
 }
