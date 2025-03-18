@@ -45,7 +45,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   return (
     <header
-      className="container relative max-w-full z-20"
+      className="container p-6 relative max-w-full z-20"
       {...(theme ? { 'data-theme': theme } : {})}
       style={{ backgroundColor: palette.nav.background}}
     >

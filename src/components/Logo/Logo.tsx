@@ -1,3 +1,4 @@
+import palette from '@/palette'
 import clsx from 'clsx'
 import React from 'react'
 
@@ -22,7 +23,8 @@ export const Logo = (props: Props) => {
       loading={loading}
       fetchPriority={priority}
       decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[80px]')}
+      style={{ backgroundColor: palette.logo.bg }}  // Используем inline-стиль для динамического цвета
+      className={clsx('max-w-[9.375rem] w-full h-[80px] rounded-2xl', props.className)}
       src="/api/media/file/firm_logo.png"
     />
   )
