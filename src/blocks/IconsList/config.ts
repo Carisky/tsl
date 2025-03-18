@@ -8,6 +8,13 @@ export const IconsList: Block = {
   },
   fields: [
     {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+      required: false, // Заголовок не обязателен
+      localized: true,
+    },
+    {
       name: 'items',
       type: 'array',
       label: 'List Items',

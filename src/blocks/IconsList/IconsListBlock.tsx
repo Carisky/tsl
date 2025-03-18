@@ -8,18 +8,15 @@ export interface IconsListItem {
 }
 
 export interface IconsListBlockProps {
+  title?: string
   items?: IconsListItem[]
-  disableInnerContainer?: boolean
 }
 
-export const IconsListBlock: React.FC<IconsListBlockProps> = ({
-  items,
-}) => {
+export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) => {
   if (!items || items.length === 0) {
     return null
   }
 
-  // Используем компоненты из react-icons вместо простых символов
   const iconMapping: Record<string, React.ReactNode> = {
     ChevronRight: <FiChevronRight />,
     ChevronLeft: <FiChevronLeft />,
@@ -29,22 +26,15 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
   }
 
   return (
-    <div className={ 'container'}>
+    <div className="container">
+      {title && <h2 className="text-2xl font-semibold mb-4">{title}</h2>}
       <ul className="icons-list">
         {items.map((item) => (
           <li
             key={item.id}
-            className="icons-list-item"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              marginBottom: '0.5rem',
-            }}
+            className="icons-list-item flex items-center gap-2 mb-2"
           >
-            <span className="icon">
-              {iconMapping[item.icon] || item.icon}
-            </span>
+            <span className="icon text-xl">{iconMapping[item.icon] || item.icon}</span>
             <span className="text">{item.text}</span>
           </li>
         ))}
