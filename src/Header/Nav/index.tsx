@@ -16,17 +16,17 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
   
   // Если vertical=true, располагаем элементы вертикально, иначе горизонтально.
   const navClassName = vertical 
-    ? "flex flex-col gap-4" 
-    : "flex gap-3 items-center h-20" 
-
+    ? "flex flex-col gap-4 text-black" 
+    : "flex gap-3 items-center h-20 text-white" 
+  const linkColor = vertical ? "text-black" : "text-white"
   return (
     <nav className={navClassName}>
       {navItems.map(({ link }, i) => (
-        <CMSLink key={i} {...link} appearance="link" />
+        <CMSLink className={linkColor} key={i} {...link} appearance="link" />
       ))}
       <Link href="/search">
         <span className="sr-only">Search</span>
-        <SearchIcon className="w-5 text-primary" />
+        <SearchIcon className={`w-5 ${linkColor}`} />
       </Link>
     </nav>
   )
