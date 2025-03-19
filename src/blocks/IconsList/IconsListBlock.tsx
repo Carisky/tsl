@@ -18,23 +18,23 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
   }
 
   const iconMapping: Record<string, React.ReactNode> = {
-    ChevronRight: <FiChevronRight />,
-    ChevronLeft: <FiChevronLeft />,
-    Info: <FiInfo />,
-    Alert: <FiAlertCircle />,
-    Check: <FiCheck />,
+    ChevronRight: <FiChevronRight className='text-firmAccent' strokeWidth={3}/>,
+    ChevronLeft: <FiChevronLeft className='text-firmAccent' strokeWidth={3}/>,
+    Info: <FiInfo className='text-firmAccent' strokeWidth={3}/>,
+    Alert: <FiAlertCircle className='text-firmAccent' strokeWidth={3}/>,
+    Check: <FiCheck className='text-firmAccent' strokeWidth={3}/>,
   }
 
   return (
     <div className="container">
-      {title && <h2 className="text-2xl font-semibold mb-4">{title}</h2>}
+      {title && <h2 className="text-2xl text-firmAccent font-semibold mb-4">{title}</h2>}
       <ul className="icons-list">
         {items.map((item) => (
           <li
             key={item.id}
             className="icons-list-item flex items-center gap-2 mb-2"
           >
-            <span className="icon text-xl">{iconMapping[item.icon] || item.icon}</span>
+            <span className="icon text-2xl">{iconMapping[item.icon] || item.icon}</span>
             <span className="text">{item.text}</span>
           </li>
         ))}

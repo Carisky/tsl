@@ -16,7 +16,7 @@ export async function Footer() {
 
   return (
     <footer style={{backgroundColor:palette.footer.bg}} className="mt-auto border-t border-border bg-black dark:bg-card text-white">
-      <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
+      <div className="container py-2 gap-2 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
           {/* Фиксированный размер для логотипа */}
           <Logo className="w-20 h-20" />
