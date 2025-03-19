@@ -8,25 +8,12 @@ services:
     volumes:
       - .:/home/node/app
       - node_modules:/home/node/app/node_modules
+      - next_cache:/home/node/app/.next/cache
     working_dir: /home/node/app/
     command: sh -c "yarn install && yarn dev"
-    depends_on:
-      - postgres
     env_file:
       - .env
 
-  postgres:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: db
-    ports:
-      - '5432:5432'
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
 volumes:
-  pgdata:
   node_modules:
+  next_cache:
