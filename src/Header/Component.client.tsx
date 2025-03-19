@@ -24,12 +24,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
   useEffect(() => {
     setHeaderTheme(null)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [headerTheme])
 
   const toggleMobileMenu = () => {
@@ -49,18 +47,20 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {...(theme ? { 'data-theme': theme } : {})}
       style={{ backgroundColor: palette.nav.background}}
     >
-      <div className={`flex items-center justify-between`}>
-        <Link href="/">
-          <Logo loading="eager" priority="high" className="invert dark:invert-0" />
+      <div className="flex items-center justify-between">
+        <Link href="/" className="flex-shrink-0 min-w-[80px]">
+          <Logo loading="eager" priority="high" className="invert dark:invert-0 w-20 h-20" />
         </Link>
+
         <div className="flex items-center">
           {/* Десктопное меню */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden xl:flex items-center space-x-4 max-w-[70%]">
             <LanguageSwitcher />
             <HeaderNav data={data} />
           </div>
+
           {/* Бургер-иконка для мобильных */}
-          <div className="md:hidden">
+          <div className="xl:hidden">
             <button
               onClick={toggleMobileMenu}
               className="p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -74,10 +74,11 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           </div>
         </div>
       </div>
+
       {/* Модальное правое меню (sidebar) для мобильных */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-30 flex">
-          {/* Нажмите на затемненную область слева для закрытия */}
+          {/* Затемненная область слева для закрытия */}
           <div className="flex-1" onClick={toggleMobileMenu}></div>
           {/* Sidebar меню */}
           <div className="w-[55%] h-full bg-white shadow-lg p-6 flex flex-col">
@@ -89,7 +90,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 <IoMdClose className="h-6 w-6" />
               </button>
             </div>
-            {/* Переключатель языка в виде 4 кнопок с флагами */}
+            {/* Переключатель языка */}
             <div className="flex justify-around my-4">
               <button
                 onClick={() => handleLanguage('en')}
@@ -116,7 +117,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
                 🇵🇱
               </button>
             </div>
-            {/* Вертикальный список навигационных ссылок */}
+            {/* Вертикальный список навигации */}
             <div className="flex flex-col space-y-4 mt-4">
               <HeaderNav data={data} vertical={true} />
             </div>

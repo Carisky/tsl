@@ -21,6 +21,7 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { IconsList } from '@/blocks/IconsList/config'
+import { Divider } from '@/blocks/Divider/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -77,7 +78,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock,IconsList, Archive, FormBlock],
+              blocks: [CallToAction, Content, MediaBlock,IconsList,Divider, Archive, FormBlock],
               required: true,
               admin: {
                 initCollapsed: true,

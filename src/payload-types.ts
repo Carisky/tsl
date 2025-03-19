@@ -195,6 +195,7 @@ export interface Page {
     | ContentBlock
     | MediaBlock
     | {
+        title?: string | null;
         items?:
           | {
               icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
@@ -205,6 +206,13 @@ export interface Page {
         id?: string | null;
         blockName?: string | null;
         blockType: 'icons-list';
+      }
+    | {
+        height: number;
+        backgroundColor?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'divider';
       }
     | ArchiveBlock
     | FormBlock
@@ -238,6 +246,7 @@ export interface Post {
     | MediaBlock
     | ContentBlock
     | {
+        title?: string | null;
         items?:
           | {
               icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
@@ -1073,6 +1082,7 @@ export interface PagesSelect<T extends boolean = true> {
         'icons-list'?:
           | T
           | {
+              title?: T;
               items?:
                 | T
                 | {
@@ -1080,6 +1090,14 @@ export interface PagesSelect<T extends boolean = true> {
                     text?: T;
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        divider?:
+          | T
+          | {
+              height?: T;
+              backgroundColor?: T;
               id?: T;
               blockName?: T;
             };
@@ -1201,6 +1219,7 @@ export interface PostsSelect<T extends boolean = true> {
         'icons-list'?:
           | T
           | {
+              title?: T;
               items?:
                 | T
                 | {

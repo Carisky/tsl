@@ -12,6 +12,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import { IconsListBlock } from './IconsList/IconsListBlock'
+import { DividerBlock } from './Divider/DividerBlock'
 // Расширяем объект с компонентами, добавляя новые ключи
 const blockComponents: Record<string, React.FC<any>> = {
   banner: BannerComponent,
@@ -22,6 +23,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   cta: CallToActionBlock,
   formBlock: FormBlock,
   mediaBlock: MediaBlock,
+  divider:DividerBlock,
 }
 
 export const RenderBlocks: React.FC<{
