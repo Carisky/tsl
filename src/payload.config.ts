@@ -16,12 +16,23 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 
+import { en } from '@payloadcms/translations/languages/en'
+import { pl } from '@payloadcms/translations/languages/pl'
+import { ru } from '@payloadcms/translations/languages/ru'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  i18n:{
+    supportedLanguages: { en, pl,ru },
+    fallbackLanguage:"en"
+  },
+  
   admin: {
+    
     components: {
+      
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
       beforeLogin: ['@/components/BeforeLogin'],
@@ -72,6 +83,7 @@ export default buildConfig({
   ],
   secret: process.env.PAYLOAD_SECRET,
   sharp,
+
   localization:{
     defaultLocale:"pl",
     locales:["en","ua","ru","pl"]

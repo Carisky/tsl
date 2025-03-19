@@ -1,0 +1,12 @@
+:root {
+    --nav-width: 215px;
+    .nav-group__toggle {
+        font-size: 28px;
+      font-weight: bold;
+      color: var(--theme-accent-700);
+      }
+      .nav-group__content{
+        padding-left: 5%;
+        font-size: 16px;
+      }
+}
