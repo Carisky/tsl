@@ -1,12 +1,12 @@
+// components/blocks/MediaBlock.tsx
 import type { StaticImageData } from 'next/image'
-
-import { cn } from '@/utilities/ui'
 import React from 'react'
+import { cn } from '@/utilities/ui'
 import RichText from '@/components/RichText'
+import { Media } from '@/components/Media'
 
+// Тип из сгенерированных типов Payload (учитывая новое поле `size`)
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
-
-import { Media } from '../../components/Media'
 
 type Props = MediaBlockProps & {
   breakout?: boolean
@@ -18,6 +18,14 @@ type Props = MediaBlockProps & {
   disableInnerContainer?: boolean
 }
 
+const sizeClasses: Record<string, string> = {
+  small: 'max-w-[200px]',
+  'small-plus': 'max-w-[300px]',
+  medium: 'max-w-[350px]',
+  'medium-plus': 'max-w-[500px]',
+  large: 'max-w-[700px]',
+}
+
 export const MediaBlock: React.FC<Props> = (props) => {
   const {
     captionClassName,
@@ -25,6 +33,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
     enableGutter = true,
     imgClassName,
     media,
+    size = 'medium',
     staticImage,
     disableInnerContainer,
   } = props
@@ -44,7 +53,11 @@ export const MediaBlock: React.FC<Props> = (props) => {
     >
       {(media || staticImage) && (
         <Media
-          imgClassName={cn('border border-border rounded-[0.8rem]', imgClassName)}
+          imgClassName={cn(
+            'border border-border rounded-[0.8rem]',
+            sizeClasses[size] || sizeClasses.medium,
+            imgClassName,
+          )}
           resource={media}
           src={staticImage}
         />
