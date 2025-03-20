@@ -102,3 +102,8 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
+
+.custom-carousel .react-multi-carousel-track {
+  display: flex;
+  justify-content: space-between;
+}

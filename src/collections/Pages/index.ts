@@ -22,6 +22,7 @@ import {
 } from '@payloadcms/plugin-seo/fields'
 import { IconsList } from '@/blocks/IconsList/config'
 import { Divider } from '@/blocks/Divider/config'
+import ImageSlider from '@/blocks/ImageSlider/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -78,7 +79,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock,IconsList,Divider, Archive, FormBlock],
+              blocks: [CallToAction, ImageSlider, Content, MediaBlock,IconsList,Divider, Archive, FormBlock],
               required: true,
               admin: {
                 initCollapsed: true,

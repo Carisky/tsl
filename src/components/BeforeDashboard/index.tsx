@@ -1,72 +1,54 @@
-import { Banner } from '@payloadcms/ui/elements/Banner'
-import React from 'react'
+"use client"
 
-import { SeedButton } from './SeedButton'
+import { Banner } from '@payloadcms/ui/elements/Banner'
+import React, { useState, useEffect } from 'react'
+import { FaSmile, FaRocket, FaLightbulb, FaCode, FaHeart } from 'react-icons/fa'
+
 import './index.scss'
 
 const baseClass = 'before-dashboard'
 
+const texts = [
+  'Welcome',
+  'Make web great again',
+  'Your site, your decision',
+  "Don't ruin that, pls?..",
+  'Innovation never sleeps'
+]
+
+const icons = [
+  <FaSmile key="icon-0" />,
+  <FaRocket key="icon-1" />,
+  <FaLightbulb key="icon-2" />,
+  <FaCode key="icon-3" />,
+  <FaHeart key="icon-4" />
+]
+
 const BeforeDashboard: React.FC = () => {
+  const [currentTextIndex, setCurrentTextIndex] = useState(0)
+  const [currentIconIndex, setCurrentIconIndex] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTextIndex(prev => (prev + 1) % texts.length)
+      setCurrentIconIndex(prev => (prev + 1) % icons.length)
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className={baseClass}>
       <Banner className={`${baseClass}__banner`} type="success">
-        <h4>Welcome to your dashboard!</h4>
+        <div style={{ display: 'flex', alignItems: 'center' }} className={`${baseClass}__content`}>
+          <div style={{ marginRight: "10px" }} className={`${baseClass}__icon`}>
+            {icons[currentIconIndex]}
+          </div>
+          {/* Ключ меняется, что приводит к перерисовке и запуску анимации */}
+          <h4 key={currentTextIndex} className="fade-in">
+            {texts[currentTextIndex]}
+          </h4>
+        </div>
       </Banner>
-      Here&apos;s what to do next:
-      <ul className={`${baseClass}__instructions`}>
-        <li>
-          <SeedButton />
-          {' with a few pages, posts, and projects to jump-start your new site, then '}
-          <a href="/" target="_blank">
-            visit your website
-          </a>
-          {' to see the results.'}
-        </li>
-        <li>
-          If you created this repo using Payload Cloud, head over to GitHub and clone it to your
-          local machine. It will be under the <i>GitHub Scope</i> that you selected when creating
-          this project.
-        </li>
-        <li>
-          {'Modify your '}
-          <a
-            href="https://payloadcms.com/docs/configuration/collections"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            collections
-          </a>
-          {' and add more '}
-          <a
-            href="https://payloadcms.com/docs/fields/overview"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            fields
-          </a>
-          {' as needed. If you are new to Payload, we also recommend you check out the '}
-          <a
-            href="https://payloadcms.com/docs/getting-started/what-is-payload"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Getting Started
-          </a>
-          {' docs.'}
-        </li>
-        <li>
-          Commit and push your changes to the repository to trigger a redeployment of your project.
-        </li>
-      </ul>
-      {'Pro Tip: This block is a '}
-      <a
-        href="https://payloadcms.com/docs/admin/custom-components/overview#base-component-overrides"
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        custom component
-      </a>
-      , you can remove it at any time by updating your <strong>payload.config</strong>.
     </div>
   )
 }

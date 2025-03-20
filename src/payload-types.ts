@@ -102,10 +102,12 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    'payload-cloud-instance': PayloadCloudInstance;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    'payload-cloud-instance': PayloadCloudInstanceSelect<false> | PayloadCloudInstanceSelect<true>;
   };
   locale: 'en' | 'ua' | 'ru' | 'pl';
   user: User & {
@@ -192,6 +194,18 @@ export interface Page {
   };
   layout: (
     | CallToActionBlock
+    | {
+        title?: string | null;
+        images?:
+          | {
+              image: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'imageSlider';
+      }
     | ContentBlock
     | MediaBlock
     | {
@@ -1077,6 +1091,19 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
+        imageSlider?:
+          | T
+          | {
+              title?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         'icons-list'?:
@@ -1716,6 +1743,16 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-cloud-instance".
+ */
+export interface PayloadCloudInstance {
+  id: string;
+  instance: string;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1756,6 +1793,16 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-cloud-instance_select".
+ */
+export interface PayloadCloudInstanceSelect<T extends boolean = true> {
+  instance?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
