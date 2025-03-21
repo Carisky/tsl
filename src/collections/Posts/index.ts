@@ -19,6 +19,8 @@ import {
 import { slugField } from '@/fields/slug'
 import { Content } from '@/blocks/Content/config'
 import { IconsList } from '@/blocks/IconsList/config'
+import { Divider } from '@/blocks/Divider/config'
+import ImageSlider from '@/blocks/ImageSlider/config'
 
 
 export const Posts: CollectionConfig<'posts'> = {
@@ -63,6 +65,7 @@ export const Posts: CollectionConfig<'posts'> = {
       name: 'title',
       type: 'text',
       required: true,
+      localized:true
     },
     {
       type: 'tabs',
@@ -80,7 +83,7 @@ export const Posts: CollectionConfig<'posts'> = {
               // чтобы можно было добавлять ListWithIcon вместе с другими блоками.
               name: 'content',
               type: 'blocks',
-              blocks: [Banner, Code, MediaBlock, Content, IconsList ],
+              blocks: [Banner, Code, MediaBlock, Content, IconsList, Divider, ImageSlider],
               required: true,
               admin: {
                 initCollapsed: true,

@@ -25,7 +25,6 @@ import { Divider } from '@/blocks/Divider/config'
 import ImageSlider from '@/blocks/ImageSlider/config'
 import TilesFlex from '@/blocks/TilesFlex/config'
 
-
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
   access: {
@@ -64,7 +63,7 @@ export const Pages: CollectionConfig<'pages'> = {
   },
   fields: [
     {
-      localized:true,
+      localized: true,
       name: 'title',
       type: 'text',
       required: true,
@@ -81,7 +80,17 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction,TilesFlex,ImageSlider, Content, MediaBlock,IconsList,Divider, Archive, FormBlock],
+              blocks: [
+                CallToAction,
+                TilesFlex,
+                ImageSlider,
+                Content,
+                MediaBlock,
+                IconsList,
+                Divider,
+                Archive,
+                FormBlock,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

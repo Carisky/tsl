@@ -285,6 +285,25 @@ export interface Post {
         blockName?: string | null;
         blockType: 'icons-list';
       }
+    | {
+        height: number;
+        backgroundColor?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'divider';
+      }
+    | {
+        title?: string | null;
+        images?:
+          | {
+              image: string | Media;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'imageSlider';
+      }
   )[];
   relatedPosts?: (string | Post)[] | null;
   categories?: (string | Category)[] | null;
@@ -1281,6 +1300,27 @@ export interface PostsSelect<T extends boolean = true> {
                 | {
                     icon?: T;
                     text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        divider?:
+          | T
+          | {
+              height?: T;
+              backgroundColor?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageSlider?:
+          | T
+          | {
+              title?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
                     id?: T;
                   };
               id?: T;
