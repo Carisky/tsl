@@ -195,6 +195,37 @@ export interface Page {
   layout: (
     | CallToActionBlock
     | {
+        gridItems?:
+          | {
+              image?: (string | null) | Media;
+              text?: {
+                root: {
+                  type: string;
+                  children: {
+                    type: string;
+                    version: number;
+                    [k: string]: unknown;
+                  }[];
+                  direction: ('ltr' | 'rtl') | null;
+                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                  indent: number;
+                  version: number;
+                };
+                [k: string]: unknown;
+              } | null;
+              link?: {
+                type?: ('internal' | 'external') | null;
+                externalUrl?: string | null;
+                internalPage?: (string | null) | Page;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'navGrid';
+      }
+    | {
         title?: string | null;
         images?:
           | {
@@ -1092,6 +1123,26 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
+        navGrid?:
+          | T
+          | {
+              gridItems?:
+                | T
+                | {
+                    image?: T;
+                    text?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          externalUrl?: T;
+                          internalPage?: T;
+                        };
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
         imageSlider?:
           | T
           | {
