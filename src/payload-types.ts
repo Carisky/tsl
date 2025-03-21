@@ -195,35 +195,17 @@ export interface Page {
   layout: (
     | CallToActionBlock
     | {
-        gridItems?:
+        tiles?:
           | {
-              image?: (string | null) | Media;
-              text?: {
-                root: {
-                  type: string;
-                  children: {
-                    type: string;
-                    version: number;
-                    [k: string]: unknown;
-                  }[];
-                  direction: ('ltr' | 'rtl') | null;
-                  format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-                  indent: number;
-                  version: number;
-                };
-                [k: string]: unknown;
-              } | null;
-              link?: {
-                type?: ('internal' | 'external') | null;
-                externalUrl?: string | null;
-                internalPage?: (string | null) | Page;
-              };
+              image: string | Media;
+              text: string;
+              link?: (string | null) | Page;
               id?: string | null;
             }[]
           | null;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'navGrid';
+        blockType: 'tiles-flex';
       }
     | {
         title?: string | null;
@@ -1123,21 +1105,15 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         cta?: T | CallToActionBlockSelect<T>;
-        navGrid?:
+        'tiles-flex'?:
           | T
           | {
-              gridItems?:
+              tiles?:
                 | T
                 | {
                     image?: T;
                     text?: T;
-                    link?:
-                      | T
-                      | {
-                          type?: T;
-                          externalUrl?: T;
-                          internalPage?: T;
-                        };
+                    link?: T;
                     id?: T;
                   };
               id?: T;

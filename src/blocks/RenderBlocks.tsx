@@ -12,7 +12,8 @@ import { MediaBlock } from "@/blocks/MediaBlock/Component";
 import { IconsListBlock } from "./IconsList/IconsListBlock";
 import { DividerBlock } from "./Divider/DividerBlock";
 import ImageSlider from "@/blocks/ImageSlider/Component"; // Импортируем слайдер
-import NavGrid from "./NavGrid/NavGrid";
+import { TilesFlexComponent } from "./TilesFlex/Component";
+
 
 
 const blockComponents: Record<string, React.FC<any>> = {
@@ -26,7 +27,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   mediaBlock: MediaBlock,
   divider: DividerBlock,
   imageSlider: ImageSlider, // Добавляем ImageSlider
-  navGrid: NavGrid
+  "tiles-flex": TilesFlexComponent
 };
 
 export const RenderBlocks: React.FC<{
