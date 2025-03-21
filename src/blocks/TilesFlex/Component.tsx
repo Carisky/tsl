@@ -13,9 +13,8 @@ export interface TilesFlexProps {
 
 export const TilesFlexComponent: React.FC<TilesFlexProps> = ({ tiles }) => {
   if (!tiles || tiles.length === 0) return null
-  console.log(tiles)
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex justify-between container flex-wrap gap-4">
       {tiles.map((tile) => (
         <div key={tile.id} className="w-full sm:w-1/2 md:w-1/3 p-2">
           {tile.link ? (
