@@ -236,7 +236,6 @@ export interface Page {
       }
     | {
         height: number;
-        backgroundColor?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'divider';
@@ -287,7 +286,6 @@ export interface Post {
       }
     | {
         height: number;
-        backgroundColor?: string | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'divider';
@@ -1171,7 +1169,6 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               height?: T;
-              backgroundColor?: T;
               id?: T;
               blockName?: T;
             };
@@ -1309,7 +1306,6 @@ export interface PostsSelect<T extends boolean = true> {
           | T
           | {
               height?: T;
-              backgroundColor?: T;
               id?: T;
               blockName?: T;
             };
