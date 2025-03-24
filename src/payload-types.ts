@@ -68,6 +68,8 @@ export interface Config {
   collections: {
     pages: Page;
     posts: Post;
+    'contact-groups': ContactGroup;
+    contacts: Contact;
     media: Media;
     categories: Category;
     users: User;
@@ -84,6 +86,8 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    'contact-groups': ContactGroupsSelect<false> | ContactGroupsSelect<true>;
+    contacts: ContactsSelect<false> | ContactsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -242,6 +246,13 @@ export interface Page {
       }
     | ArchiveBlock
     | FormBlock
+    | {
+        contacts: (string | Contact)[];
+        locale: 'en' | 'ru';
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contacts';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -838,6 +849,34 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts".
+ */
+export interface Contact {
+  id: string;
+  group: string | ContactGroup;
+  media?: (string | null) | Media;
+  name: string;
+  tel: {
+    primary: string;
+    wew?: string | null;
+  };
+  email: string;
+  position?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-groups".
+ */
+export interface ContactGroup {
+  id: string;
+  name: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -1017,6 +1056,14 @@ export interface PayloadLockedDocument {
         value: string | Post;
       } | null)
     | ({
+        relationTo: 'contact-groups';
+        value: string | ContactGroup;
+      } | null)
+    | ({
+        relationTo: 'contacts';
+        value: string | Contact;
+      } | null)
+    | ({
         relationTo: 'media';
         value: string | Media;
       } | null)
@@ -1174,6 +1221,14 @@ export interface PagesSelect<T extends boolean = true> {
             };
         archive?: T | ArchiveBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
+        contacts?:
+          | T
+          | {
+              contacts?: T;
+              locale?: T;
+              id?: T;
+              blockName?: T;
+            };
       };
   meta?:
     | T
@@ -1365,6 +1420,34 @@ export interface CodeBlockSelect<T extends boolean = true> {
   code?: T;
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-groups_select".
+ */
+export interface ContactGroupsSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contacts_select".
+ */
+export interface ContactsSelect<T extends boolean = true> {
+  group?: T;
+  media?: T;
+  name?: T;
+  tel?:
+    | T
+    | {
+        primary?: T;
+        wew?: T;
+      };
+  email?: T;
+  position?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

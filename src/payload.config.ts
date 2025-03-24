@@ -19,6 +19,8 @@ import { getServerSideURL } from './utilities/getURL'
 import { en } from '@payloadcms/translations/languages/en'
 import { pl } from '@payloadcms/translations/languages/pl'
 import { ru } from '@payloadcms/translations/languages/ru'
+import Contacts from './collections/Contacts'
+import ContactGroups from './collections/ContactGroups'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -73,7 +75,7 @@ export default buildConfig({
     // URL is required.
     url: process.env.DATABASE_URI,
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, ContactGroups,Contacts,Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins: [

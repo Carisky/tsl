@@ -13,6 +13,7 @@ import { IconsListBlock } from "./IconsList/IconsListBlock";
 import { DividerBlock } from "./Divider/DividerBlock";
 import ImageSlider from "@/blocks/ImageSlider/Component"; // Импортируем слайдер
 import { TilesFlexComponent } from "./TilesFlex/Component";
+import ContactsList from "./Contacts/Component";
 
 
 
@@ -27,7 +28,8 @@ const blockComponents: Record<string, React.FC<any>> = {
   mediaBlock: MediaBlock,
   divider: DividerBlock,
   imageSlider: ImageSlider, // Добавляем ImageSlider
-  "tiles-flex": TilesFlexComponent
+  "tiles-flex": TilesFlexComponent,
+  contacts: ContactsList,
 };
 
 export const RenderBlocks: React.FC<{
