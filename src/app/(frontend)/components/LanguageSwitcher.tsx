@@ -22,7 +22,7 @@ const languageLabels: Record<"en" | "ua" | "ru" | "pl" | "all", string> = {
 
 const LanguageSwitcher: React.FC = () => {
   const { locale, setLocale } = useLocaleStore();
-  const currentLocale = locale ?? "en";
+  const currentLocale = locale ?? "pl";
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
