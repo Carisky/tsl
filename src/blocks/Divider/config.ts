@@ -14,11 +14,5 @@ export const Divider: Block = {
       defaultValue: 2,
       required: true,
     },
-    {
-      name: 'backgroundColor',
-      type: 'text',
-      label: 'Background Color',
-      defaultValue: '#000000',
-    },
   ],
 }
