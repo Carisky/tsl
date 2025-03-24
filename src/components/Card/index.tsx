@@ -1,84 +1,95 @@
 'use client'
-import { cn } from '@/utilities/ui'
-import useClickableCard from '@/utilities/useClickableCard'
-import Link from 'next/link'
 import React, { Fragment } from 'react'
+import MuiCard from '@mui/material/Card'
+import CardActionArea from '@mui/material/CardActionArea'
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import Link from 'next/link'
 
+import useClickableCard from '@/utilities/useClickableCard'
 import type { Post } from '@/payload-types'
-
 import { Media } from '@/components/Media'
 
 export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
 
-export const Card: React.FC<{
+interface CardProps {
   alignItems?: 'center'
   className?: string
   doc?: CardPostData
   relationTo?: 'posts'
   showCategories?: boolean
   title?: string
-}> = (props) => {
+}
+
+export const Card: React.FC<CardProps> = (props) => {
   const { card, link } = useClickableCard({})
-  const { className, doc, relationTo, showCategories, title: titleFromProps } = props
+  const { className, doc, relationTo = 'posts', showCategories, title: titleFromProps } = props
 
   const { slug, categories, meta, title } = doc || {}
   const { description, image: metaImage } = meta || {}
 
-  const hasCategories = categories && Array.isArray(categories) && categories.length > 0
+  const hasCategories = Array.isArray(categories) && categories.length > 0
   const titleToUse = titleFromProps || title
-  const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
+  const sanitizedDescription = description?.replace(/\s/g, ' ')
   const href = `/${relationTo}/${slug}`
 
   return (
-    <article
-      className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
-        className,
-      )}
-      ref={card.ref}
+    <MuiCard
+    component="div"
+    variant="outlined"
+    ref={card.ref as React.Ref<HTMLDivElement>}
+      className={className}
+      sx={{
+        borderRadius: 2,
+        overflow: 'hidden',
+        backgroundColor: 'background.paper',
+        cursor: 'pointer',
+      }}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
-      </div>
-      <div className="p-4">
-        {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
-            {showCategories && hasCategories && (
-              <div>
-                {categories?.map((category, index) => {
-                  if (typeof category === 'object') {
-                    const { title: titleFromCategory } = category
-
-                    const categoryTitle = titleFromCategory || 'Untitled category'
-
-                    const isLast = index === categories.length - 1
-
-                    return (
-                      <Fragment key={index}>
-                        {categoryTitle}
-                        {!isLast && <Fragment>, &nbsp;</Fragment>}
-                      </Fragment>
-                    )
-                  }
-
-                  return null
-                })}
-              </div>
-            )}
-          </div>
-        )}
-        {titleToUse && (
-          <div className="prose">
-            <h3>
-              <Link className="not-prose" href={href} ref={link.ref}>
-                {titleToUse}
-              </Link>
-            </h3>
-          </div>
-        )}
-        {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
-      </div>
-    </article>
+      <CardActionArea component={Link} href={href} ref={link.ref}>
+        <Box sx={{ width: '100%' }}>
+          {!metaImage && (
+            <Box sx={{ textAlign: 'center', p: 2 }}>
+              <Typography variant="body2">No image</Typography>
+            </Box>
+          )}
+          {metaImage && typeof metaImage !== 'string' && (
+            <Box>
+              <Media resource={metaImage} size="33vw" />
+            </Box>
+          )}
+        </Box>
+        <CardContent sx={{ p: 2 }}>
+          {showCategories && hasCategories && (
+            <Typography variant="caption" sx={{ textTransform: 'uppercase', mb: 1, display: 'block' }}>
+              {categories.map((category, index) => {
+                if (typeof category === 'object') {
+                  const categoryTitle = category.title || 'Untitled category'
+                  const separator = index < categories.length - 1 ? ', ' : ''
+                  return (
+                    <Fragment key={index}>
+                      {categoryTitle}
+                      {separator}
+                    </Fragment>
+                  )
+                }
+                return null
+              })}
+            </Typography>
+          )}
+          {titleToUse && (
+            <Typography variant="h6" component="h3">
+              {titleToUse}
+            </Typography>
+          )}
+          {description && (
+            <Typography variant="body2" sx={{ mt: 1 }}>
+              {sanitizedDescription}
+            </Typography>
+          )}
+        </CardContent>
+      </CardActionArea>
+    </MuiCard>
   )
 }
