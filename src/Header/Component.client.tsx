@@ -54,7 +54,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
 
         <div className="flex items-center">
           {/* Десктопное меню */}
-          <div className="hidden xl:flex items-center space-x-4 max-w-[70%]">
+          <div className="hidden xl:flex items-center space-x-4">
             <LanguageSwitcher />
             <HeaderNav data={data} />
           </div>

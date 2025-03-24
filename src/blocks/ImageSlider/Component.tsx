@@ -1,8 +1,9 @@
 "use client";
 
+import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import React from "react";
+import { Box, Typography } from "@mui/material";
 
 type Image = {
   image: { url: string };
@@ -33,26 +34,45 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
   };
 
   return (
-    <div className="p-4">
-      {title && <h2 className="text-xl font-bold mb-4">{title}</h2>}
-      <Carousel
-        responsive={responsive}
-        infinite={true}
-        containerClass="custom-carousel"
-        itemClass="flex justify-center items-center"
-      >
+    <Box sx={{ p: 2 }}>
+      {title && (
+        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+          {title}
+        </Typography>
+      )}
+      <Carousel responsive={responsive} infinite containerClass="" itemClass="">
         {images.map((img, index) => (
-          <div key={index} className="flex justify-center items-center">
-            <div className="aspect-square w-full max-w-[400px] max-h-[400px] md:w-[400px] md:h-[400px]">
-              <img
+          <Box
+            key={index}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                maxWidth: 400,
+                aspectRatio: "1 / 1", // сохраняет соотношение сторон 1:1 без растягивания
+                overflow: "hidden",
+                borderRadius: 2,
+              }}
+            >
+              <Box
+                component="img"
                 src={img.image.url}
                 alt={`Slide ${index + 1}`}
-                className="w-full h-full object-cover rounded-lg"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                }}
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
         ))}
       </Carousel>
-    </div>
+    </Box>
   );
 }

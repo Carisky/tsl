@@ -1,4 +1,12 @@
 import React from 'react'
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Typography,
+  Box
+} from '@mui/material'
 
 export interface Tile {
   id: string
@@ -13,23 +21,49 @@ export interface TilesFlexProps {
 
 export const TilesFlexComponent: React.FC<TilesFlexProps> = ({ tiles }) => {
   if (!tiles || tiles.length === 0) return null
+
   return (
-    <div className="flex justify-between container flex-wrap gap-4">
+    <Box sx={{ display: 'flex', maxWidth:"86vw", margin:"auto", flexWrap: 'wrap', gap: 2, justifyContent: 'space-between' }}>
       {tiles.map((tile) => (
-        <div key={tile.id} className="w-full sm:w-1/2 md:w-1/3 p-2">
+        <Box
+          key={tile.id}
+          sx={{
+            width: { xs: '100%', sm: 'calc(50% - 16px)', md: 'calc(33.333% - 16px)' }
+          }}
+        >
           {tile.link ? (
-            <a href={tile.link.slug} className="block border p-4 hover:shadow-lg transition">
-              <img src={tile.image.url} alt={tile.text} className="w-full h-48 object-cover mb-2" />
-              <p>{tile.text}</p>
-            </a>
+            <Card>
+              <CardActionArea component="a" href={tile.link.slug}>
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={tile.image.url}
+                  alt={tile.text}
+                />
+                <CardContent>
+                  <Typography variant="body2" color="text.secondary">
+                    {tile.text}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
           ) : (
-            <div className="border p-4">
-              <img src={tile.image.url} alt={tile.text} className="w-full h-48 object-cover mb-2" />
-              <p>{tile.text}</p>
-            </div>
+            <Card>
+              <CardMedia
+                component="img"
+                height="200"
+                image={tile.image.url}
+                alt={tile.text}
+              />
+              <CardContent>
+                <Typography variant="body2" color="text.secondary">
+                  {tile.text}
+                </Typography>
+              </CardContent>
+            </Card>
           )}
-        </div>
+        </Box>
       ))}
-    </div>
+    </Box>
   )
 }

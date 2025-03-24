@@ -19,6 +19,10 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.8",
+    "@mui/material": "^6.4.8",
     "@payloadcms/admin-bar": "latest",
     "@payloadcms/db-mongodb": "3.28.0",
     "@payloadcms/db-postgres": "latest",

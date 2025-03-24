@@ -1,5 +1,17 @@
 import React from 'react'
-import { FiChevronRight, FiChevronLeft, FiInfo, FiAlertCircle, FiCheck } from 'react-icons/fi'
+import {
+  Box,
+  Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText
+} from '@mui/material'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import InfoIcon from '@mui/icons-material/Info'
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
+import CheckIcon from '@mui/icons-material/Check'
 
 export interface IconsListItem {
   id: string
@@ -13,32 +25,33 @@ export interface IconsListBlockProps {
 }
 
 export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) => {
-  if (!items || items.length === 0) {
-    return null
-  }
+  if (!items || items.length === 0) return null
 
   const iconMapping: Record<string, React.ReactNode> = {
-    ChevronRight: <FiChevronRight className='text-firmAccent' strokeWidth={3}/>,
-    ChevronLeft: <FiChevronLeft className='text-firmAccent' strokeWidth={3}/>,
-    Info: <FiInfo className='text-firmAccent' strokeWidth={3}/>,
-    Alert: <FiAlertCircle className='text-firmAccent' strokeWidth={3}/>,
-    Check: <FiCheck className='text-firmAccent' strokeWidth={3}/>,
+    ChevronRight: <ChevronRightIcon sx={{ color: "#8d004c" }} />,
+    ChevronLeft: <ChevronLeftIcon sx={{ color: "#8d004c" }} />,
+    Info: <InfoIcon sx={{ color: "#8d004c" }} />,
+    Alert: <ErrorOutlineIcon sx={{ color: "#8d004c" }} />,
+    Check: <CheckIcon sx={{ color: "#8d004c" }} />
   }
 
   return (
-    <div className="container">
-      {title && <h2 className="text-2xl text-firmAccent font-semibold mb-4">{title}</h2>}
-      <ul className="icons-list">
+    <Box sx={{ maxWidth:"86vw", margin:"auto"}}>
+      {title && (
+        <Typography variant="h4" color="primary" sx={{ mb: 2 }}>
+          {title}
+        </Typography>
+      )}
+      <List>
         {items.map((item) => (
-          <li
-            key={item.id}
-            className="icons-list-item flex items-center gap-2 mb-2"
-          >
-            <span className="icon text-2xl">{iconMapping[item.icon] || item.icon}</span>
-            <span className="text">{item.text}</span>
-          </li>
+          <ListItem key={item.id}>
+            <ListItemIcon>
+              {iconMapping[item.icon] || item.icon}
+            </ListItemIcon>
+            <ListItemText primary={item.text} />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Box>
   )
 }
