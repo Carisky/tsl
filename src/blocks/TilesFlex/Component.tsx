@@ -63,8 +63,8 @@ export const TilesFlexComponent: React.FC<TilesFlexProps> = ({ tiles }) => {
             sx={{
               width: {
                 xs: '100%',
-                sm: 'calc(50% - 16px)',
-                md: 'calc(33.333% - 16px)'
+                sm: 'calc(40% - 16px)',
+                md: 'calc(40% - 16px)'
               }
             }}
           >
