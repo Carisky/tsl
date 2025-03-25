@@ -1,3 +1,4 @@
+"use client"
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
@@ -21,10 +22,47 @@ import type {
 import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
+import React, { useEffect, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
+
+type AnimatedHTMLProps = {
+  children: React.ReactNode
+  className?: string
+}
+
+export const AnimatedHTML: React.FC<AnimatedHTMLProps> = ({ children, className }) => {
+  const [animate, setAnimate] = useState(false)
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true,
+  })
+
+  useEffect(() => {
+    if (inView) {
+      setAnimate(true)
+    }
+  }, [inView])
+
+  return (
+    <div
+      ref={ref}
+      className={cn(className)}
+      style={{
+        opacity: animate ? 1 : 0,
+        transform: animate ? 'translateX(0)' : 'translateX(-20px)',
+        transition: 'opacity 0.5s ease, transform 0.5s ease',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 type NodeTypes =
   | DefaultNodeTypes
-  | SerializedBlockNode<CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps>
+  | SerializedBlockNode<
+      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps
+    >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
@@ -63,9 +101,9 @@ type Props = {
 
 export default function RichText(props: Props) {
   const { className, enableProse = true, enableGutter = true, ...rest } = props
+
   return (
-    <ConvertRichText
-      converters={jsxConverters}
+    <AnimatedHTML
       className={cn(
         'text-base',
         {
@@ -75,7 +113,8 @@ export default function RichText(props: Props) {
         },
         className,
       )}
-      {...rest}
-    />
+    >
+      <ConvertRichText converters={jsxConverters} {...rest} />
+    </AnimatedHTML>
   )
 }

@@ -1,11 +1,13 @@
 // components/blocks/MediaBlock.tsx
+"use client"
 import type { StaticImageData } from 'next/image'
 import React from 'react'
 import { cn } from '@/utilities/ui'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
-
-// Тип из сгенерированных типов Payload (учитывая новое поле `size`)
+import { useSpring, animated } from 'react-spring'
+import { Box } from '@mui/material'
+import { useInView } from 'react-intersection-observer'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
 type Props = MediaBlockProps & {
@@ -26,6 +28,9 @@ const sizeClasses: Record<string, string> = {
   large: 'max-w-[700px]',
 }
 
+// Создаём анимированный компонент на базе MUI Box
+const AnimatedBox = animated(Box)
+
 export const MediaBlock: React.FC<Props> = (props) => {
   const {
     captionClassName,
@@ -41,8 +46,22 @@ export const MediaBlock: React.FC<Props> = (props) => {
   let caption
   if (media && typeof media === 'object') caption = media.caption
 
+  // Отслеживание попадания в viewport на 30%
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true,
+  })
+
+  const fadeAnimation = useSpring({
+    opacity: inView ? 1 : 0,
+    from: { opacity: 0 },
+    config: { duration: 500 },
+  })
+
   return (
-    <div
+    <AnimatedBox
+      ref={ref}
+      style={fadeAnimation}
       className={cn(
         '',
         {
@@ -63,7 +82,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
         />
       )}
       {caption && (
-        <div
+        <Box
           className={cn(
             'mt-6',
             {
@@ -73,8 +92,8 @@ export const MediaBlock: React.FC<Props> = (props) => {
           )}
         >
           <RichText data={caption} enableGutter={false} />
-        </div>
+        </Box>
       )}
-    </div>
+    </AnimatedBox>
   )
 }

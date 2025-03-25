@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
@@ -5,6 +6,8 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import InfoIcon from '@mui/icons-material/Info'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import CheckIcon from '@mui/icons-material/Check'
+import { useTrail, animated } from 'react-spring'
+import { useInView } from 'react-intersection-observer'
 
 export interface IconsListItem {
   id: string
@@ -20,6 +23,20 @@ export interface IconsListBlockProps {
 export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) => {
   if (!items || items.length === 0) return null
 
+  // Отслеживаем попадание контейнера в viewport (30%)
+  const { ref, inView } = useInView({
+    threshold: 0.3,
+    triggerOnce: true
+  })
+
+  // Анимация для каждого элемента списка
+  const trail = useTrail(items.length, {
+    opacity: inView ? 1 : 0,
+    transform: inView ? 'translateY(0px)' : 'translateY(20px)',
+    from: { opacity: 0, transform: 'translateY(20px)' },
+    config: { tension: 200, friction: 20 }
+  })
+
   const iconMapping: Record<string, React.ReactNode> = {
     ChevronRight: <ChevronRightIcon sx={{ color: '#8d004c' }} />,
     ChevronLeft: <ChevronLeftIcon sx={{ color: '#8d004c' }} />,
@@ -29,24 +46,33 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
   }
 
   return (
-    <Box className="container">
+    <Box ref={ref} className="container">
       {title && (
         <Typography variant="h4" color="primary" sx={{ mb: 2, fontWeight: '600' }}>
           {title}
         </Typography>
       )}
       <List>
-        {items.map((item) => (
-          <ListItem key={item.id}>
-            <ListItemIcon>{iconMapping[item.icon] || item.icon}</ListItemIcon>
-            <ListItemText
-              primary={item.text}
-              slotProps={{
-                primary: { sx: { fontSize: '1rem' } },
-              }}
-            />
-          </ListItem>
-        ))}
+        {trail.map((animation, index) => {
+          const item = items[index]
+          return (
+            <Box
+              key={item?.id}
+              component={animated.div as React.ElementType}
+              style={animation}
+            >
+              <ListItem>
+                <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
+                <ListItemText
+                  primary={item?.text}
+                  slotProps={{
+                    primary: { sx: { fontSize: '1rem' } },
+                  }}
+                />
+              </ListItem>
+            </Box>
+          )
+        })}
       </List>
     </Box>
   )
