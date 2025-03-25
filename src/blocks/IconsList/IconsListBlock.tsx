@@ -21,21 +21,25 @@ export interface IconsListBlockProps {
 }
 
 export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) => {
-  if (!items || items.length === 0) return null
+  // Используем безопасное значение для items, чтобы хуки вызывались всегда.
+  const safeItems = items || []
 
-  // Отслеживаем попадание контейнера в viewport (30%)
+  // Хук вызывается всегда.
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
   })
 
-  // Анимация для каждого элемента списка
-  const trail = useTrail(items.length, {
+  // Хук анимации вызывается всегда, даже если safeItems пуст.
+  const trail = useTrail(safeItems.length, {
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0px)' : 'translateY(20px)',
     from: { opacity: 0, transform: 'translateY(20px)' },
     config: { tension: 200, friction: 20 }
   })
+
+  // Если элементов нет, возвращаем null, но хуки уже вызваны.
+  if (safeItems.length === 0) return null
 
   const iconMapping: Record<string, React.ReactNode> = {
     ChevronRight: <ChevronRightIcon sx={{ color: '#8d004c' }} />,
@@ -54,7 +58,7 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
       )}
       <List>
         {trail.map((animation, index) => {
-          const item = items[index]
+          const item = safeItems[index]
           return (
             <Box
               key={item?.id}

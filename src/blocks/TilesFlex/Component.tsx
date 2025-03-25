@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import {
   Card,
   CardActionArea,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import { useTrail, animated } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
+
 export interface Tile {
   id: string
   image: { url: string }
@@ -22,24 +23,27 @@ export interface TilesFlexProps {
 }
 
 export const TilesFlexComponent: React.FC<TilesFlexProps> = ({ tiles }) => {
-  if (!tiles || tiles.length === 0) return null
-  // Отслеживаем, когда компонент в viewport на 30%
+  const safeTiles = tiles || [] 
+
+  
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
   })
 
-
-  const trail = useTrail(tiles.length, {
+  const trail = useTrail(safeTiles.length, {
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0px)' : 'translateY(20px)',
     from: { opacity: 0, transform: 'translateY(20px)' },
     config: { tension: 200, friction: 20 }
   })
 
+  
+  if (safeTiles.length === 0) return null
+
   return (
     <Box
-    ref={ref}
+      ref={ref}
       sx={{
         display: 'flex',
         maxWidth: '86vw',
@@ -50,7 +54,7 @@ export const TilesFlexComponent: React.FC<TilesFlexProps> = ({ tiles }) => {
       }}
     >
       {trail.map((animation, index) => {
-        const tile = tiles[index]
+        const tile = safeTiles[index]
         return (
           <Box
             key={tile?.id}
