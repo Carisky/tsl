@@ -1,12 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Button,
-  Menu,
-  MenuItem,
-  ListItemText
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Button, Menu, MenuItem, ListItemText } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useLocaleStore } from "../store/useLocaleStore";
 
@@ -25,7 +20,13 @@ const LanguageSwitcher: React.FC = () => {
   const currentLocale = locale ?? "pl";
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // откладываем рендеринг до монтирования
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,9 +46,8 @@ const LanguageSwitcher: React.FC = () => {
   return (
     <>
       <Button
-      sx={{display:"flex",width:"fit-content", backgroundColor:"#8d004c"}}
+        sx={{ display: "flex", width: "fit-content", backgroundColor: "#8d004c" }}
         variant="contained"
-
         onClick={handleClick}
         endIcon={<ArrowDropDownIcon />}
       >
@@ -56,16 +56,10 @@ const LanguageSwitcher: React.FC = () => {
       </Button>
       <Menu
         anchorEl={anchorEl}
-        open={open}
+        open={Boolean(anchorEl)}
         onClose={handleClose}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "right",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         {options.map((option) => (
           <MenuItem key={option} onClick={() => handleOptionClick(option)}>
