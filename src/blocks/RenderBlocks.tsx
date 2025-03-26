@@ -14,6 +14,7 @@ import { DividerBlock } from "./Divider/DividerBlock";
 import ImageSlider from "@/blocks/ImageSlider/Component"; // Импортируем слайдер
 import { TilesFlexComponent } from "./TilesFlex/Component";
 import ContactsList from "./Contacts/Component";
+import VerticalCardList from "./VerticalCardList/VerticalCardList";
 
 
 
@@ -30,6 +31,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   imageSlider: ImageSlider, // Добавляем ImageSlider
   "tiles-flex": TilesFlexComponent,
   contacts: ContactsList,
+  verticalCardList: VerticalCardList,
 };
 
 export const RenderBlocks: React.FC<{

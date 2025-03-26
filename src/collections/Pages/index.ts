@@ -25,6 +25,7 @@ import { Divider } from '@/blocks/Divider/config'
 import ImageSlider from '@/blocks/ImageSlider/config'
 import TilesFlex from '@/blocks/TilesFlex/config'
 import ContactsBlock from '@/blocks/Contacts/config'
+import VerticalCardList from '@/blocks/VerticalCardList/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -91,7 +92,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 Divider,
                 Archive,
                 FormBlock,
-                ContactsBlock
+                ContactsBlock,
+                VerticalCardList
               ],
               required: true,
               admin: {

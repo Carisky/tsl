@@ -253,6 +253,34 @@ export interface Page {
         blockName?: string | null;
         blockType: 'contacts';
       }
+    | {
+        cards: {
+          Images: {
+            image: string | Media;
+            id?: string | null;
+          }[];
+          title: string;
+          description: string;
+          link: {
+            type: 'internal' | 'external';
+            reference?:
+              | ({
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null)
+              | ({
+                  relationTo: 'posts';
+                  value: string | Post;
+                } | null);
+            url?: string | null;
+            newTab?: boolean | null;
+          };
+          id?: string | null;
+        }[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'verticalCardList';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -1226,6 +1254,33 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               contacts?: T;
               locale?: T;
+              id?: T;
+              blockName?: T;
+            };
+        verticalCardList?:
+          | T
+          | {
+              cards?:
+                | T
+                | {
+                    Images?:
+                      | T
+                      | {
+                          image?: T;
+                          id?: T;
+                        };
+                    title?: T;
+                    description?: T;
+                    link?:
+                      | T
+                      | {
+                          type?: T;
+                          reference?: T;
+                          url?: T;
+                          newTab?: T;
+                        };
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
