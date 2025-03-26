@@ -12,16 +12,13 @@ import LanguageSwitcher from '@/app/(frontend)/components/LanguageSwitcher'
 import palette from '@/palette'
 import { Box } from '@mui/material'
 
-interface HeaderClientProps {
-  data: Header
-}
-
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC = () => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
-  const { setLocale } = useLocaleStore()
+  const { setLocale, locale } = useLocaleStore()
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [navData, setNavData] = useState<Header | null>(null)
 
   useEffect(() => {
     setHeaderTheme(null)
@@ -42,11 +39,27 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
     window.location.reload()
   }
 
+  useEffect(() => {
+    const fetchNav = async () => {
+      try {
+        const response = await fetch('/api/globals/header?depth=1&draft=false&locale=' + locale)
+        if (!response.ok) {
+          throw new Error('Network response was not ok')
+        }
+        const data: Header = await response.json()
+        setNavData(data)
+      } catch (error) {
+        console.error('Failed to fetch navigation:', error)
+      }
+    }
+    fetchNav()
+  }, [locale])
+
   return (
     <header
       className="container p-6 relative max-w-full z-20"
       {...(theme ? { 'data-theme': theme } : {})}
-      style={{ backgroundColor: palette.nav.background}}
+      style={{ backgroundColor: palette.nav.background }}
     >
       <Box className="flex items-center justify-between">
         <Link href="/" className="flex-shrink-0 min-w-[80px]">
@@ -57,7 +70,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
           {/* Десктопное меню */}
           <Box className="hidden xl:flex items-center space-x-4">
             <LanguageSwitcher />
-            <HeaderNav data={data} />
+            {navData && <HeaderNav data={navData} />}
           </Box>
 
           {/* Бургер-иконка для мобильных */}
@@ -80,13 +93,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
       {isMobileMenuOpen && (
         <Box className="fixed inset-0 z-30 flex">
           {/* Затемненная область слева для закрытия */}
-          
           <Box className="flex-1" onClick={toggleMobileMenu}></Box>
-          
           {/* Sidebar меню */}
           <Box className="max-w-sm h-full bg-white shadow-lg p-6 flex flex-col">
             <Box className="flex justify-end">
-              
               <button
                 onClick={toggleMobileMenu}
                 className="p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -120,11 +130,10 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               >
                 🇵🇱
               </button>
-
             </Box>
             {/* Вертикальный список навигации */}
             <Box className="flex flex-col space-y-4 mt-4">
-              <HeaderNav data={data} vertical={true} />
+              {navData && <HeaderNav data={navData} vertical={true} />}
             </Box>
           </Box>
         </Box>
