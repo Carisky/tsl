@@ -5,6 +5,7 @@ import { Box, Card, CardContent, Typography, Snackbar, Alert } from '@mui/materi
 import { useLocaleStore } from '@/app/(frontend)/store/useLocaleStore'
 import { useInView } from 'react-intersection-observer'
 import { useSpring, animated } from 'react-spring'
+import Cookies from 'js-cookie'
 
 export interface Contact {
   id: string
@@ -34,7 +35,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   contacts: initialContacts,
   filterGroups,
 }) => {
-  const { locale: userLocale } = useLocaleStore()
+  const locale  = Cookies.get("locale")
   // Если не приходит контактов из блока, можно использовать API-фетч (опционально)
   const [contacts, setContacts] = useState<Contact[]>(initialContacts)
   const [loading, setLoading] = useState<boolean>(!initialContacts.length)
@@ -86,8 +87,8 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   type SupportedLocale = 'ru' | 'ua' | 'en' | 'pl'
   const localeKey: SupportedLocale =
-    userLocale && ['ru', 'ua', 'en', 'pl'].includes(userLocale)
-      ? (userLocale as SupportedLocale)
+  locale && ['ru', 'ua', 'en', 'pl'].includes(locale)
+      ? (locale as SupportedLocale)
       : 'en'
 
   const loadingText = translations.loading[localeKey]
@@ -97,7 +98,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
     if (initialContacts.length) return
     const fetchContacts = async () => {
       try {
-        const res = await fetch(`/api/contacts/?locale=${userLocale}`)
+        const res = await fetch(`/api/contacts/?locale=${locale}`)
         if (!res.ok) throw new Error(`Ошибка: ${res.status}`)
         const data = await res.json()
         setContacts(data.docs)
@@ -111,7 +112,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       }
     }
     fetchContacts()
-  }, [userLocale, initialContacts])
+  }, [locale, initialContacts])
 
   // Группировка контактов по group.name или group (если строка)
   const groupedContacts = contacts.reduce((acc: Record<string, Contact[]>, contact) => {
