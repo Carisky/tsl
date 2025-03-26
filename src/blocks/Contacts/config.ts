@@ -16,15 +16,17 @@ const ContactsBlock: Block = {
       required: true,
     },
     {
-      name: 'locale',
-      label: 'Locale',
-      type: 'select',
-      options: [
-        { label: 'English', value: 'en' },
-        { label: 'Russian', value: 'ru' },
-      ],
-      defaultValue: 'en',
-      required: true,
+      name: 'filterGroups',
+      label: 'Filter Groups',
+      type: 'relationship',
+      relationTo: 'contact-groups', // выбираем из коллекции Contact Groups
+      hasMany: true,
+      required: false,
+      defaultValue: [], // Гарантируем, что по умолчанию поле пустое
+      admin: {
+        description:
+          'Выберите группы из коллекции "Contact Groups". Если поле пустое, будут показаны все контакты.',
+      },
     },
   ],
 };

@@ -248,7 +248,10 @@ export interface Page {
     | FormBlock
     | {
         contacts: (string | Contact)[];
-        locale: 'en' | 'ru';
+        /**
+         * Выберите группы из коллекции "Contact Groups". Если поле пустое, будут показаны все контакты.
+         */
+        filterGroups?: (string | ContactGroup)[] | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'contacts';
@@ -1253,7 +1256,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               contacts?: T;
-              locale?: T;
+              filterGroups?: T;
               id?: T;
               blockName?: T;
             };
