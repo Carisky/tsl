@@ -25,7 +25,7 @@ export async function Footer() {
   const navItems = footerData?.navItems || []
 
   // Стили для захардкоженной информации компании
-  const textSx = { color: '#2b8a41', fontWeight: 600 }
+  const textSx = { color: '#FFFFFF', fontWeight: 600 }
   const iconSx = { color: '#8d004c' }
 
   return (
