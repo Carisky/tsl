@@ -1,9 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Box, Divider, Typography } from "@mui/material";
+import { Box, Divider, Typography, Modal, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 type Image = {
   image: { url: string };
@@ -15,6 +16,8 @@ type ImageSliderProps = {
 };
 
 export default function ImageSlider({ title, images }: ImageSliderProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1240 },
@@ -37,11 +40,11 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
     <Box sx={{ p: 2 }}>
       {title && (
         <>
-        <Divider sx={{height:"2px",backgroundColor:"#029270"}}/>
-        <Typography variant="h5" sx={{ mt:2, mb: 2, textAlign:"center", fontWeight: "bold" }}>
-          {title}
-        </Typography>
-        <Divider sx={{height:"2px",backgroundColor:"#029270"}}/>
+          <Divider sx={{ height: "2px", backgroundColor: "#029270" }} />
+          <Typography variant="h5" sx={{ mt: 2, mb: 2, textAlign: "center", fontWeight: "bold" }}>
+            {title}
+          </Typography>
+          <Divider sx={{ height: "2px", backgroundColor: "#029270" }} />
         </>
       )}
       <Carousel responsive={responsive} infinite containerClass="" itemClass="">
@@ -49,7 +52,7 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
           <Box
             key={index}
             sx={{
-              mt:2,
+              mt: 2,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -59,10 +62,12 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
               sx={{
                 width: "100%",
                 maxWidth: 400,
-                aspectRatio: "1 / 1", // сохраняет соотношение сторон 1:1 без растягивания
+                aspectRatio: "1 / 1",
                 overflow: "hidden",
                 borderRadius: 2,
+                cursor: "pointer",
               }}
+              onClick={() => setSelectedImage(img.image.url)}
             >
               <Box
                 component="img"
@@ -78,6 +83,53 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
           </Box>
         ))}
       </Carousel>
+      <Modal
+        open={Boolean(selectedImage)}
+        onClose={() => setSelectedImage(null)}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        {/* Внешний контейнер - клик по нему закрывает модальное окно */}
+        <Box
+          onClick={() => setSelectedImage(null)}
+          sx={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            bgcolor: "rgba(0, 0, 0, 0.8)",
+          }}
+        >
+          {/* Внутренний контейнер с изображением - клик не закрывает окно */}
+          <Box
+            onClick={(e) => e.stopPropagation()}
+            sx={{ position: "relative", outline: "none" }}
+          >
+            <IconButton
+              
+              onClick={() => setSelectedImage(null)}
+              sx={{ backgroundColor:"#000000", position: "absolute", top: 8, right: 8, zIndex: 1, color: "#fff" }}
+            >
+              <CloseIcon />
+            </IconButton>
+            <Box
+              component="img"
+              src={selectedImage || ""}
+              alt="Selected"
+              sx={{
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+                objectFit: "contain",
+                display: "block",
+              }}
+            />
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 }
