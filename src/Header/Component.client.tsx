@@ -10,8 +10,10 @@ import { IoMdMenu, IoMdClose } from 'react-icons/io'
 import { useLocaleStore } from '@/app/(frontend)/store/useLocaleStore'
 import LanguageSwitcher from '@/app/(frontend)/components/LanguageSwitcher'
 import palette from '@/palette'
-import { Box } from '@mui/material'
-
+import { Box, Typography } from '@mui/material'
+import MapIcon from '@mui/icons-material/Map'
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import EmailIcon from '@mui/icons-material/Email';
 export const HeaderClient: React.FC = () => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -65,16 +67,73 @@ export const HeaderClient: React.FC = () => {
         <Link href="/" className="flex-shrink-0 min-w-[80px]">
           <Logo loading="eager" priority="high" className="invert dark:invert-0 w-20 h-20" />
         </Link>
-
+        <Box
+          sx={{
+            display: 'flex',
+            flexGrow: 1,
+            justifyContent: 'space-around',
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <MapIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml:2}}>ul. Rycerska 9, 41-902 Bytom</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <EmailIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml:2}}>office@tsl-silesia.com.pl</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <LocalPhoneIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml:2}}>+48 (32) 282 90 62</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <LocalPhoneIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml:2}}>+48 (32) 281 34 02</Typography>
+            </Box>
+          </Box>
+        </Box>
         <Box className="flex items-center">
           {/* Десктопное меню */}
-          <Box className="hidden xl:flex items-center space-x-4">
+          <Box className="hidden 3xl:flex items-center space-x-4">
             <LanguageSwitcher />
             {navData && <HeaderNav data={navData} />}
           </Box>
 
           {/* Бургер-иконка для мобильных */}
-          <Box className="xl:hidden">
+          <Box className="3xl:hidden">
             <button
               onClick={toggleMobileMenu}
               className="p-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
