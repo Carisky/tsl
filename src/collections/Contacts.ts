@@ -1,6 +1,9 @@
 import { CollectionConfig } from 'payload';
 
 const Contacts: CollectionConfig = {
+  access: {
+    read: () => true, // открываем GET для всех
+  },
   slug: 'contacts',
   labels: {
     singular: 'Contact',
