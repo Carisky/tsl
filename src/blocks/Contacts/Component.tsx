@@ -5,7 +5,7 @@ import { Box, Typography, Snackbar, Alert } from '@mui/material'
 import { useInView } from 'react-intersection-observer'
 import { useSpring, animated } from 'react-spring'
 import Cookies from 'js-cookie'
-
+import { Card, CardContent, CardMedia } from '@mui/material'
 export interface Contact {
   id: string
   group: string | { name: string }
@@ -38,13 +38,9 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   const [contacts, setContacts] = useState<Contact[]>(initialContacts)
   const [loading, setLoading] = useState<boolean>(!initialContacts.length)
   const [error, setError] = useState<string | null>(null)
-  const [viewRef, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  })
   const animationProps = useSpring({
-    opacity: inView ? 1 : 0,
-    transform: inView ? 'translateY(0px)' : 'translateY(20px)',
+    opacity: 1,
+    transform: 'translateY(20px)',
     config: { tension: 200, friction: 20 },
   })
   const AnimatedDiv = animated('div')
@@ -53,26 +49,6 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   useEffect(() => {
     setMounted(true)
   }, [])
-
-  // Фетч контактов
-  useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const res = await fetch(`/api/contacts/?locale=${locale}`)
-        if (!res.ok) throw new Error(`Ошибка: ${res.status}`)
-        const data = await res.json()
-        setContacts(data.docs)
-      } catch (err: unknown) {
-        console.error(err)
-        setError('error')
-      } finally {
-        setTimeout(() => {
-          setLoading(false)
-        }, 750)
-      }
-    }
-    fetchContacts()
-  }, [locale])
 
   // Тексты локалей
   const translations = {
@@ -118,9 +94,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   type SupportedLocale = 'ru' | 'ua' | 'en' | 'pl'
   const localeKey: SupportedLocale =
-    locale && ['ru', 'ua', 'en', 'pl'].includes(locale)
-      ? (locale as SupportedLocale)
-      : 'en'
+    locale && ['ru', 'ua', 'en', 'pl'].includes(locale) ? (locale as SupportedLocale) : 'en'
   const loadingText = translations.loading[localeKey]
   const errorText = translations.error[localeKey]
 
@@ -192,47 +166,79 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   return (
     <Box sx={{ maxWidth: '86vw', margin: 'auto' }}>
       {displayGroups.map((groupKey) => (
-        <AnimatedDiv key={groupKey} style={animationProps} ref={viewRef}>
+        <AnimatedDiv key={groupKey} style={animationProps}>
           <Typography variant="h3" sx={{ mt: 2, mb: 1 }}>
             {groupKey}
           </Typography>
-          {groupedContacts[groupKey]?.map((contact) => (
-            <Box
-              key={contact.id}
-              sx={{
-                border: '1px solid #ccc',
-                marginBottom: '1rem',
-                padding: '1rem',
-                display: 'flex',
-                flexDirection: 'column',
-                width: 'fit-content',
-              }}
-            >
-              {contact.media && (
-                <img
-                  src={contact.media.url}
-                  alt={contact.name}
-                  style={{ maxWidth: '150px', aspectRatio: '1/1', objectFit: 'cover' }}
-                />
-              )}
-              <Typography variant="h6">{contact.name}</Typography>
-              <Typography>
-                <strong>{translationsLabels.position[localeKey]}:</strong> {contact.position}
-              </Typography>
-              <Typography>
-                <strong>{translationsLabels.phone[localeKey]}:</strong> {contact.tel.primary}
-              </Typography>
-              {contact.tel.wew && (
-                <Typography>
-                  <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
-                  {contact.tel.wew}
-                </Typography>
-              )}
-              <Typography>
-                <strong>{translationsLabels.email[localeKey]}:</strong> {contact.email}
-              </Typography>
-            </Box>
-          ))}
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+            {groupedContacts[groupKey]?.map((contact) => (
+              <Card
+                key={contact.id}
+                sx={{
+                  flexGrow: 1,
+                  minWidth: '30%',
+                  maxWidth: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                }}
+              >
+                {contact.media && (
+                  <CardMedia
+                    component="img"
+                    image={contact.media.url}
+                    alt={contact.name}
+                    sx={{
+                      borderRadius: 5,
+                      maxWidth: 200,
+                      aspectRatio: '1 / 1',
+                      objectFit: 'cover',
+                      mt: 2,
+                      ml: 2,
+                    }}
+                  />
+                )}
+                <CardContent>
+                  <Typography sx={{}} variant="h6">
+                    {contact.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      maxWidth: '40ch',
+                      wordWrap: 'break-word',
+                    }}
+                  >
+                    <strong>{translationsLabels.position[localeKey]}:</strong> {contact.position}
+                  </Typography>
+
+                  <Typography
+                  sx={{
+                    maxWidth: '40ch',
+                    wordWrap: 'break-word',
+                  }}
+                  >
+                    <strong>{translationsLabels.phone[localeKey]}:</strong> {contact.tel.primary}
+                  </Typography>
+                  {contact.tel.wew && (
+                    <Typography
+                    sx={{
+                      maxWidth: '40ch',
+                      wordWrap: 'break-word',
+                    }}>
+                      <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
+                      {contact.tel.wew}
+                    </Typography>
+                  )}
+                  <Typography
+                  sx={{
+                    maxWidth: '40ch',
+                    wordWrap: 'break-word',
+                  }}>
+                    <strong>{translationsLabels.email[localeKey]}:</strong> {contact.email}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
         </AnimatedDiv>
       ))}
     </Box>
