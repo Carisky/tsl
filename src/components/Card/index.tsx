@@ -36,9 +36,9 @@ export const Card: React.FC<CardProps> = (props) => {
 
   return (
     <MuiCard
-    component="div"
-    variant="outlined"
-    ref={card.ref as React.Ref<HTMLDivElement>}
+      component="div"
+      variant="outlined"
+      ref={card.ref as React.Ref<HTMLDivElement>}
       className={className}
       sx={{
         borderRadius: 2,
@@ -54,15 +54,22 @@ export const Card: React.FC<CardProps> = (props) => {
               <Typography variant="body2">No image</Typography>
             </Box>
           )}
-          {metaImage && typeof metaImage !== 'string' && (
+          {metaImage && (
             <Box>
-              <Media resource={metaImage} size="33vw" />
+              <img
+                style={{ aspectRatio: 1, objectFit: 'cover' }}
+                src={typeof metaImage === 'string' ? metaImage : (metaImage.url ?? undefined)}
+                alt={titleToUse}
+              />
             </Box>
           )}
         </Box>
         <CardContent sx={{ p: 2 }}>
           {showCategories && hasCategories && (
-            <Typography variant="caption" sx={{ textTransform: 'uppercase', mb: 1, display: 'block' }}>
+            <Typography
+              variant="caption"
+              sx={{ textTransform: 'uppercase', mb: 1, display: 'block' }}
+            >
               {categories.map((category, index) => {
                 if (typeof category === 'object') {
                   const categoryTitle = category.title || 'Untitled category'
