@@ -1,8 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Box, Card, CardContent, Typography, Snackbar, Alert } from '@mui/material'
-import { useLocaleStore } from '@/app/(frontend)/store/useLocaleStore'
+import { Box, Typography, Snackbar, Alert } from '@mui/material'
 import { useInView } from 'react-intersection-observer'
 import { useSpring, animated } from 'react-spring'
 import Cookies from 'js-cookie'
@@ -25,9 +24,7 @@ export interface FilterGroup {
 }
 
 export interface ContactsBlockProps {
-  // Список контактов, выбранных администратором
   contacts: Contact[]
-  // Фильтр групп (если пустой — показывать все)
   filterGroups?: FilterGroup[]
 }
 
@@ -35,13 +32,49 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   contacts: initialContacts,
   filterGroups,
 }) => {
-  const locale  = Cookies.get("locale")
-  // Если не приходит контактов из блока, можно использовать API-фетч (опционально)
+  // Все хуки вызываем сразу
+  const [mounted, setMounted] = useState(false)
+  const locale = Cookies.get('locale')
   const [contacts, setContacts] = useState<Contact[]>(initialContacts)
   const [loading, setLoading] = useState<boolean>(!initialContacts.length)
   const [error, setError] = useState<string | null>(null)
+  const [viewRef, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  })
+  const animationProps = useSpring({
+    opacity: inView ? 1 : 0,
+    transform: inView ? 'translateY(0px)' : 'translateY(20px)',
+    config: { tension: 200, friction: 20 },
+  })
+  const AnimatedDiv = animated('div')
 
-  // Тексты для локалей для загрузки и ошибок
+  // Эффект для client-only монтирования
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  // Фетч контактов
+  useEffect(() => {
+    const fetchContacts = async () => {
+      try {
+        const res = await fetch(`/api/contacts/?locale=${locale}`)
+        if (!res.ok) throw new Error(`Ошибка: ${res.status}`)
+        const data = await res.json()
+        setContacts(data.docs)
+      } catch (err: unknown) {
+        console.error(err)
+        setError('error')
+      } finally {
+        setTimeout(() => {
+          setLoading(false)
+        }, 750)
+      }
+    }
+    fetchContacts()
+  }, [locale])
+
+  // Тексты локалей
   const translations = {
     loading: {
       ru: 'Загрузка...',
@@ -53,11 +86,9 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       ru: 'Извините, произошла ошибка загрузки контактов',
       ua: 'Вибачте, сталася помилка завантаження контактів',
       en: 'Sorry, there was an error loading contacts',
-      pl: 'Przepraszamy, wystąpił błąd podczas ładowania kontaktów',
+      pl: 'Przepraszamy, wystąpił błąd podczas ładowания контактов',
     },
   }
-
-  // Переводы для полей
   const translationsLabels = {
     position: {
       ru: 'Должность',
@@ -87,34 +118,13 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   type SupportedLocale = 'ru' | 'ua' | 'en' | 'pl'
   const localeKey: SupportedLocale =
-  locale && ['ru', 'ua', 'en', 'pl'].includes(locale)
+    locale && ['ru', 'ua', 'en', 'pl'].includes(locale)
       ? (locale as SupportedLocale)
       : 'en'
-
   const loadingText = translations.loading[localeKey]
   const errorText = translations.error[localeKey]
 
-  useEffect(() => {
-    if (initialContacts.length) return
-    const fetchContacts = async () => {
-      try {
-        const res = await fetch(`/api/contacts/?locale=${locale}`)
-        if (!res.ok) throw new Error(`Ошибка: ${res.status}`)
-        const data = await res.json()
-        setContacts(data.docs)
-      } catch (err: unknown) {
-        console.error(err)
-        setError('error')
-      } finally {
-        setTimeout(() => {
-          setLoading(false)
-        }, 750)
-      }
-    }
-    fetchContacts()
-  }, [locale, initialContacts])
-
-  // Группировка контактов по group.name или group (если строка)
+  // Группировка контактов
   const groupedContacts = contacts.reduce((acc: Record<string, Contact[]>, contact) => {
     const groupName =
       typeof contact.group === 'object' && contact.group !== null
@@ -127,7 +137,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
     return acc
   }, {})
 
-  // Если админ задал фильтр, оставляем только указанные группы
+  // Фильтр по группам
   const adminFilter: string[] =
     filterGroups && filterGroups.length > 0 ? filterGroups.map((item) => item.group) : []
   const displayGroups =
@@ -135,21 +145,12 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       ? Object.keys(groupedContacts).filter((group) => adminFilter.includes(group))
       : Object.keys(groupedContacts)
 
-  // Всегда вызываем хуки для анимации
-  const [viewRef, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-  })
-  const animationProps = useSpring({
-    opacity: inView ? 1 : 0,
-    transform: inView ? 'translateY(0px)' : 'translateY(20px)',
-    config: { tension: 200, friction: 20 },
-  })
-  const AnimatedDiv = animated('div')
+  // Рендерим null, если компонент ещё не замонтирован
+  if (!mounted) return null
 
   if (loading) {
     return (
-      <Snackbar open={true}>
+      <Snackbar open>
         <Alert severity="info" variant="filled">
           {loadingText}
         </Alert>
@@ -159,12 +160,9 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   if (error) {
     return (
-      <Snackbar open={true}>
+      <Snackbar open>
         <Alert
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-          }}
+          sx={{ display: 'flex', alignItems: 'center' }}
           severity="error"
           variant="filled"
           icon={
@@ -207,7 +205,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                 padding: '1rem',
                 display: 'flex',
                 flexDirection: 'column',
-                width:"fit-content"
+                width: 'fit-content',
               }}
             >
               {contact.media && (
