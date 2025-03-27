@@ -3,7 +3,7 @@
 import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { Box, Typography } from "@mui/material";
+import { Box, Divider, Typography } from "@mui/material";
 
 type Image = {
   image: { url: string };
@@ -36,15 +36,20 @@ export default function ImageSlider({ title, images }: ImageSliderProps) {
   return (
     <Box sx={{ p: 2 }}>
       {title && (
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold" }}>
+        <>
+        <Divider sx={{height:"2px",backgroundColor:"#029270"}}/>
+        <Typography variant="h5" sx={{ mt:2, mb: 2, textAlign:"center", fontWeight: "bold" }}>
           {title}
         </Typography>
+        <Divider sx={{height:"2px",backgroundColor:"#029270"}}/>
+        </>
       )}
       <Carousel responsive={responsive} infinite containerClass="" itemClass="">
         {images.map((img, index) => (
           <Box
             key={index}
             sx={{
+              mt:2,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
