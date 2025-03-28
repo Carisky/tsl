@@ -14,6 +14,7 @@ import { Box, Typography } from '@mui/material'
 import MapIcon from '@mui/icons-material/Map'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
 import EmailIcon from '@mui/icons-material/Email'
+import ArticleIcon from '@mui/icons-material/Article';
 export const HeaderClient: React.FC = () => {
   const [theme, setTheme] = useState<string | null>(null)
   const { headerTheme, setHeaderTheme } = useHeaderTheme()
@@ -130,6 +131,31 @@ export const HeaderClient: React.FC = () => {
             >
               <LocalPhoneIcon sx={{ color: '#ffffff' }} />
               <Typography sx={{ color: '#ffffff', ml: 2 }}>+48 (32) 281 34 02</Typography>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <ArticleIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml: 2 }}>ISO : Pl014435/U</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <ArticleIcon sx={{ color: '#ffffff' }} />
+              <Typography sx={{ color: '#ffffff', ml: 2 }}>AEO : PLAEOF330000100009</Typography>
             </Box>
           </Box>
         </Box>
