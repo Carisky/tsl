@@ -18,20 +18,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
   return (
     <div className="relative -mt-[10.4rem] flex items-center justify-center" data-theme="dark">
       <div className="container mb-8 z-10 relative flex items-center justify-center">
-        <div
-          className="pb-16 pt-16 px-8 md:px-16 max-w-[36.5rem] bg-[#B7B5E4] text-center"
-          style={{
-            clipPath:
-              "polygon(0% 0%, 100% 20%, 100% 94.5%, 0% 75.43%)",
-          }}   
-        >
-          {richText && (
-            <RichText
-              className="text-white text-2xl text-[#FDFFFC] md:text-3xl font-semibold"
-              data={richText}
-              enableGutter={false}
-            />
-          )}
+
           {Array.isArray(links) && links.length > 0 && (
             <ul className="flex flex-wrap justify-center gap-4">
               {links.map(({ link }, i) => {
@@ -43,7 +30,6 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
               })}
             </ul>
           )}
-        </div>
       </div>
       <div className="min-h-[80vh] select-none">
         {media && typeof media === 'object' && (
