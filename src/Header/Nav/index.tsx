@@ -32,7 +32,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
         if (slug === 'home') {
           return (
             <Link href="/" key={i}>
-              <HomeIcon className={isActive ? "text-[#8D004C] underline" : "text-white"} />
+              <HomeIcon className={isActive ? "text-[#ed42a6] underline" : "text-white"} />
             </Link>
           )
         }
@@ -42,7 +42,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
             key={i}
             {...link}
             appearance="link"
-            className={`${linkColor} ${isActive ? "underline text-[#8D004C]" : ""}`}
+            className={`${linkColor} ${isActive ? "underline decoration-pink-500 decoration-2" : ""}`}
           />
         )
       })}

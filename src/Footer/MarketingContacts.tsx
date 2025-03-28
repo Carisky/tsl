@@ -31,7 +31,7 @@ const marketingContactsLeft = [
     {
       type: 'person',
       name: 'Paweł Dziurdzia',
-      position: 'Asystent ds. marketingu',
+      position: 'Spedytor',
     },
     {
       type: 'contact',
