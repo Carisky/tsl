@@ -11,7 +11,17 @@ const ImageSlider: Block = {
       name: "title",
       type: "text",
       label: "Title",
-      localized: true, // Локализация заголовка
+      localized: true,
+    },
+    {
+      name: "mode",
+      type: "select",
+      label: "Display Mode",
+      options: [
+        { label: "Slider", value: "slider" },
+        { label: "Static", value: "slider-static" },
+      ],
+      defaultValue: "slider",
     },
     {
       name: "images",
@@ -22,7 +32,7 @@ const ImageSlider: Block = {
         {
           name: "image",
           type: "upload",
-          relationTo: "media", // Должно соответствовать вашей коллекции медиа
+          relationTo: "media",
           required: true,
         },
       ],

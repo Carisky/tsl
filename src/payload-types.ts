@@ -213,6 +213,7 @@ export interface Page {
       }
     | {
         title?: string | null;
+        mode?: ('slider' | 'slider-static') | null;
         images?:
           | {
               image: string | Media;
@@ -334,6 +335,7 @@ export interface Post {
       }
     | {
         title?: string | null;
+        mode?: ('slider' | 'slider-static') | null;
         images?:
           | {
               image: string | Media;
@@ -1218,6 +1220,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              mode?: T;
               images?:
                 | T
                 | {
@@ -1426,6 +1429,7 @@ export interface PostsSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              mode?: T;
               images?:
                 | T
                 | {
