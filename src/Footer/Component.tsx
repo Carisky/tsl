@@ -20,123 +20,24 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd'
 import InfoIcon from '@mui/icons-material/Info'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { MarketingContacts } from './MarketingContacts'
 
 export async function Footer() {
   const footerData: FooterType = await getCachedGlobal('footer', 1)()
   const navItems = footerData?.navItems || []
-
   // Стили для захардкоженной информации компании
   const textSx = { color: '#FFFFFF', fontWeight: 600 }
   const iconSx = { color: '#8d004c' }
-
-
-  const marketingContactsLeft = [
-    {
-      type: 'person',
-      name: 'Wiktoria KWIATKOWSKA',
-      position: 'Kierownik Działu Marketingu',
-    },
-    {
-      type: 'contact',
-      label: 'Kom:',
-      value: '+48 608 675 834',
-    },
-    {
-      type: 'contact',
-      label: 'Email:',
-      value: 'w.kwiatkowska@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'tl.wew:',
-      value: '+48 32 282 90 62 - wew. 22',
-    },
-  ]
-  
-  const marketingContactsRight = [
-    {
-      type: 'person',
-      name: 'Paweł Dziurdzia',
-      position: 'Asystent ds. marketingu',
-    },
-    {
-      type: 'contact',
-      label: 'Kom:',
-      value: '+48 516 284 653',
-    },
-    {
-      type: 'contact',
-      label: 'Email:',
-      value: 'p.dziurdzia@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'tl.wew:',
-      value: '+48 32 282 90 62',
-    },
-  ]
-  
-  
 
   return (
     <footer
       style={{ backgroundColor: palette.footer.bg }}
       className="mt-auto border-t border-border bg-black dark:bg-card text-white"
     >
-      <Box
-        sx={{
-          height: '200px',
-          backgroundColor: '#fff',
-          display: 'flex',
-          justifyContent: 'space-around',
-          alignItems: 'center',
-          color:"#000"
-        }}
-      >
-<Box
-  sx={{
-    height: '200px',
-    backgroundColor: '#fff',
-    display: {
-      xs: 'none',
-      md: 'flex',
-    },
-    justifyContent:"space-around",
-    alignItems: 'center',
-    color: '#000',
-  }}
->
-  {[marketingContactsLeft, marketingContactsRight].map((col, colIndex) => (
-    <Box
-      key={colIndex}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 1,
-      }}
-    >
-      {col.map((item, i) => (
-        <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <ChevronRightIcon sx={{ color: '#8d004c' }} fontSize="small" />
-          {item.type === 'person' ? (
-            <Box>
-              <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {item.name}
-              </Typography>
-              <Typography variant="body2">{item.position}</Typography>
-            </Box>
-          ) : (
-            <Typography variant="body2">
-              <strong>{item.label}</strong> {item.value}
-            </Typography>
-          )}
-        </Box>
-      ))}
-    </Box>
-  ))}
-</Box>
 
-      </Box>
+
+          <MarketingContacts/>
+
       <div className="px-6 py-2 gap-2 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
           <Logo className="min-w-20 w-20 h-20" />
