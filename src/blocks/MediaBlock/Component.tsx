@@ -1,4 +1,3 @@
-// components/blocks/MediaBlock.tsx
 "use client"
 import type { StaticImageData } from 'next/image'
 import React from 'react'
@@ -6,7 +5,7 @@ import { cn } from '@/utilities/ui'
 import RichText from '@/components/RichText'
 import { Media } from '@/components/Media'
 import { useSpring, animated } from 'react-spring'
-import { Box } from '@mui/material'
+import { Box, useTheme, useMediaQuery } from '@mui/material'
 import { useInView } from 'react-intersection-observer'
 import type { MediaBlock as MediaBlockProps } from '@/payload-types'
 
@@ -18,6 +17,10 @@ type Props = MediaBlockProps & {
   imgClassName?: string
   staticImage?: StaticImageData
   disableInnerContainer?: boolean
+  // Новые поля
+  caption?: any
+  imageAlignment?: 'left' | 'center' | 'right'
+  captionPosition?: 'left' | 'right' | 'bottom' | 'top'
 }
 
 const sizeClasses: Record<string, string> = {
@@ -41,10 +44,14 @@ export const MediaBlock: React.FC<Props> = (props) => {
     size = 'medium',
     staticImage,
     disableInnerContainer,
+    caption, // новое поле
+    imageAlignment = 'center',
+    captionPosition = 'bottom',
   } = props
 
-  let caption
-  if (media && typeof media === 'object') caption = media.caption
+  // Используем переданный caption или значение из media (если объект)
+  const captionContent =
+    caption ?? (media && typeof media === 'object' ? media.caption : null)
 
   // Отслеживание попадания в viewport на 30%
   const { ref, inView } = useInView({
@@ -58,18 +65,24 @@ export const MediaBlock: React.FC<Props> = (props) => {
     config: { duration: 500 },
   })
 
-  return (
-    <AnimatedBox
-      ref={ref}
-      style={fadeAnimation}
-      className={cn(
-        '',
-        {
-          container: enableGutter,
-        },
-        className,
-      )}
-    >
+  // Получаем тему и определяем, мобильное ли устройство
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  // Если мобильное устройство, всегда используем вертикальный layout
+  const effectiveCaptionPosition = isMobile ? 'bottom' : captionPosition
+
+  // Классы выравнивания картинки
+  const imageAlignClass =
+    imageAlignment === 'center'
+      ? 'mx-auto'
+      : imageAlignment === 'right'
+      ? 'ml-auto'
+      : 'mr-auto'
+
+  // Функция для рендеринга компонента Media
+  const renderImage = () => (
+    <>
       {(media || staticImage) && (
         <Media
           imgClassName={cn(
@@ -81,17 +94,43 @@ export const MediaBlock: React.FC<Props> = (props) => {
           src={staticImage}
         />
       )}
-      {caption && (
-        <Box
-          className={cn(
-            'mt-6',
-            {
-              container: !disableInnerContainer,
-            },
-            captionClassName,
+    </>
+  )
+
+  return (
+    <AnimatedBox
+      ref={ref}
+      style={fadeAnimation}
+      className={cn({ container: enableGutter }, className)}
+    >
+      {(effectiveCaptionPosition === 'top' || effectiveCaptionPosition === 'bottom') ? (
+        <>
+          {effectiveCaptionPosition === 'top' && captionContent && (
+            <Box className={cn({ container: !disableInnerContainer }, captionClassName)}>
+              <RichText data={captionContent} enableGutter={false} />
+            </Box>
           )}
-        >
-          <RichText data={caption} enableGutter={false} />
+          <Box className={imageAlignClass}>{renderImage()}</Box>
+          {effectiveCaptionPosition === 'bottom' && captionContent && (
+            <Box className={cn({ container: !disableInnerContainer }, captionClassName)}>
+              <RichText data={captionContent} enableGutter={false} />
+            </Box>
+          )}
+        </>
+      ) : (
+        // effectiveCaptionPosition === 'left' или 'right'
+        <Box className="flex flex-row">
+          {effectiveCaptionPosition === 'left' && captionContent && (
+            <Box className={cn('mr-4', { container: !disableInnerContainer }, captionClassName)}>
+              <RichText data={captionContent} enableGutter={false} />
+            </Box>
+          )}
+          <Box className={imageAlignClass}>{renderImage()}</Box>
+          {effectiveCaptionPosition === 'right' && captionContent && (
+            <Box className={cn('ml-4', { container: !disableInnerContainer }, captionClassName)}>
+              <RichText data={captionContent} enableGutter={false} />
+            </Box>
+          )}
         </Box>
       )}
     </AnimatedBox>
