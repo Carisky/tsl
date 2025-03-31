@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Snackbar, Alert } from '@mui/material'
-import { useInView } from 'react-intersection-observer'
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
 import { useSpring, animated } from 'react-spring'
 import Cookies from 'js-cookie'
 import { Card, CardContent, CardMedia } from '@mui/material'
@@ -208,7 +210,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                       wordWrap: 'break-word',
                     }}
                   >
-                    <strong>{translationsLabels.position[localeKey]}:</strong> {contact.position}
+                    <HomeWorkIcon/> {contact.position}
                   </Typography>
 
                   <Typography
@@ -217,7 +219,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                     wordWrap: 'break-word',
                   }}
                   >
-                    <strong>{translationsLabels.phone[localeKey]}:</strong> {contact.tel.primary}
+                    <LocalPhoneIcon/> {contact.tel.primary}
                   </Typography>
                   {contact.tel.wew && (
                     <Typography
@@ -225,6 +227,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                       maxWidth: '40ch',
                       wordWrap: 'break-word',
                     }}>
+                      <LocalPhoneIcon/>
                       <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
                       {contact.tel.wew}
                     </Typography>
@@ -234,7 +237,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                     maxWidth: '40ch',
                     wordWrap: 'break-word',
                   }}>
-                    <strong>{translationsLabels.email[localeKey]}:</strong> {contact.email}
+                    <EmailIcon/> {contact.email}
                   </Typography>
                 </CardContent>
               </Card>
