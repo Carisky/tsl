@@ -15,10 +15,11 @@ const Contacts: CollectionConfig = {
   fields: [
     // Поле "group" теперь - relationship к коллекции contact-groups
     {
-        name: 'group',
-        type: 'relationship',
-        relationTo: 'contact-groups' as any,
-        required: true,
+      name: 'group',
+      type: 'relationship',
+      relationTo: 'contact-groups',
+      hasMany: true, // теперь можно выбрать несколько групп
+      required: true,
     },
     {
       name: 'media',

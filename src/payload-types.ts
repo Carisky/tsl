@@ -905,7 +905,7 @@ export interface Form {
  */
 export interface Contact {
   id: string;
-  group: string | ContactGroup;
+  group: (string | ContactGroup)[];
   media?: (string | null) | Media;
   name: string;
   tel: {

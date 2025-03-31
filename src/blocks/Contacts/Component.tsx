@@ -100,16 +100,17 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   // Группировка контактов
   const groupedContacts = contacts.reduce((acc: Record<string, Contact[]>, contact) => {
-    const groupName =
-      typeof contact.group === 'object' && contact.group !== null
-        ? contact.group.name
-        : contact.group
-    if (!acc[groupName]) {
-      acc[groupName] = []
-    }
-    acc[groupName].push(contact)
-    return acc
-  }, {})
+    const groups = Array.isArray(contact.group) ? contact.group : [contact.group];
+    groups.forEach((grp) => {
+      const groupName = typeof grp === 'object' ? grp.name : grp;
+      if (!acc[groupName]) {
+        acc[groupName] = [];
+      }
+      acc[groupName].push(contact);
+    });
+    return acc;
+  }, {});
+  
 
   // Фильтр по группам
   const adminFilter: string[] =
