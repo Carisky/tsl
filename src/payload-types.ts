@@ -214,6 +214,7 @@ export interface Page {
     | {
         title?: string | null;
         mode?: ('slider' | 'slider-static') | null;
+        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
               image: string | Media;
@@ -336,6 +337,7 @@ export interface Post {
     | {
         title?: string | null;
         mode?: ('slider' | 'slider-static') | null;
+        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
               image: string | Media;
@@ -505,7 +507,24 @@ export interface CodeBlock {
  */
 export interface MediaBlock {
   media: string | Media;
+  caption?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   size: 'small' | 'small-plus' | 'medium' | 'medium-plus' | 'large';
+  imageAlignment?: ('left' | 'center' | 'right') | null;
+  captionPosition?: ('left' | 'right' | 'bottom' | 'top') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'mediaBlock';
@@ -1221,6 +1240,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               title?: T;
               mode?: T;
+              maxSize?: T;
               images?:
                 | T
                 | {
@@ -1361,7 +1381,10 @@ export interface ContentBlockSelect<T extends boolean = true> {
  */
 export interface MediaBlockSelect<T extends boolean = true> {
   media?: T;
+  caption?: T;
   size?: T;
+  imageAlignment?: T;
+  captionPosition?: T;
   id?: T;
   blockName?: T;
 }
@@ -1430,6 +1453,7 @@ export interface PostsSelect<T extends boolean = true> {
           | {
               title?: T;
               mode?: T;
+              maxSize?: T;
               images?:
                 | T
                 | {
