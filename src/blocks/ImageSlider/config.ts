@@ -23,6 +23,22 @@ const ImageSlider: Block = {
       ],
       defaultValue: "slider",
     },
+    // Новое поле для выбора максимального размера
+    {
+      name: "maxSize",
+      type: "select",
+      label: "Maximum Image Size",
+      options: [
+        { label: "small - 200x200", value: "small" },
+        { label: "small+ - 250x250", value: "small+" },
+        { label: "medium - 300x300", value: "medium" },
+        { label: "medium+ - 350x350", value: "medium+" },
+        { label: "large - 400x400", value: "large" },
+        { label: "xl - 500x500", value: "xl" },
+        { label: "auto (600x600)", value: "auto" },
+      ],
+      defaultValue: "auto",
+    },
     {
       name: "images",
       type: "array",

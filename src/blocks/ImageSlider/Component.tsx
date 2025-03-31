@@ -10,13 +10,21 @@ type Image = {
   image: { url: string };
 };
 
+type SizeOption = "small" | "small+" | "medium" | "medium+" | "large" | "xl" | "auto";
+
 type ImageSliderProps = {
   title: string;
   images: Image[];
   mode?: "slider" | "slider-static";
+  maxSize?: SizeOption;
 };
 
-export default function ImageSlider({ title, images, mode = "slider" }: ImageSliderProps) {
+export default function ImageSlider({
+  title,
+  images,
+  mode = "slider",
+  maxSize = "auto",
+}: ImageSliderProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   const responsive = {
@@ -25,12 +33,27 @@ export default function ImageSlider({ title, images, mode = "slider" }: ImageSli
     mobile: { breakpoint: { max: 868, min: 0 }, items: 1, slidesToSlide: 1 },
   };
 
+  const sizeMapping: Record<SizeOption, number> = {
+    "small": 200,
+    "small+": 250,
+    "medium": 300,
+    "medium+": 350,
+    "large": 400,
+    "xl": 500,
+    "auto": 600,
+  };
+
+  const maxSizeValue = sizeMapping[maxSize];
+
   return (
     <Box sx={{ p: 2 }}>
       {title && (
         <>
           <Divider sx={{ height: "2px", backgroundColor: "#029270" }} />
-          <Typography variant="h5" sx={{ mt: 2, mb: 2, textAlign: "center", fontWeight: "bold" }}>
+          <Typography
+            variant="h5"
+            sx={{ mt: 2, mb: 2, textAlign: "center", fontWeight: "bold" }}
+          >
             {title}
           </Typography>
           <Divider sx={{ height: "2px", backgroundColor: "#029270" }} />
@@ -42,12 +65,17 @@ export default function ImageSlider({ title, images, mode = "slider" }: ImageSli
           {images.map((img, index) => (
             <Box
               key={index}
-              sx={{ mt: 2, display: "flex", justifyContent: "center", alignItems: "center" }}
+              sx={{
+                mt: 2,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               <Box
                 sx={{
                   width: "100%",
-                  maxWidth: 400,
+                  maxWidth: maxSizeValue,
                   aspectRatio: "1 / 1",
                   overflow: "hidden",
                   borderRadius: 2,
@@ -79,8 +107,8 @@ export default function ImageSlider({ title, images, mode = "slider" }: ImageSli
             <Box
               key={index}
               sx={{
-                maxWidth:600,
-                maxHeight: 600,
+                maxWidth: maxSizeValue,
+                maxHeight: maxSizeValue,
                 overflow: "hidden",
                 borderRadius: 2,
                 cursor: "pointer",
@@ -101,7 +129,11 @@ export default function ImageSlider({ title, images, mode = "slider" }: ImageSli
       <Modal
         open={Boolean(selectedImage)}
         onClose={() => setSelectedImage(null)}
-        sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
         <Box
           onClick={() => setSelectedImage(null)}
