@@ -182,13 +182,16 @@ export const HeaderClient: React.FC = () => {
           margin: 'auto',
           justifyContent: 'center',
         }}
-        className="hidden xl:flex items-center space-x-4"
+        className="hidden xl:flex "
       >
         <Box
           sx={{
             borderRadius: '10px',
             position: 'absolute',
+            width:"90%",
             top: '80%',
+            display:"flex",
+            justifyContent:"space-between",
             backgroundColor: '#5c4c8f',
             paddingLeft: '25px',
             paddingRight: '25px',
