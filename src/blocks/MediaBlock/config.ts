@@ -1,3 +1,4 @@
+import { HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import type { Block } from 'payload'
 
 export const MediaBlock: Block = {
@@ -15,6 +16,14 @@ export const MediaBlock: Block = {
       type: 'richText',
       localized:true,
       required: false,
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) =>
+          defaultFeatures.map(feature =>
+            feature.key === 'heading'
+              ? HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4', 'h5'] })
+              : feature
+          ),
+      }),
     },
     {
       name: 'size',

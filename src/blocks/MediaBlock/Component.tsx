@@ -30,6 +30,13 @@ const sizeClasses: Record<string, string> = {
   'medium-plus': 'max-w-[500px]',
   large: 'max-w-[700px]',
 }
+const containerSizeClasses: Record<string, string> = {
+  small: "150px",
+  'small-plus': "200px",
+  medium: "300px",
+  'medium-plus': "400px",
+  large: "550px",
+}
 
 // Создаём анимированный компонент на базе MUI Box
 const AnimatedBox = animated(Box)
@@ -85,7 +92,9 @@ const imageAlignClass =
 
   // Функция для рендеринга компонента Media
   const renderImage = () => (
-    <>
+    <Box sx={{
+      minWidth:containerSizeClasses[size],
+    }}>
       {(media || staticImage) && (
         <Media
           imgClassName={cn(
@@ -97,7 +106,7 @@ const imageAlignClass =
           src={staticImage}
         />
       )}
-    </>
+    </Box>
   )
 
   return (
