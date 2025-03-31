@@ -19,8 +19,8 @@ type Props = MediaBlockProps & {
   disableInnerContainer?: boolean
   // Новые поля
   caption?: any
-  imageAlignment?: 'left' | 'center' | 'right'
-  captionPosition?: 'left' | 'right' | 'bottom' | 'top'
+  imageAlignment?: 'left' | 'center' | 'right' | null;
+  captionPosition?: 'left' | 'right' | 'bottom' | 'top' | null;
 }
 
 const sizeClasses: Record<string, string> = {
@@ -48,6 +48,7 @@ export const MediaBlock: React.FC<Props> = (props) => {
     imageAlignment = 'center',
     captionPosition = 'bottom',
   } = props
+  const effectiveImageAlignment: 'left' | 'center' | 'right' = imageAlignment ?? 'left';
 
   // Используем переданный caption или значение из media (если объект)
   const captionContent =
@@ -73,12 +74,14 @@ export const MediaBlock: React.FC<Props> = (props) => {
   const effectiveCaptionPosition = isMobile ? 'bottom' : captionPosition
 
   // Классы выравнивания картинки
-  const imageAlignClass =
-    imageAlignment === 'center'
-      ? 'mx-auto'
-      : imageAlignment === 'right'
-      ? 'ml-auto'
-      : 'mr-auto'
+// Классы выравнивания картинки с использованием effectiveImageAlignment
+const imageAlignClass =
+  effectiveImageAlignment === 'center'
+    ? 'mx-auto'
+    : effectiveImageAlignment === 'right'
+    ? 'ml-auto'
+    : 'mr-auto';
+
 
   // Функция для рендеринга компонента Media
   const renderImage = () => (
