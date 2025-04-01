@@ -174,7 +174,8 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                 key={contact.id}
                 sx={{
                   flexGrow: 1,
-                  minWidth: '30%',
+                  minWidth: '45%',
+                  width:"45%",
                   maxWidth: '100%',
                   display: 'flex',
                   flexDirection: 'column',
