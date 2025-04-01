@@ -908,6 +908,7 @@ export interface Contact {
   group: (string | ContactGroup)[];
   media?: (string | null) | Media;
   name: string;
+  laguages?: string | null;
   tel: {
     primary: string;
     wew?: string | null;
@@ -1524,6 +1525,7 @@ export interface ContactsSelect<T extends boolean = true> {
   group?: T;
   media?: T;
   name?: T;
+  laguages?: T;
   tel?:
     | T
     | {

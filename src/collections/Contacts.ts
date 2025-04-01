@@ -33,6 +33,10 @@ const Contacts: CollectionConfig = {
       required: true,
     },
     {
+      name: 'laguages',
+      type: 'text',
+    },
+    {
       name: 'tel',
       type: 'group',
       fields: [

@@ -2,17 +2,19 @@
 
 import React, { useState, useEffect } from 'react'
 import { Box, Typography, Snackbar, Alert } from '@mui/material'
-import EmailIcon from '@mui/icons-material/Email';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import EmailIcon from '@mui/icons-material/Email'
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
+import HomeWorkIcon from '@mui/icons-material/HomeWork'
 import { useSpring, animated } from 'react-spring'
 import Cookies from 'js-cookie'
 import { Card, CardContent, CardMedia } from '@mui/material'
+
 export interface Contact {
   id: string
   group: string | { name: string }
   media?: { url: string }
   name: string
+  laguages?: string
   tel: {
     primary: string
     wew?: string
@@ -34,7 +36,6 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   contacts: initialContacts,
   filterGroups,
 }) => {
-  // Все хуки вызываем сразу
   const [mounted, setMounted] = useState(false)
   const locale = Cookies.get('locale')
   const [contacts, setContacts] = useState<Contact[]>(initialContacts)
@@ -47,12 +48,10 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   })
   const AnimatedDiv = animated('div')
 
-  // Эффект для client-only монтирования
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Тексты локалей
   const translations = {
     loading: {
       ru: 'Загрузка...',
@@ -86,11 +85,11 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       en: 'Additional Phone',
       pl: 'Telefon wew',
     },
-    email: {
-      ru: 'Электронная почта',
-      ua: 'Електронна пошта',
-      en: 'Email',
-      pl: 'E-mail',
+    languages: {
+      ru: 'Языки',
+      ua: 'Мови',
+      en: 'Languages',
+      pl: 'Języki',
     },
   }
 
@@ -100,21 +99,18 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   const loadingText = translations.loading[localeKey]
   const errorText = translations.error[localeKey]
 
-  // Группировка контактов
   const groupedContacts = contacts.reduce((acc: Record<string, Contact[]>, contact) => {
-    const groups = Array.isArray(contact.group) ? contact.group : [contact.group];
+    const groups = Array.isArray(contact.group) ? contact.group : [contact.group]
     groups.forEach((grp) => {
-      const groupName = typeof grp === 'object' ? grp.name : grp;
+      const groupName = typeof grp === 'object' ? grp.name : grp
       if (!acc[groupName]) {
-        acc[groupName] = [];
+        acc[groupName] = []
       }
-      acc[groupName].push(contact);
-    });
-    return acc;
-  }, {});
-  
+      acc[groupName].push(contact)
+    })
+    return acc
+  }, {})
 
-  // Фильтр по группам
   const adminFilter: string[] =
     filterGroups && filterGroups.length > 0 ? filterGroups.map((item) => item.group) : []
   const displayGroups =
@@ -122,7 +118,6 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       ? Object.keys(groupedContacts).filter((group) => adminFilter.includes(group))
       : Object.keys(groupedContacts)
 
-  // Рендерим null, если компонент ещё не замонтирован
   if (!mounted) return null
 
   if (loading) {
@@ -201,43 +196,27 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                   />
                 )}
                 <CardContent>
-                  <Typography sx={{}} variant="h6">
-                    {contact.name}
+                  <Typography variant="h6">{contact.name}</Typography>
+                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                    <HomeWorkIcon /> {contact.position}
                   </Typography>
-                  <Typography
-                    sx={{
-                      maxWidth: '40ch',
-                      wordWrap: 'break-word',
-                    }}
-                  >
-                    <HomeWorkIcon/> {contact.position}
-                  </Typography>
-
-                  <Typography
-                  sx={{
-                    maxWidth: '40ch',
-                    wordWrap: 'break-word',
-                  }}
-                  >
-                    <LocalPhoneIcon/> {contact.tel.primary}
+                  {contact.laguages && (
+                    <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                      <strong>{translationsLabels.languages[localeKey]}:</strong> {contact.laguages}
+                    </Typography>
+                  )}
+                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                    <LocalPhoneIcon /> {contact.tel.primary}
                   </Typography>
                   {contact.tel.wew && (
-                    <Typography
-                    sx={{
-                      maxWidth: '40ch',
-                      wordWrap: 'break-word',
-                    }}>
-                      <LocalPhoneIcon/>
+                    <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                      <LocalPhoneIcon />
                       <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
                       {contact.tel.wew}
                     </Typography>
                   )}
-                  <Typography
-                  sx={{
-                    maxWidth: '40ch',
-                    wordWrap: 'break-word',
-                  }}>
-                    <EmailIcon/> {contact.email}
+                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                    <EmailIcon /> {contact.email}
                   </Typography>
                 </CardContent>
               </Card>
