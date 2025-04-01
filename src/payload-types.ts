@@ -537,6 +537,10 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        /**
+         * Выберите тип содержимого для колонки
+         */
+        contentType?: ('text' | 'image') | null;
         richText?: {
           root: {
             type: string;
@@ -552,6 +556,7 @@ export interface ContentBlock {
           };
           [k: string]: unknown;
         } | null;
+        media?: (string | null) | Media;
         enableLink?: boolean | null;
         link?: {
           type?: ('reference' | 'custom') | null;
@@ -1359,7 +1364,9 @@ export interface ContentBlockSelect<T extends boolean = true> {
     | T
     | {
         size?: T;
+        contentType?: T;
         richText?: T;
+        media?: T;
         enableLink?: T;
         link?:
           | T
