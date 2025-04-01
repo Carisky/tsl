@@ -25,8 +25,9 @@ const remotePatterns = serverUrls.map((item) => {
 const nextConfig = {
   images: {
     remotePatterns,
+    minimumCacheTTL: 86400,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   redirects,
 }
 
