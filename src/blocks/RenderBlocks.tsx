@@ -15,6 +15,7 @@ import ImageSlider from "@/blocks/ImageSlider/Component"; // Импортиру�
 import { TilesFlexComponent } from "./TilesFlex/Component";
 import ContactsList from "./Contacts/Component";
 import VerticalCardList from "./VerticalCardList/VerticalCardList";
+import SocialMediasBlock from "./SocialMedias/SocialMediasBlock";
 
 
 
@@ -32,6 +33,7 @@ const blockComponents: Record<string, React.FC<any>> = {
   "tiles-flex": TilesFlexComponent,
   contacts: ContactsList,
   verticalCardList: VerticalCardList,
+  socialMedias: SocialMediasBlock
 };
 
 export const RenderBlocks: React.FC<{
