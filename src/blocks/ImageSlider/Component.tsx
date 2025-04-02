@@ -15,8 +15,9 @@ type SizeOption = 'small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | '
 type ImageSliderProps = {
   title: string
   images: Image[]
-  mode?: 'slider' | 'slider-static'
+  mode?: 'slider' | 'slider-static' | 'grid'
   maxSize?: SizeOption
+  gridColumns?: 2 | 3 | 4
 }
 
 export default function ImageSlider({
@@ -24,6 +25,7 @@ export default function ImageSlider({
   images,
   mode = 'slider',
   maxSize = 'auto',
+  gridColumns = 3,
 }: ImageSliderProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
@@ -45,19 +47,9 @@ export default function ImageSlider({
 
   const maxSizeValue = sizeMapping[maxSize]
 
-  return (
-    <Box sx={{ p: 2 }}>
-      {title && (
-        <>
-          <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />
-          <Typography variant="h5" sx={{ mt: 2, mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
-            {title}
-          </Typography>
-          <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />
-        </>
-      )}
-
-      {mode === 'slider' ? (
+  const renderImages = () => {
+    if (mode === 'slider') {
+      return (
         <Carousel responsive={responsive} infinite containerClass="" itemClass="">
           {images.map((img, index) => (
             <Box
@@ -96,7 +88,51 @@ export default function ImageSlider({
             </Box>
           ))}
         </Carousel>
-      ) : (
+      )
+    } else if (mode === 'grid') {
+      return (
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: `repeat(${gridColumns}, 1fr)`,
+            gap: 2,
+            mt: 2,
+            margin:"auto"
+          }}
+        >
+          {images.map((img, index) => (
+            <Box
+              key={index}
+              sx={{
+                maxWidth: maxSizeValue,
+                maxHeight: maxSizeValue,
+                overflow: 'hidden',
+                borderRadius: 2,
+                cursor: 'pointer',
+                borderColor: '#000',
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                margin:"auto"
+              }}
+              onClick={() => setSelectedImage(img.image.url)}
+            >
+              <Box
+                component="img"
+                src={img.image.url}
+                alt={`Grid ${index + 1}`}
+                sx={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                }}
+              />
+            </Box>
+          ))}
+        </Box>
+      )
+    } else {
+      // slider-static – прежняя логика
+      return (
         <Box
           sx={{
             display: 'flex',
@@ -134,7 +170,23 @@ export default function ImageSlider({
             </Box>
           ))}
         </Box>
+      )
+    }
+  }
+
+  return (
+    <Box sx={{ p: 2 }}>
+      {title && (
+        <>
+          <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />
+          <Typography variant="h5" sx={{ mt: 2, mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
+            {title}
+          </Typography>
+          <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />
+        </>
       )}
+
+      {renderImages()}
 
       <Modal
         open={Boolean(selectedImage)}

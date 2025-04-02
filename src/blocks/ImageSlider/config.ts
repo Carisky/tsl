@@ -20,10 +20,25 @@ const ImageSlider: Block = {
       options: [
         { label: "Slider", value: "slider" },
         { label: "Static", value: "slider-static" },
+        { label: "grid", value: "grid" },
       ],
       defaultValue: "slider",
     },
-    // Новое поле для выбора максимального размера
+    {
+      name: "gridColumns",
+      type: "select",
+      label: "Grid Columns",
+      options: [
+        { label: "2 in a row", value: "2" },
+        { label: "3 in a row", value: "3" },
+        { label: "4 in a row", value: "4" },
+      ],
+      defaultValue: "3",
+      admin: {
+        condition: (_, siblingData) => siblingData.mode === "grid",
+      },
+      
+    },
     {
       name: "maxSize",
       type: "select",
