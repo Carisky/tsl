@@ -213,7 +213,8 @@ export interface Page {
       }
     | {
         title?: string | null;
-        mode?: ('slider' | 'slider-static') | null;
+        mode?: ('slider' | 'slider-static' | 'grid') | null;
+        gridColumns?: ('2' | '3' | '4') | null;
         maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
@@ -286,6 +287,11 @@ export interface Page {
         blockName?: string | null;
         blockType: 'verticalCardList';
       }
+    | {
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'socialMedias';
+      }
   )[];
   meta?: {
     title?: string | null;
@@ -336,7 +342,8 @@ export interface Post {
       }
     | {
         title?: string | null;
-        mode?: ('slider' | 'slider-static') | null;
+        mode?: ('slider' | 'slider-static' | 'grid') | null;
+        gridColumns?: ('2' | '3' | '4') | null;
         maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
@@ -1246,6 +1253,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               title?: T;
               mode?: T;
+              gridColumns?: T;
               maxSize?: T;
               images?:
                 | T
@@ -1313,6 +1321,12 @@ export interface PagesSelect<T extends boolean = true> {
                         };
                     id?: T;
                   };
+              id?: T;
+              blockName?: T;
+            };
+        socialMedias?:
+          | T
+          | {
               id?: T;
               blockName?: T;
             };
@@ -1461,6 +1475,7 @@ export interface PostsSelect<T extends boolean = true> {
           | {
               title?: T;
               mode?: T;
+              gridColumns?: T;
               maxSize?: T;
               images?:
                 | T
