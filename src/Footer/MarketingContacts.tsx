@@ -94,6 +94,7 @@ const contactGroups = [
 export const MarketingContacts = () => {
   const pathname = usePathname()
   if (pathname === '/contacts') return null
+  if (pathname === '/privacy-policy') return null
 
   return (
     <Box
