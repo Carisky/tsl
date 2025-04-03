@@ -27,28 +27,35 @@ const translations = {
 };
 
 export default function PrivacyPolicy() {
-  // Изначально ставим значение по умолчанию
   const [locale, setLocale] = useState('pl');
-  // Флаг, показывающий, что компонент смонтирован (только на клиенте)
   const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false); // изначально false
 
   useEffect(() => {
     const cookieLocale = Cookies.get("locale");
+    const accepted = Cookies.get("isPolicyAccepted");
+
     if (cookieLocale && cookieLocale in translations) {
       setLocale(cookieLocale);
     }
+
+    if (!accepted) {
+      setVisible(true);
+    }
+
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; // не рендерим до монтирования
+  if (!mounted || !visible) return null;
 
   const t = translations[locale as keyof typeof translations];
 
-  const handleAccept = () => setVisible(false);
-  const handleRead = () => window.open('/privacy-policy', '_blank');
+  const handleAccept = () => {
+    Cookies.set("isPolicyAccepted", "true", { expires: 7 });
+    setVisible(false);
+  };
 
-  if (!visible) return null;
+  const handleRead = () => window.open('/privacy-policy', '_blank');
 
   return (
     <Paper
