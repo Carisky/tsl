@@ -37,6 +37,23 @@ const columnFields: Field[] = [
     type: 'checkbox',
     label: 'Animate on scroll',
     defaultValue: true,
+  },
+  {
+    name: 'maxImageSize',
+    type: 'select',
+    label: 'Макс. размер изображения',
+    options: [
+      { label: '100x100', value: '100' },
+      { label: '200x200', value: '200' },
+      { label: '300x300', value: '300' },
+      { label: '400x400', value: '400' },
+      { label: '500x500', value: '500' },
+      { label: '600x600', value: '600' },
+    ],
+    defaultValue: '600',
+    admin: {
+      condition: (_, siblingData) => siblingData?.contentType === 'image',
+    },
   },  
   {
     localized: true,

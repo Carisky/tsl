@@ -549,6 +549,7 @@ export interface ContentBlock {
          */
         contentType?: ('text' | 'image') | null;
         animate?: boolean | null;
+        maxImageSize?: ('100' | '200' | '300' | '400' | '500' | '600') | null;
         richText?: {
           root: {
             type: string;
@@ -1381,6 +1382,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
         size?: T;
         contentType?: T;
         animate?: T;
+        maxImageSize?: T;
         richText?: T;
         media?: T;
         enableLink?: T;

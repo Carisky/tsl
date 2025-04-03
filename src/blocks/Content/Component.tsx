@@ -19,7 +19,9 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
     <div className="container my-16">
       <div className="grid grid-cols-4 lg:grid-cols-12 gap-y-8 gap-x-16">
         {columns?.map((col, index) => {
-          const { enableLink, link, richText, media, contentType, size } = col
+          const { enableLink, link, richText, media, contentType, size, maxImageSize } = col
+          // Если значение не указано, по умолчанию 600px
+          const maxSize = maxImageSize ? Number(maxImageSize) : 600
 
           return (
             <div
@@ -32,25 +34,26 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                 <RichText data={richText} enableGutter={false} />
               )}
               {contentType === 'image' && media && (
-                typeof media === 'string' ? (
-                  <div className="relative w-full aspect-square">
+                <div
+                  className="relative w-full aspect-square"
+                  style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
+                >
+                  {typeof media === 'string' ? (
                     <Image
                       src={media}
                       alt="Column image"
                       fill
                       className="object-cover"
                     />
-                  </div>
-                ) : media.url ? (
-                  <div className="relative w-full aspect-square">
+                  ) : media.url ? (
                     <Image
                       src={media.url}
                       alt="Column image"
                       fill
                       className="object-cover"
                     />
-                  </div>
-                ) : null
+                  ) : null}
+                </div>
               )}
               {enableLink && <CMSLink {...link} />}
             </div>
