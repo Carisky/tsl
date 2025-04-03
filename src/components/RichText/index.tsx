@@ -97,13 +97,16 @@ type Props = {
   data: DefaultTypedEditorState
   enableGutter?: boolean
   enableProse?: boolean
+  animate?: boolean
 } & React.HTMLAttributes<HTMLDivElement>
 
 export default function RichText(props: Props) {
-  const { className, enableProse = true, enableGutter = true, ...rest } = props
+  const { className, enableProse = true, enableGutter = true, animate, ...rest } = props
+
+  const Wrapper = animate ? AnimatedHTML : 'div'
 
   return (
-    <AnimatedHTML
+    <Wrapper
       className={cn(
         'text-base',
         {
@@ -115,6 +118,6 @@ export default function RichText(props: Props) {
       )}
     >
       <ConvertRichText converters={jsxConverters} {...rest} />
-    </AnimatedHTML>
+    </Wrapper>
   )
 }

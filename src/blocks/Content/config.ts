@@ -33,6 +33,12 @@ const columnFields: Field[] = [
     },
   },
   {
+    name: 'animate',
+    type: 'checkbox',
+    label: 'Animate on scroll',
+    defaultValue: true,
+  },  
+  {
     localized: true,
     name: 'richText',
     type: 'richText',
