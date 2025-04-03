@@ -13,18 +13,24 @@ const Contacts: CollectionConfig = {
     useAsTitle: 'name',
   },
   fields: [
-    // Поле "group" теперь - relationship к коллекции contact-groups
     {
       name: 'group',
       type: 'relationship',
       relationTo: 'contact-groups',
-      hasMany: true, // теперь можно выбрать несколько групп
+      hasMany: true,
       required: true,
     },
     {
       name: 'media',
       type: 'upload',
       relationTo: 'media',
+    },
+    // Новое опциональное поле для вспомогательной картинки
+    {
+      name: 'auxiliaryImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
     },
     {
       name: 'name',

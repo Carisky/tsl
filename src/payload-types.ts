@@ -921,6 +921,7 @@ export interface Contact {
   id: string;
   group: (string | ContactGroup)[];
   media?: (string | null) | Media;
+  auxiliaryImage?: (string | null) | Media;
   name: string;
   laguages?: string | null;
   tel: {
@@ -1550,6 +1551,7 @@ export interface ContactGroupsSelect<T extends boolean = true> {
 export interface ContactsSelect<T extends boolean = true> {
   group?: T;
   media?: T;
+  auxiliaryImage?: T;
   name?: T;
   laguages?: T;
   tel?:
