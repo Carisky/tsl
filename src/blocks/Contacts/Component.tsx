@@ -13,6 +13,7 @@ export interface Contact {
   id: string
   group: string | { name: string }
   media?: { url: string }
+  auxiliaryImage?: { url: string }
   name: string
   laguages?: string
   tel: {
@@ -41,6 +42,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
   const [contacts, setContacts] = useState<Contact[]>(initialContacts)
   const [loading, setLoading] = useState<boolean>(!initialContacts.length)
   const [error, setError] = useState<string | null>(null)
+
   const animationProps = useSpring({
     opacity: 1,
     transform: 'translateY(20px)',
@@ -63,7 +65,7 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
       ru: 'Извините, произошла ошибка загрузки контактов',
       ua: 'Вибачте, сталася помилка завантаження контактів',
       en: 'Sorry, there was an error loading contacts',
-      pl: 'Przepraszamy, wystąpił błąd podczas ładowания контактов',
+      pl: 'Przepraszamy, wystąpił błąd podczas ładowania kontakтов',
     },
   }
   const translationsLabels = {
@@ -95,27 +97,38 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 
   type SupportedLocale = 'ru' | 'ua' | 'en' | 'pl'
   const localeKey: SupportedLocale =
-    locale && ['ru', 'ua', 'en', 'pl'].includes(locale) ? (locale as SupportedLocale) : 'en'
+    locale && ['ru', 'ua', 'en', 'pl'].includes(locale)
+      ? (locale as SupportedLocale)
+      : 'en'
+
   const loadingText = translations.loading[localeKey]
   const errorText = translations.error[localeKey]
 
-  const groupedContacts = contacts.reduce((acc: Record<string, Contact[]>, contact) => {
-    const groups = Array.isArray(contact.group) ? contact.group : [contact.group]
-    groups.forEach((grp) => {
-      const groupName = typeof grp === 'object' ? grp.name : grp
-      if (!acc[groupName]) {
-        acc[groupName] = []
-      }
-      acc[groupName].push(contact)
-    })
-    return acc
-  }, {})
+  const groupedContacts = contacts.reduce(
+    (acc: Record<string, Contact[]>, contact) => {
+      const groups = Array.isArray(contact.group) ? contact.group : [contact.group]
+      groups.forEach((grp) => {
+        const groupName = typeof grp === 'object' ? grp.name : grp
+        if (!acc[groupName]) {
+          acc[groupName] = []
+        }
+        acc[groupName].push(contact)
+      })
+      return acc
+    },
+    {}
+  )
 
   const adminFilter: string[] =
-    filterGroups && filterGroups.length > 0 ? filterGroups.map((item) => item.group) : []
+    filterGroups && filterGroups.length > 0
+      ? filterGroups.map((item) => item.group)
+      : []
+
   const displayGroups =
     adminFilter.length > 0
-      ? Object.keys(groupedContacts).filter((group) => adminFilter.includes(group))
+      ? Object.keys(groupedContacts).filter((group) =>
+          adminFilter.includes(group)
+        )
       : Object.keys(groupedContacts)
 
   if (!mounted) return null
@@ -175,13 +188,13 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                 sx={{
                   flexGrow: 1,
                   minWidth: '45%',
-                  width:"45%",
+                  width: '45%',
                   maxWidth: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
                 }}
               >
-                {contact.media && (
+                {/* Основная картинка, если есть */}
+                {/* (Можно оставить как есть или вынести в левую колонку) */}
+                {!contact.auxiliaryImage && contact.media && (
                   <CardMedia
                     component="img"
                     image={contact.media.url}
@@ -196,30 +209,104 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                     }}
                   />
                 )}
-                <CardContent>
-                  <Typography variant="h6">{contact.name}</Typography>
-                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
-                    <HomeWorkIcon /> {contact.position}
-                  </Typography>
-                  {contact.laguages && (
+
+                {contact.auxiliaryImage ? (
+                  // Если есть auxiliaryImage — делаем две колонки
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                      {contact.media && (
+                        <CardMedia
+                          component="img"
+                          image={contact.media.url}
+                          alt={contact.name}
+                          sx={{
+                            borderRadius: 5,
+                            maxWidth: 200,
+                            aspectRatio: '1 / 1',
+                            objectFit: 'cover',
+                            mt: 2,
+                            ml: 2,
+                          }}
+                        />
+                      )}
+                      <CardContent>
+                        <Typography variant="h6">{contact.name}</Typography>
+                        <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                          <HomeWorkIcon /> {contact.position}
+                        </Typography>
+                        {contact.laguages && (
+                          <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                            <strong>{translationsLabels.languages[localeKey]}:</strong>{' '}
+                            {contact.laguages}
+                          </Typography>
+                        )}
+                        <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                          <LocalPhoneIcon /> {contact.tel.primary}
+                        </Typography>
+                        {contact.tel.wew && (
+                          <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                            <LocalPhoneIcon />
+                            <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
+                            {contact.tel.wew}
+                          </Typography>
+                        )}
+                        <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                          <EmailIcon /> {contact.email}
+                        </Typography>
+                      </CardContent>
+                    </Box>
+
+                    {/* Справа — дополнительная картинка */}
+                    <Box>
+                      <CardMedia
+                        component="img"
+                        image={contact.auxiliaryImage.url}
+                        alt={`${contact.name} auxiliary`}
+                        sx={{
+                          borderRadius: 5,
+                          maxWidth: 400,
+                          // Можно задать фиксированную ширину или aspectRatio
+                          objectFit: 'cover',
+                          mt: 2,
+                          mr: 2,
+                        }}
+                      />
+                    </Box>
+                  </Box>
+                ) : (
+                  // Если auxiliaryImage нет, всё как прежде
+                  <CardContent>
+                    <Typography variant="h6">{contact.name}</Typography>
                     <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
-                      <strong>{translationsLabels.languages[localeKey]}:</strong> {contact.laguages}
+                      <HomeWorkIcon /> {contact.position}
                     </Typography>
-                  )}
-                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
-                    <LocalPhoneIcon /> {contact.tel.primary}
-                  </Typography>
-                  {contact.tel.wew && (
+                    {contact.laguages && (
+                      <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                        <strong>{translationsLabels.languages[localeKey]}:</strong>{' '}
+                        {contact.laguages}
+                      </Typography>
+                    )}
                     <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
-                      <LocalPhoneIcon />
-                      <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
-                      {contact.tel.wew}
+                      <LocalPhoneIcon /> {contact.tel.primary}
                     </Typography>
-                  )}
-                  <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
-                    <EmailIcon /> {contact.email}
-                  </Typography>
-                </CardContent>
+                    {contact.tel.wew && (
+                      <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                        <LocalPhoneIcon />
+                        <strong>{translationsLabels.additionalPhone[localeKey]}:</strong>{' '}
+                        {contact.tel.wew}
+                      </Typography>
+                    )}
+                    <Typography sx={{ maxWidth: '40ch', wordWrap: 'break-word' }}>
+                      <EmailIcon /> {contact.email}
+                    </Typography>
+                  </CardContent>
+                )}
               </Card>
             ))}
           </Box>
