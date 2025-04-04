@@ -34,10 +34,7 @@ export async function Footer() {
       style={{ backgroundColor: palette.footer.bg }}
       className="mt-auto border-t border-border bg-black dark:bg-card text-white"
     >
-
-
-          <MarketingContacts/>
-
+      <MarketingContacts />
       <div className="px-6 py-2 gap-2 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
           <Logo className="min-w-20 w-20 h-20" />
@@ -135,13 +132,15 @@ export async function Footer() {
           </Grid>
         </Box>
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
-          <ThemeSelector />
+          <Box>
+            <ThemeSelector />
+            <nav className="flex flex-col md:flex-row gap-4">
+              {navItems.map(({ link }, i) => (
+                <CMSLink className="text-white" key={i} {...link} />
+              ))}
+            </nav>
+          </Box>
 
-          <nav className="flex flex-col md:flex-row gap-4">
-            {navItems.map(({ link }, i) => (
-              <CMSLink className="text-white" key={i} {...link} />
-            ))}
-          </nav>
         </div>
       </div>
     </footer>

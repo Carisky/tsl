@@ -6,109 +6,47 @@ import { usePathname } from 'next/navigation'
 
 const contactGroups = [
   [
-    {
-      type: 'label',
-      name: 'Sprawdź Ofertę',
-    },
-    {
-      type: 'contact',
-      label: 'Kontakt :',
-      value: 'Dział Marketingu',
-    },
-    {
-      type: 'contact',
-      label: 'Mail:',
-      value: 'kontenery@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'Telefon:',
-      value: '+48 32 282 90 62 - wew. 34',
-    },
+    { type: 'label', name: 'Sprawdź Ofertę' },
+    { type: 'contact', label: 'Kontakt :', value: 'Dział Marketingu' },
+    { type: 'contact', label: 'Mail:', value: 'kontenery@tsl-silesia.com.pl' },
+    { type: 'contact', label: 'Telefon:', value: '+48 32 282 90 62 - wew. 34' },
   ],
   [
-    {
-      type: 'label',
-      name: 'Logistyka kontenerowa',
-    },
-    {
-      type: 'contact',
-      label: 'Kontakt:',
-      value: 'Paulina',
-    },
-    {
-      type: 'contact',
-      label: 'Mail:',
-      value: 'kontenery@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'Telefon:',
-      value: '+48 32 282 90 62 wew. 35',
-    },
+    { type: 'label', name: 'Logistyka kontenerowa' },
+    { type: 'contact', label: 'Kontakt:', value: 'Paulina' },
+    { type: 'contact', label: 'Mail:', value: 'kontenery@tsl-silesia.com.pl' },
+    { type: 'contact', label: 'Telefon:', value: '+48 32 282 90 62 wew. 35' },
   ],
   [
-    {
-      type: 'label',
-      name: 'Agencja Celna',
-    },
-    {
-      type: 'contact',
-      label: 'Kontakt:',
-      value: 'Dział Marketingu',
-    },
-    {
-      type: 'contact',
-      label: 'Mail:',
-      value: 'kontenery@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'Telefon:',
-      value: '+48 32 282 90 62 - wew. 34',
-    },
+    { type: 'label', name: 'Agencja Celna' },
+    { type: 'contact', label: 'Kontakt:', value: 'Dział Marketingu' },
+    { type: 'contact', label: 'Mail:', value: 'kontenery@tsl-silesia.com.pl' },
+    { type: 'contact', label: 'Telefon:', value: '+48 32 282 90 62 - wew. 34' },
   ],
   [
-    {
-      type: 'label',
-      name: 'Inspekcja kontenerów – Asysta przy kontroli celnej',
-    },
-    {
-      type: 'contact',
-      label: 'Kontakt:',
-      value: 'Dział Marketingu',
-    },
-    {
-      type: 'contact',
-      label: 'Mail:',
-      value: 'kontenery@tsl-silesia.com.pl',
-    },
-    {
-      type: 'contact',
-      label: 'Telefon:',
-      value: '+48 32 282 90 62 - wew. 34',
-    },
+    { type: 'label', name: 'Inspekcja kontenerów – Asysta przy kontroli celnej' },
+    { type: 'contact', label: 'Kontakt:', value: 'Dział Marketingu' },
+    { type: 'contact', label: 'Mail:', value: 'kontenery@tsl-silesia.com.pl' },
+    { type: 'contact', label: 'Telefon:', value: '+48 32 282 90 62 - wew. 34' },
   ],
 ]
 
 export const MarketingContacts = () => {
   const pathname = usePathname()
-  if (pathname === '/contacts') return null
-  if (pathname === '/privacy-policy') return null
+  if (pathname === '/contacts' || pathname === '/privacy-policy') return null
 
   return (
     <Box
       sx={{
-        height: '200px',
+        minHeight: '200px',
         backgroundColor: '#fff',
-        display: {
-          xs: 'none',
-          md: 'flex',
-        },
         width: '100%',
-        justifyContent: 'space-around',
-        alignItems: 'center',
         color: '#000',
+        display: { xs: 'grid', md: 'flex' },
+        gridTemplateColumns: { xs: 'repeat(1, 1fr)' },
+        gap: { xs: 4, md: 0 },
+        justifyContent: { md: 'space-around' },
+        alignItems: { md: 'center' },
       }}
     >
       {contactGroups.map((group, index) => (
