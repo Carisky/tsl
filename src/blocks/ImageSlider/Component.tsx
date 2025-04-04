@@ -94,10 +94,13 @@ export default function ImageSlider({
         <Box
           sx={{
             display: 'grid',
-            gridTemplateColumns: `repeat(${gridColumns}, 1fr)`,
+            gridTemplateColumns: {
+              xs: 'repeat(1, 1fr)', // на телефонах: 1 колонка
+              sm: `repeat(${gridColumns}, 1fr)`, // на остальных экранах: динамическое количество колонок
+            },
             gap: 2,
             mt: 2,
-            margin:"auto"
+            margin: 'auto',
           }}
         >
           {images.map((img, index) => (
@@ -112,7 +115,7 @@ export default function ImageSlider({
                 borderColor: '#000',
                 borderWidth: '2px',
                 borderStyle: 'solid',
-                margin:"auto"
+                margin: 'auto',
               }}
               onClick={() => setSelectedImage(img.image.url)}
             >
@@ -123,8 +126,8 @@ export default function ImageSlider({
                 sx={{
                   width: '100%',
                   height: '100%',
-                  aspectRatio:"1/1",
-                  objectFit: "fill",
+                  aspectRatio: '1/1',
+                  objectFit: 'fill',
                 }}
               />
             </Box>
