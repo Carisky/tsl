@@ -16,6 +16,7 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import PrivacyPolicy from './components/PrivacyPolicy'
+import Chat from './components/Chat'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -39,7 +40,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           {children}
           <Footer />
           <PrivacyPolicy/>
+
         </Providers>
+        <Chat/>
       </body>
     </html>
   )
