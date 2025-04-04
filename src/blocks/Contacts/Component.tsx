@@ -263,7 +263,9 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
                     </Box>
 
                     {/* Справа — дополнительная картинка */}
-                    <Box>
+                    <Box sx={{
+                      width:"50%"
+                    }}>
                       <CardMedia
                         component="img"
                         image={contact.auxiliaryImage.url}
