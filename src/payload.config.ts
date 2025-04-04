@@ -1,5 +1,6 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import sharp from 'sharp' // sharp-import
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -21,16 +22,36 @@ import { pl } from '@payloadcms/translations/languages/pl'
 import { ru } from '@payloadcms/translations/languages/ru'
 import Contacts from './collections/Contacts'
 import ContactGroups from './collections/ContactGroups'
-
+import sendToMarketing from './endpoints/sendToMarketing'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  endpoints: [
+    {
+      path: '/send-to-marketing', // URL-адрес вашего кастомного эндпоинта
+      method: 'post',
+      handler: sendToMarketing, // импортированный хендлер
+    },
+  ],
   i18n:{
     supportedLanguages: { en, pl,ru },
     fallbackLanguage:"en"
   },
-  
+  email:nodemailerAdapter({
+    defaultFromAddress: 'info@payloadcms.com',
+    defaultFromName: 'Payload',
+    // Nodemailer transportOptions
+    transportOptions: {
+      host: process.env.SMTP_HOST,
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    }
+  }),
   admin: {
     components: {
       
@@ -107,4 +128,5 @@ export default buildConfig({
     },
     tasks: [],
   },
+  
 })
