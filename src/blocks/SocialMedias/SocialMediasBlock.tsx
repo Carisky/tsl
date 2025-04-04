@@ -49,7 +49,16 @@ export default function SocialMediasBlock() {
   ]
 
   return (
-    <Box className="container" alignItems="center" justifyContent="center" display="flex" gap={2}>
+    <Box
+      className="container"
+      sx={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+        flexWrap:"wrap"
+      }}
+      gap={2}
+    >
       {icons.map((item) => (
         <Link
           key={item.id}
