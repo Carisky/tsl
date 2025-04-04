@@ -119,14 +119,14 @@ export default function Chat(): JSX.Element {
             }}
           >
             {messages.map((message, index) => (
-              <Box>
+              <Box key={`message-${index}`}>
                 <Box
                   sx={{
                     backgroundColor: message.sender === 'system' ? '#2D2D2A' : '#4C4C47',
                     borderRadius: 4,
                     opacity: 0.7,
                   }}
-                  key={`message-${index}`}
+
                   mb={1}
                 >
                   <Typography
