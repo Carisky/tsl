@@ -206,7 +206,7 @@ export const HeaderClient: React.FC = () => {
           {/* Затемненная область слева для закрытия */}
           <Box className="flex-1" onClick={toggleMobileMenu}></Box>
           {/* Sidebar меню */}
-          <Box className="max-w-sm h-full bg-white shadow-lg p-6 flex flex-col">
+          <Box className="max-w-sm h-full bg-white shadow-lg p-6 flex flex-col overflow-y-auto">
             <Box className="flex justify-end">
               <button
                 onClick={toggleMobileMenu}
@@ -243,6 +243,10 @@ export const HeaderClient: React.FC = () => {
               </button>
             </Box>
             {/* Вертикальный список навигации */}
+
+            <Box className="flex flex-col space-y-4 mt-4">
+              {navData && <HeaderNav data={navData} mobile={true} />}
+            </Box>
             <Box className="flex flex-col space-y-4 mt-4">
               <Box
                 sx={{
@@ -281,9 +285,6 @@ export const HeaderClient: React.FC = () => {
                 <LocalPhoneIcon sx={{ color: '#000' }} />
                 <Typography sx={{ color: '#000', ml: 2 }}>+48 (32) 281 34 02</Typography>
               </Box>
-            </Box>
-            <Box className="flex flex-col space-y-4 mt-4">
-              {navData && <HeaderNav data={navData} vertical={true} />}
             </Box>
           </Box>
         </Box>
