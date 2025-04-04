@@ -10,18 +10,18 @@ import { usePathname } from 'next/navigation'
 
 interface HeaderNavProps {
   data: HeaderType
-  vertical?: boolean
+  mobile?: boolean
 }
 
-export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
+export const HeaderNav: React.FC<HeaderNavProps> = ({ data, mobile }) => {
   const navItems = data?.navItems || []
   const pathname = usePathname()
 
-  const navClassName = vertical 
-    ? "flex flex-col gap-4 w-40 text-black" 
+  const navClassName = mobile 
+    ? "flex flex-col gap-4  text-black" 
     : "flex w-full gap-3 justify-between items-center h-20 text-white" 
-  const linkColor = vertical ? "text-black" : "text-white"
-
+  const linkColor = mobile ? "text-black" : "text-white"
+  const navElementStyle = mobile ? "flex justify-center w-full" : ""
   return (
     <nav className={navClassName}>
       {navItems.map(({ link }, i) => {
@@ -31,8 +31,8 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
 
         if (slug === 'home') {
           return (
-            <Link href="/" key={i}>
-              <HomeIcon className={isActive ? "text-[#ed42a6] underline" : "text-white"} />
+            <Link className={navElementStyle} href="/" key={i}>
+              <HomeIcon className={(mobile?"text-black":"")+(isActive ?  `${navElementStyle} text-[#ed42a6] underline` : "text-white")} />
             </Link>
           )
         }
@@ -42,7 +42,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, vertical }) => {
             key={i}
             {...link}
             appearance="link"
-            className={`${linkColor} ${isActive ? "underline decoration-pink-500 decoration-2" : ""}`}
+            className={`${linkColor} ${navElementStyle} ${isActive ? "underline decoration-pink-500 decoration-2" : ""}`}
           />
         )
       })}
