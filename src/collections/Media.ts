@@ -10,7 +10,6 @@ import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-import sharp from 'sharp'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -78,24 +77,5 @@ export const Media: CollectionConfig = {
       },
     ],
   },
-  hooks: {
-    beforeChange: [
-      async ({ req, data }) => {
-        const file = req.file;
-        if (file && file.mimetype.startsWith('image/')) {
-          const palettePng = await sharp(file.data)
-            .png({ palette: true, colors: 128 })
-            .toBuffer();
-          const webpBuffer = await sharp(palettePng)
-            .webp({ quality: 80 })
-            .toBuffer();
-            
-          data = { ...data, fileData: webpBuffer };
-        }
-        return data;
-      },
-    ],
-  },
-  
   
 }
