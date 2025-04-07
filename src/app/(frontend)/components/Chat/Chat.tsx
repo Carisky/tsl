@@ -107,7 +107,7 @@ export default function Chat(): JSX.Element {
             padding: 1.5,
           }}
         >
-          <img src="/media/chat.png" />
+          <img src="/api/media/file/chat.png" />
         </Box>
       </Box>
       <Drawer anchor="right" open={open} onClose={handleClose}>
@@ -135,7 +135,7 @@ export default function Chat(): JSX.Element {
               <Box sx={{ height: 60, width: 60 }}>
                 <img
                   style={{ borderRadius: '50%', aspectRatio: '1/1' }}
-                  src="/media/chat_promo.png"
+                  src="/api/media/file/chat_promo.png"
                   alt=""
                 />
               </Box>
