@@ -128,10 +128,10 @@ export default function Chat(): JSX.Element {
               p: 2,
               display: 'flex',
               justifyContent: 'space-between',
-              background: 'linear-gradient(to right, #3bb8b0, #3dd8b0)',
+              background: 'linear-gradient(to right, #009593, #118482)',
             }}
           >
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex' }}>
               <Box sx={{ height: 60, width: 60 }}>
                 <img
                   style={{ borderRadius: '50%', aspectRatio: '1/1' }}
@@ -139,7 +139,11 @@ export default function Chat(): JSX.Element {
                   alt=""
                 />
               </Box>
-              <Typography sx={{ color: '#fff', fontSize: '24px' }}>
+              <Typography sx={{ ml:2,display:"flex",alignItems:"center",color: '#fff', fontSize: '24px',
+                '@media (max-width:767px)': {
+                  fontSize: '16px',
+                },
+               }}>
                 Chat with TSL Silesia
               </Typography>
             </Box>
@@ -148,18 +152,60 @@ export default function Chat(): JSX.Element {
               sx={{ fontSize: '40px', cursor: 'pointer', color: '#fff' }}
             />
           </Box>
-
-          <Box sx={{ display:"flex", flexDirection:"column",flexGrow: 1, overflowY: 'auto', mb: 2, p: 2 }}>
+          <Box sx={{ position: 'relative' }}>
+            <Box>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+                <defs>
+                  <linearGradient id="myGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#009593" />
+                    <stop offset="100%" stopColor="#118482" />
+                  </linearGradient>
+                </defs>
+                <path
+                  fill="url(#myGradient)"
+                  fillOpacity="1"
+                  d="M0,256L48,261.3C96,267,192,277,288,261.3C384,245,480,203,576,170.7C672,139,768,117,864,117.3C960,117,1056,139,1152,165.3C1248,192,1344,224,1392,240L1440,256L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"
+                ></path>
+              </svg>
+            </Box>
+            <Typography
+              sx={{
+                color: '#fff',
+                position: 'absolute',
+                top: 0,
+                left: 10,
+                '@media (max-width:767px)': {
+                  top: -10,
+                },
+              }}
+            >
+              We here to help u
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              flexGrow: 1,
+              overflowY: 'auto',
+              mb: 2,
+              p: 2,
+            }}
+          >
             {messages.map((message, index) => (
               <Box
                 key={`message-${index}`}
-                sx={{ width:"fit-content",maxWidth:"70%",alignSelf: message.sender === 'system' ? 'flex-start' : 'flex-end' }}
+                sx={{
+                  width: 'fit-content',
+                  maxWidth: '70%',
+                  alignSelf: message.sender === 'system' ? 'flex-start' : 'flex-end',
+                }}
               >
                 <Box
                   sx={{
                     background:
                       message.sender === 'system'
-                        ? 'linear-gradient(to right, #0aa6a0, #2bb8a0)'
+                        ? 'linear-gradient(to right, #009593, #118482)'
                         : 'linear-gradient(to right,rgb(10, 15, 166),rgb(43, 111, 184))',
                     borderRadius: 4,
                     opacity: 0.7,
