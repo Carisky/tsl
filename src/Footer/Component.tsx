@@ -4,7 +4,6 @@ import React from 'react'
 
 import type { Footer as FooterType } from '@/payload-types'
 
-import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
 import palette from '@/palette'
@@ -133,7 +132,7 @@ export async function Footer() {
         </Box>
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
           <Box>
-            <ThemeSelector />
+            
             <nav className="flex flex-col md:flex-row gap-4">
               {navItems.map(({ link }, i) => (
                 <CMSLink className="text-white" key={i} {...link} />
