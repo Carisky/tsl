@@ -3,15 +3,23 @@ import payload from 'payload';
 
 export default async function sendToMarketing(req: PayloadRequest) {
   if (req.method !== 'POST') {
-    const responseBody = { message: 'Method not allowed' };
-    const response = new Response(JSON.stringify(responseBody), {
-      status: 405,
-      headers: { 'Content-Type': 'application/json' },
-    });
-    return response;
+    return new Response(JSON.stringify({ message: 'Method not allowed' }), { status: 405 })
   }
 
-  const { email, question } = (await req.json!()) as { email: string; question: string };
+  const formData = await req.formData!()
+  const email = formData.get('email') as string
+  const question = formData.get('question') as string
+
+  const attachments = []
+  const files = formData.getAll('images') as File[]
+
+  for (const file of files) {
+    const buffer = Buffer.from(await file.arrayBuffer())
+    attachments.push({
+      filename: file.name,
+      content: buffer,
+    })
+  }
 
   try {
     await req.payload.sendEmail({
@@ -19,20 +27,13 @@ export default async function sendToMarketing(req: PayloadRequest) {
       to: process.env.TO_EMAIL!,
       subject: `New question from ${email}`,
       text: question,
-    });
-    const responseBody = { message: 'Email sent' };
-    const response = new Response(JSON.stringify(responseBody), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-    return response;
+      attachments,
+    })
+
+    return new Response(JSON.stringify({ message: 'Email sent' }), { status: 200 })
   } catch (error) {
-    console.error('Error sending email', error);
-    const responseBody = { message: error };
-    const response = new Response(JSON.stringify(responseBody), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    });
-    return response;
+    console.error('Error sending email', error)
+    return new Response(JSON.stringify({ message: error }), { status: 500 })
   }
 }
+
