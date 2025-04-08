@@ -51,7 +51,7 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVari
   return (
     <Box ref={ref} className="container">
       {title && (
-        <Typography variant={titleVariant} color="primary" sx={{ mb: 2, fontWeight: '500', fontSize:titleFontSizeMap[titleVariant] }}>
+        <Typography variant={titleVariant} color="primary" sx={{ mb: 2, fontWeight: '600', fontSize:titleFontSizeMap[titleVariant] }}>
           {title}
         </Typography>
       )}

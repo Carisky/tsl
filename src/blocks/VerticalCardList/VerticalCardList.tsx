@@ -5,6 +5,7 @@ import { Box, Card, CardContent, Divider, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useInView } from 'react-intersection-observer'
 import { useSpring, animated } from 'react-spring'
+import RichText from '@/components/RichText'
 
 interface ImageData {
   image: {
@@ -26,10 +27,11 @@ interface LinkGroupExternal {
 
 type LinkGroup = LinkGroupInternal | LinkGroupExternal
 
+// Обновлён тип description: может быть string или объект rich text.
 interface CardData {
   Images: ImageData[]
   title: string
-  description: string
+  description: string | any
   link: LinkGroup
 }
 
@@ -58,9 +60,10 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
           card.link.type === 'internal'
             ? card.link.reference?.value?.slug
               ? `/${card.link.reference.value.slug}`
-              : '#' // или другое значение по умолчанию
+              : '#'
             : card.link.url
         const targetAttr = card.link.newTab ? '_blank' : '_self'
+
         const cardContent = (
           <AnimatedDiv style={animationProps} key={index}>
             <Card
@@ -74,7 +77,7 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
               }}
             >
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
-              <Typography textAlign={'center'} variant="h4">
+              <Typography textAlign="center" variant="h4">
                 {card.title}
               </Typography>
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
@@ -91,11 +94,7 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
                 }}
               >
                 <Divider />
-                <Box
-                  sx={{
-                    display: 'flex',
-                  }}
-                >
+                <Box sx={{ display: 'flex' }}>
                   {card.Images.map((img: ImageData, idx: number) => (
                     <Box
                       key={idx}
@@ -104,8 +103,6 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
                       alt={`card image ${idx + 1}`}
                       sx={{
                         marginBottom: '10px',
-
-                        minWidth: '250px',
                         maxWidth: '400px',
                         aspectRatio: '1/1',
                         objectFit: 'cover',
@@ -119,7 +116,12 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
                   <CardContent
                     sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
                   >
-                    <Typography variant="body1">{card.description}</Typography>
+                    {card.description &&
+                    typeof card.description === 'object' ? (
+                      <RichText data={card.description} enableGutter={false} />
+                    ) : (
+                      <Typography variant="body1">{card.description}</Typography>
+                    )}
                   </CardContent>
                 </Box>
               </Box>

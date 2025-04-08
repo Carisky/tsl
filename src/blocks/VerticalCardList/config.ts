@@ -1,3 +1,4 @@
+import { AlignFeature, FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
 import { Block } from 'payload';
 
 const VerticalCardList: Block = {
@@ -11,20 +12,17 @@ const VerticalCardList: Block = {
       name: 'cards',
       type: 'array',
       label: 'Cards',
-
       fields: [
         {
           name: 'Images',
           type: 'array',
           label: 'Left Images',
-
           maxRows: 2,
           fields: [
             {
               name: 'image',
               type: 'upload',
               relationTo: 'media',
-
             },
           ],
         },
@@ -33,15 +31,22 @@ const VerticalCardList: Block = {
           name: 'title',
           type: 'text',
           label: 'Title',
-
         },
         {
           localized: true,
           name: 'description',
-          type: 'textarea',
-          label: 'Description',
+              type: 'richText',
+              editor: lexicalEditor({
+                features: ({ rootFeatures }) => [
+                  ...rootFeatures,
+                  HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+                  FixedToolbarFeature(),
+                  InlineToolbarFeature(),
+                  AlignFeature(),
 
-        },
+                ],
+              }),
+            },
         {
           name: 'link',
           type: 'group',
@@ -62,14 +67,12 @@ const VerticalCardList: Block = {
                   value: 'external',
                 },
               ],
-
             },
             {
               name: 'reference',
               type: 'relationship',
               label: 'Document to link to',
               relationTo: ['pages', 'posts'],
-
               admin: {
                 condition: (_, siblingData) => siblingData?.type === 'internal',
               },
@@ -78,7 +81,6 @@ const VerticalCardList: Block = {
               name: 'url',
               type: 'text',
               label: 'External URL',
-
               admin: {
                 condition: (_, siblingData) => siblingData?.type === 'external',
               },
