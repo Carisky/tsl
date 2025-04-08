@@ -77,7 +77,7 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
               }}
             >
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
-              <Typography textAlign="center" variant="h4">
+              <Typography textAlign="center" fontSize={"26px"} variant="h4">
                 {card.title}
               </Typography>
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />

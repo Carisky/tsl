@@ -43,7 +43,7 @@ const VerticalCardList: Block = {
                   FixedToolbarFeature(),
                   InlineToolbarFeature(),
                   AlignFeature(),
-
+                  
                 ],
               }),
             },
