@@ -97,7 +97,7 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
   const localeCookie = (await cookies()).get('locale')
-  const locale = (localeCookie?.value as 'pl' | 'en' | 'ua' | 'ru' | 'all' | undefined) || 'en'
+  const locale = (localeCookie?.value as 'pl' | 'en' | 'ua' | 'ru' | 'all' | undefined) || 'pl'
   const { isEnabled: draft } = await draftMode()
 
   const payload = await getPayload({ config: configPromise })
