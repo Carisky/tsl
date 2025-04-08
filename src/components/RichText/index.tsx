@@ -94,21 +94,29 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
 })
 
 type Props = {
-  data: DefaultTypedEditorState
-  enableGutter?: boolean
-  enableProse?: boolean
-  animate?: boolean
-} & React.HTMLAttributes<HTMLDivElement>
+  data: DefaultTypedEditorState;
+  enableGutter?: boolean;
+  enableProse?: boolean;
+  animate?: boolean;
+  textSize?: string;
+} & React.HTMLAttributes<HTMLDivElement>;
 
 export default function RichText(props: Props) {
-  const { className, enableProse = true, enableGutter = true, animate, ...rest } = props
-
-  const Wrapper = animate ? AnimatedHTML : 'div'
+  const {
+    className,
+    enableProse = true,
+    enableGutter = true,
+    animate,
+    textSize = 'text-base',
+    ...rest
+  } = props;
+  
+  const Wrapper = animate ? AnimatedHTML : 'div';
 
   return (
     <Wrapper
       className={cn(
-        'text-base',
+        textSize,
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
@@ -119,5 +127,6 @@ export default function RichText(props: Props) {
     >
       <ConvertRichText converters={jsxConverters} {...rest} />
     </Wrapper>
-  )
+  );
 }
+
