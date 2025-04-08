@@ -8,9 +8,11 @@ const primaryUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
 
 // Второй адрес берётся из переменной окружения NEXT_PUBLIC_SECONDARY_URL, если она не задана, используется дефолт
 const secondaryUrl = process.env.NEXT_PUBLIC_SECONDARY_URL || 'http://localhost:3000'
+// Третий адрес берётся из переменной окружения NEXT_PUBLIC_THIRD_URL, если она не задана, используется дефолт
+const thirdUrl = process.env.NEXT_PUBLIC_THIRD_URL || 'http://localhost:3000'
 
 // Собираем массив URL-адресов
-const serverUrls = [primaryUrl, secondaryUrl]
+const serverUrls = [primaryUrl, secondaryUrl, thirdUrl]
 
 // Преобразуем каждый URL в объект для remotePatterns
 const remotePatterns = serverUrls.map((item) => {
