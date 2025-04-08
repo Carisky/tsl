@@ -40,6 +40,20 @@ const ImageSlider: Block = {
       
     },
     {
+      name: "gridAspectRatio",
+      type: "select",
+      label: "Aspect Ratio for Grid",
+      options: [
+        { label: "4:3", value: "4/3" },
+        { label: "1:1", value: "1/1" },
+        { label: "16:9", value: "16/9" },
+      ],
+      defaultValue: "1/1",
+      admin: {
+        condition: (_, siblingData) => siblingData.mode === "grid",
+      },
+    },
+    {
       name: "maxSize",
       type: "select",
       label: "Maximum Image Size",

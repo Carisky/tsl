@@ -27,7 +27,6 @@ interface LinkGroupExternal {
 
 type LinkGroup = LinkGroupInternal | LinkGroupExternal
 
-// Обновлён тип description: может быть string или объект rich text.
 interface CardData {
   Images: ImageData[]
   title: string
@@ -42,7 +41,7 @@ interface VerticalCardListProps {
 export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => {
   const [ref, inView] = useInView({
     triggerOnce: true,
-    threshold: 0.2,
+    threshold: 0.05,
   })
 
   const animationProps = useSpring({
@@ -70,60 +69,63 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                '@media (max-width:768px)': {
-                  flexWrap: 'wrap',
-                },
                 p: 2,
               }}
             >
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
-              <Typography textAlign="center" fontSize={"26px"} variant="h4">
+              <Typography textAlign="center" fontSize="26px" variant="h4">
                 {card.title}
               </Typography>
               <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
+                  // На мобильных устройствах (xs) — колоночный порядок,
+                  // на десктопе (md и выше) — строковый
+                  flexDirection: { xs: 'column', md: 'row' },
                   gap: 1,
-                  objectFit: 'cover',
-                  '@media (max-width:768px)': {
-                    width: 350,
-                    height: 150,
-                  },
+                  mt: 2,
                 }}
               >
-                <Divider />
-                <Box sx={{ display: 'flex' }}>
-                  {card.Images.map((img: ImageData, idx: number) => (
-                    <Box
-                      key={idx}
-                      component="img"
-                      src={img?.image?.url || '/path/to/fallback-image.jpg'}
-                      alt={`card image ${idx + 1}`}
-                      sx={{
-                        marginBottom: '10px',
-                        maxWidth: '400px',
-                        aspectRatio: '1/1',
-                        objectFit: 'cover',
-                        '@media (max-width:768px)': {
-                          minWidth: 150,
-                          minHeight: 150,
-                        },
-                      }}
-                    />
-                  ))}
-                  <CardContent
-                    sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                {card.Images.length > 0 && (
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      mb: { xs: 2, md: 0 },
+                    }}
                   >
-                    {card.description &&
-                    typeof card.description === 'object' ? (
-                      <RichText data={card.description} enableGutter={false} />
-                    ) : (
-                      <Typography variant="body1">{card.description}</Typography>
-                    )}
-                  </CardContent>
-                </Box>
+                    {card.Images.map((img: ImageData, idx: number) => (
+                      <Box
+                        key={idx}
+                        component="img"
+                        src={img?.image?.url || '/path/to/fallback-image.jpg'}
+                        alt={`card image ${idx + 1}`}
+                        sx={{
+                          marginBottom: '10px',
+                          maxWidth: '400px',
+                          aspectRatio: '1/1',
+                          objectFit: 'cover',
+                          width: { xs: '100%', md: 'auto' },
+                        }}
+                      />
+                    ))}
+                  </Box>
+                )}
+                <CardContent
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {card.description && typeof card.description === 'object' ? (
+                    <RichText data={card.description} enableGutter={false} />
+                  ) : (
+                    <Typography variant="body1">{card.description}</Typography>
+                  )}
+                </CardContent>
               </Box>
             </Card>
           </AnimatedDiv>

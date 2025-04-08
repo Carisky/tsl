@@ -18,6 +18,7 @@ type ImageSliderProps = {
   mode?: 'slider' | 'slider-static' | 'grid'
   maxSize?: SizeOption
   gridColumns?: 2 | 3 | 4
+  gridAspectRatio?: '4/3' | '1/1' | '16/9'
 }
 
 export default function ImageSlider({
@@ -26,6 +27,7 @@ export default function ImageSlider({
   mode = 'slider',
   maxSize = 'auto',
   gridColumns = 3,
+  gridAspectRatio = '1/1',
 }: ImageSliderProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
 
@@ -96,7 +98,7 @@ export default function ImageSlider({
             display: 'grid',
             gridTemplateColumns: {
               xs: 'repeat(1, 1fr)', // на телефонах: 1 колонка
-              sm: `repeat(${gridColumns}, 1fr)`, // на остальных экранах: динамическое количество колонок
+              sm: `repeat(${gridColumns}, 1fr)`, // на остальных экранах: заданное число колонок
             },
             gap: 2,
             mt: 2,
@@ -115,7 +117,13 @@ export default function ImageSlider({
                 borderColor: '#000',
                 borderWidth: '2px',
                 borderStyle: 'solid',
-                margin: 'auto',
+                // если gridColumns равно 2, выравниваем картинку по левой или правой стороне
+                ...(gridColumns === 2 && {
+                  justifySelf: index % 2 === 0 ? 'start' : 'end',
+                  margin: 0,
+                }),
+                // для остальных режимов оставляем центрирование
+                ...(gridColumns !== 2 && { margin: 'auto' }),
               }}
               onClick={() => setSelectedImage(img.image.url)}
             >
@@ -126,7 +134,7 @@ export default function ImageSlider({
                 sx={{
                   width: '100%',
                   height: '100%',
-                  aspectRatio: '1/1',
+                  aspectRatio: gridAspectRatio,
                   objectFit: 'fill',
                 }}
               />
@@ -183,7 +191,10 @@ export default function ImageSlider({
       {title && (
         <>
           <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />
-          <Typography variant="h5" sx={{ mt: 2, mb: 2, textAlign: 'center', fontWeight: 'bold' }}>
+          <Typography
+            variant="h5"
+            sx={{ mt: 2, mb: 2, textAlign: 'center', fontWeight: 'bold' }}
+          >
             {title}
           </Typography>
           <Divider sx={{ height: '2px', backgroundColor: '#029270' }} />

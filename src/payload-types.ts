@@ -216,6 +216,7 @@ export interface Page {
         title?: string | null;
         mode?: ('slider' | 'slider-static' | 'grid') | null;
         gridColumns?: ('2' | '3' | '4') | null;
+        gridAspectRatio?: ('4/3' | '1/1' | '16/9') | null;
         maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
@@ -365,6 +366,7 @@ export interface Post {
         title?: string | null;
         mode?: ('slider' | 'slider-static' | 'grid') | null;
         gridColumns?: ('2' | '3' | '4') | null;
+        gridAspectRatio?: ('4/3' | '1/1' | '16/9') | null;
         maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
         images?:
           | {
@@ -1280,6 +1282,7 @@ export interface PagesSelect<T extends boolean = true> {
               title?: T;
               mode?: T;
               gridColumns?: T;
+              gridAspectRatio?: T;
               maxSize?: T;
               images?:
                 | T
@@ -1507,6 +1510,7 @@ export interface PostsSelect<T extends boolean = true> {
               title?: T;
               mode?: T;
               gridColumns?: T;
+              gridAspectRatio?: T;
               maxSize?: T;
               images?:
                 | T
