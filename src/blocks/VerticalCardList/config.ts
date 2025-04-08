@@ -11,21 +11,20 @@ const VerticalCardList: Block = {
       name: 'cards',
       type: 'array',
       label: 'Cards',
-      required: true,
+
       fields: [
         {
           name: 'Images',
           type: 'array',
           label: 'Left Images',
-          required: true,
-          minRows: 1,
+
           maxRows: 2,
           fields: [
             {
               name: 'image',
               type: 'upload',
               relationTo: 'media',
-              required: true,
+
             },
           ],
         },
@@ -34,14 +33,14 @@ const VerticalCardList: Block = {
           name: 'title',
           type: 'text',
           label: 'Title',
-          required: true,
+
         },
         {
           localized: true,
           name: 'description',
           type: 'textarea',
           label: 'Description',
-          required: true,
+
         },
         {
           name: 'link',
@@ -63,14 +62,14 @@ const VerticalCardList: Block = {
                   value: 'external',
                 },
               ],
-              required: true,
+
             },
             {
               name: 'reference',
               type: 'relationship',
               label: 'Document to link to',
               relationTo: ['pages', 'posts'],
-              required: true,
+
               admin: {
                 condition: (_, siblingData) => siblingData?.type === 'internal',
               },
@@ -79,7 +78,7 @@ const VerticalCardList: Block = {
               name: 'url',
               type: 'text',
               label: 'External URL',
-              required: true,
+
               admin: {
                 condition: (_, siblingData) => siblingData?.type === 'external',
               },

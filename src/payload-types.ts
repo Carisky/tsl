@@ -261,29 +261,33 @@ export interface Page {
         blockType: 'contacts';
       }
     | {
-        cards: {
-          Images: {
-            image: string | Media;
-            id?: string | null;
-          }[];
-          title: string;
-          description: string;
-          link: {
-            type: 'internal' | 'external';
-            reference?:
-              | ({
-                  relationTo: 'pages';
-                  value: string | Page;
-                } | null)
-              | ({
-                  relationTo: 'posts';
-                  value: string | Post;
-                } | null);
-            url?: string | null;
-            newTab?: boolean | null;
-          };
-          id?: string | null;
-        }[];
+        cards?:
+          | {
+              Images?:
+                | {
+                    image?: (string | null) | Media;
+                    id?: string | null;
+                  }[]
+                | null;
+              title?: string | null;
+              description?: string | null;
+              link?: {
+                type?: ('internal' | 'external') | null;
+                reference?:
+                  | ({
+                      relationTo: 'pages';
+                      value: string | Page;
+                    } | null)
+                  | ({
+                      relationTo: 'posts';
+                      value: string | Post;
+                    } | null);
+                url?: string | null;
+                newTab?: boolean | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
         blockName?: string | null;
         blockType: 'verticalCardList';

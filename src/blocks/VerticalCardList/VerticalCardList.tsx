@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import { Box, Card, CardContent, Divider, Typography } from '@mui/material'
 import Link from 'next/link'
 import { useInView } from 'react-intersection-observer'
 import { useSpring, animated } from 'react-spring'
@@ -66,19 +66,23 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
             <Card
               sx={{
                 display: 'flex',
+                flexDirection: 'column',
                 '@media (max-width:768px)': {
                   flexWrap: 'wrap',
                 },
                 p: 2,
               }}
             >
+              <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
+              <Typography textAlign={'center'} variant="h4">
+                {card.title}
+              </Typography>
+              <Divider sx={{ height: '2px', backgroundColor: '#026260' }} />
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: 'column',
                   gap: 1,
-                  width: 550,
-                  height: 250,
                   objectFit: 'cover',
                   '@media (max-width:768px)': {
                     width: 350,
@@ -86,30 +90,39 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
                   },
                 }}
               >
-                {card.Images.map((img: ImageData, idx: number) => (
-                  <Box
-                    key={idx}
-                    component="img"
-                    src={img?.image?.url || '/path/to/fallback-image.jpg'}
-                    alt={`card image ${idx + 1}`}
-                    sx={{
-                      minWidth: 250,
-                      minHeight: 250,
-                      objectFit: 'cover',
-                      '@media (max-width:768px)': {
-                        minWidth: 150,
-                        minHeight: 150,
-                      },
-                    }}
-                  />
-                ))}
+                <Divider />
+                <Box
+                  sx={{
+                    display: 'flex',
+                  }}
+                >
+                  {card.Images.map((img: ImageData, idx: number) => (
+                    <Box
+                      key={idx}
+                      component="img"
+                      src={img?.image?.url || '/path/to/fallback-image.jpg'}
+                      alt={`card image ${idx + 1}`}
+                      sx={{
+                        marginBottom: '10px',
+
+                        minWidth: '250px',
+                        maxWidth: '400px',
+                        aspectRatio: '1/1',
+                        objectFit: 'cover',
+                        '@media (max-width:768px)': {
+                          minWidth: 150,
+                          minHeight: 150,
+                        },
+                      }}
+                    />
+                  ))}
+                  <CardContent
+                    sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  >
+                    <Typography variant="body1">{card.description}</Typography>
+                  </CardContent>
+                </Box>
               </Box>
-              <CardContent
-                sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
-              >
-                <Typography variant="h4">{card.title}</Typography>
-                <Typography variant="body1">{card.description}</Typography>
-              </CardContent>
             </Card>
           </AnimatedDiv>
         )
