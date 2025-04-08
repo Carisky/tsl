@@ -90,7 +90,7 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
                   <Box
                     key={idx}
                     component="img"
-                    src={img.image.url}
+                    src={img?.image?.url || '/path/to/fallback-image.jpg'}
                     alt={`card image ${idx + 1}`}
                     sx={{
                       minWidth: 250,
