@@ -55,16 +55,19 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
     <Box className="container" ref={ref} display="flex" flexDirection="column" gap={2}>
       {cards.map((card: CardData, index: number) => {
         const linkHref =
-          card.link.type === 'internal' ? `/${card.link.reference.value.slug}` : card.link.url
+          card.link.type === 'internal'
+            ? card.link.reference?.value?.slug
+              ? `/${card.link.reference.value.slug}`
+              : '#' // или другое значение по умолчанию
+            : card.link.url
         const targetAttr = card.link.newTab ? '_blank' : '_self'
-
         const cardContent = (
           <AnimatedDiv style={animationProps} key={index}>
             <Card
               sx={{
                 display: 'flex',
                 '@media (max-width:768px)': {
-                  flexWrap:"wrap"
+                  flexWrap: 'wrap',
                 },
                 p: 2,
               }}
