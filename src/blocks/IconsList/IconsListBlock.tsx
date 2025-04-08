@@ -60,7 +60,9 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVari
           const item = safeItems[index]
           return (
             <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
-              <ListItem>
+              <ListItem sx={{
+                padding:"0"
+              }}>
                 <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
                 <ListItemText
                   primary={item?.text}
