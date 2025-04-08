@@ -31,7 +31,11 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
               key={index}
             >
               {contentType === 'text' && richText && (
-                <RichText data={richText} enableGutter={false} />
+                <RichText
+                  data={richText}
+                  enableGutter={false}
+                  textSize={col.textSize ?? 'text-base'}
+                />
               )}
               {contentType === 'image' && media && (
                 <div
@@ -39,19 +43,9 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                   style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
                 >
                   {typeof media === 'string' ? (
-                    <Image
-                      src={media}
-                      alt="Column image"
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={media} alt="Column image" fill className="object-cover" />
                   ) : media.url ? (
-                    <Image
-                      src={media.url}
-                      alt="Column image"
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={media.url} alt="Column image" fill className="object-cover" />
                   ) : null}
                 </div>
               )}

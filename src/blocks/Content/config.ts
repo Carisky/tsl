@@ -21,6 +21,21 @@ const columnFields: Field[] = [
     ],
   },
   {
+    name: 'textSize',
+    type: 'select',
+    label: 'Размер текста',
+    defaultValue: 'text-base',
+    options: [
+      { label: 'small', value: 'text-sm' },
+      { label: 'base', value: 'text-base' },
+      { label: 'large', value: 'text-lg' },
+      { label: 'xl', value: 'text-xl' },
+    ],
+    admin: {
+      condition: (_, siblingData) => siblingData?.contentType === 'text',
+    },
+  },  
+  {
     name: 'contentType',
     type: 'select',
     defaultValue: 'text',

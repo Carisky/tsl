@@ -565,6 +565,7 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        textSize?: ('text-sm' | 'text-base' | 'text-lg' | 'text-xl') | null;
         /**
          * Выберите тип содержимого для колонки
          */
@@ -1404,6 +1405,7 @@ export interface ContentBlockSelect<T extends boolean = true> {
     | T
     | {
         size?: T;
+        textSize?: T;
         contentType?: T;
         animate?: T;
         maxImageSize?: T;
