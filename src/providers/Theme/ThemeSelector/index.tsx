@@ -13,6 +13,7 @@ import type { Theme } from './types'
 
 import { useTheme } from '..'
 import { themeLocalStorageKey } from './types'
+import { Box } from '@mui/material'
 
 export const ThemeSelector: React.FC = () => {
   const { setTheme } = useTheme()
@@ -30,10 +31,13 @@ export const ThemeSelector: React.FC = () => {
 
   React.useEffect(() => {
     const preference = window.localStorage.getItem(themeLocalStorageKey)
-    setValue(preference ?? 'auto')
+    setValue(preference ?? 'light')
   }, [])
 
   return (
+    <Box sx={{
+      display:"none"
+    }}>
     <Select onValueChange={onThemeChange} value={value}>
       <SelectTrigger
         aria-label="Select a theme"
@@ -47,5 +51,6 @@ export const ThemeSelector: React.FC = () => {
         <SelectItem value="dark">Dark</SelectItem>
       </SelectContent>
     </Select>
+    </Box>
   )
 }
