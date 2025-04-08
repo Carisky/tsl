@@ -17,20 +17,20 @@ export interface IconsListItem {
 
 export interface IconsListBlockProps {
   title?: string
+  titleVariant?: 'h2' | 'h3' | 'h4'
   items?: IconsListItem[]
 }
-
-export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) => {
-  // Используем безопасное значение для items, чтобы хуки вызывались всегда.
+const titleFontSizeMap: Record<string, string> = {
+  h2: '2rem',
+  h3: '1.75rem',
+  h4: '1.5rem'
+}
+export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVariant = 'h4', items }) => {
   const safeItems = items || []
-
-  // Хук вызывается всегда.
   const { ref, inView } = useInView({
     threshold: 0.3,
     triggerOnce: true
   })
-
-  // Хук анимации вызывается всегда, даже если safeItems пуст.
   const trail = useTrail(safeItems.length, {
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0px)' : 'translateY(20px)',
@@ -38,7 +38,6 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
     config: { tension: 200, friction: 20 }
   })
 
-  // Если элементов нет, возвращаем null, но хуки уже вызваны.
   if (safeItems.length === 0) return null
 
   const iconMapping: Record<string, React.ReactNode> = {
@@ -52,7 +51,7 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
   return (
     <Box ref={ref} className="container">
       {title && (
-        <Typography variant="h4" color="primary" sx={{ mb: 2, fontWeight: '600' }}>
+        <Typography variant={titleVariant} color="primary" sx={{ mb: 2, fontWeight: '500', fontSize:titleFontSizeMap[titleVariant] }}>
           {title}
         </Typography>
       )}
@@ -60,18 +59,12 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, items }) 
         {trail.map((animation, index) => {
           const item = safeItems[index]
           return (
-            <Box
-              key={item?.id}
-              component={animated.div as React.ElementType}
-              style={animation}
-            >
+            <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
               <ListItem>
                 <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
                 <ListItemText
                   primary={item?.text}
-                  slotProps={{
-                    primary: { sx: { fontSize: '1rem' } },
-                  }}
+                  slotProps={{ primary: { sx: { fontSize: '1rem' } } }}
                 />
               </ListItem>
             </Box>

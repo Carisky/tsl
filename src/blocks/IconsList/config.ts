@@ -11,8 +11,20 @@ export const IconsList: Block = {
       name: 'title',
       type: 'text',
       label: 'Title',
-      required: false, // Заголовок не обязателен
+      required: false,
       localized: true,
+    },
+    {
+      name: 'titleVariant',
+      type: 'select',
+      label: 'Title Variant',
+      required: false,
+      options: [
+        { label: 'h2', value: 'h2' },
+        { label: 'h3', value: 'h3' },
+        { label: 'h4', value: 'h4' },
+      ],
+      defaultValue: 'h4',
     },
     {
       name: 'items',

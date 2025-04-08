@@ -231,6 +231,7 @@ export interface Page {
     | MediaBlock
     | {
         title?: string | null;
+        titleVariant?: ('h2' | 'h3' | 'h4') | null;
         items?:
           | {
               icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
@@ -328,6 +329,7 @@ export interface Post {
     | ContentBlock
     | {
         title?: string | null;
+        titleVariant?: ('h2' | 'h3' | 'h4') | null;
         items?:
           | {
               icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
@@ -1279,6 +1281,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              titleVariant?: T;
               items?:
                 | T
                 | {
@@ -1464,6 +1467,7 @@ export interface PostsSelect<T extends boolean = true> {
           | T
           | {
               title?: T;
+              titleVariant?: T;
               items?:
                 | T
                 | {
