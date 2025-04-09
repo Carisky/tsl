@@ -53,8 +53,54 @@ export const IconsList: Block = {
           localized: true,
           required: true,
         },
+        {
+          name: 'enableLink',
+          type: 'checkbox',
+          label: 'Link',
+        },
+        {
+          name: 'linkType',
+          type: 'radio',
+          label: 'Link type',
+          options: [
+            { label: 'Internal', value: 'internal' },
+            { label: 'External', value: 'external' },
+          ],
+          admin: {
+            condition: (_, siblingData) => siblingData?.enableLink === true,
+          },
+        },
+        {
+          name: 'reference',
+          type: 'relationship',
+          label: 'Internal Page',
+          relationTo: ['pages', 'posts'],
+          admin: {
+            condition: (_, siblingData) =>
+              siblingData?.enableLink === true && siblingData?.linkType === 'internal',
+          },
+        },
+        {
+          name: 'url',
+          type: 'text',
+          label: 'External URL',
+          admin: {
+            condition: (_, siblingData) =>
+              siblingData?.enableLink === true && siblingData?.linkType === 'external',
+          },
+        },
+        {
+          name: 'newTab',
+          type: 'checkbox',
+          label: 'Open in new tab',
+          defaultValue: false,
+          admin: {
+            condition: (_, siblingData) => siblingData?.enableLink === true,
+          },
+        },
       ],
     },
+    
   ],
 
 }

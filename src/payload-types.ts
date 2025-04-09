@@ -604,6 +604,19 @@ export interface IconsListBlock {
     | {
         icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
         text: string;
+        enableLink?: boolean | null;
+        linkType?: ('internal' | 'external') | null;
+        reference?:
+          | ({
+              relationTo: 'pages';
+              value: string | Page;
+            } | null)
+          | ({
+              relationTo: 'posts';
+              value: string | Post;
+            } | null);
+        url?: string | null;
+        newTab?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -1437,6 +1450,11 @@ export interface IconsListBlockSelect<T extends boolean = true> {
     | {
         icon?: T;
         text?: T;
+        enableLink?: T;
+        linkType?: T;
+        reference?: T;
+        url?: T;
+        newTab?: T;
         id?: T;
       };
   id?: T;

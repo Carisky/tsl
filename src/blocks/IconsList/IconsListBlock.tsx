@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import React from 'react'
 import { Box, Typography, List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
@@ -13,6 +13,11 @@ export interface IconsListItem {
   id: string
   icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check'
   text: string
+  enableLink?: boolean
+  linkType?: 'internal' | 'external'
+  reference?: { value?: { slug: string } }
+  url?: string
+  newTab?: boolean
 }
 
 export interface IconsListBlockProps {
@@ -23,19 +28,23 @@ export interface IconsListBlockProps {
 const titleFontSizeMap: Record<string, string> = {
   h2: '2rem',
   h3: '1.75rem',
-  h4: '1.5rem'
+  h4: '1.5rem',
 }
-export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVariant = 'h4', items }) => {
+export const IconsListBlock: React.FC<IconsListBlockProps> = ({
+  title,
+  titleVariant = 'h4',
+  items,
+}) => {
   const safeItems = items || []
   const { ref, inView } = useInView({
     threshold: 0.3,
-    triggerOnce: true
+    triggerOnce: true,
   })
   const trail = useTrail(safeItems.length, {
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0px)' : 'translateY(20px)',
     from: { opacity: 0, transform: 'translateY(20px)' },
-    config: { tension: 200, friction: 20 }
+    config: { tension: 200, friction: 20 },
   })
 
   if (safeItems.length === 0) return null
@@ -51,7 +60,11 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVari
   return (
     <Box ref={ref} className="container">
       {title && (
-        <Typography variant={titleVariant} color="primary" sx={{ mb: 2, fontWeight: '600', fontSize:titleFontSizeMap[titleVariant] }}>
+        <Typography
+          variant={titleVariant}
+          color="primary"
+          sx={{ mb: 2, fontWeight: '600', fontSize: titleFontSizeMap[titleVariant] }}
+        >
           {title}
         </Typography>
       )}
@@ -60,13 +73,39 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({ title, titleVari
           const item = safeItems[index]
           return (
             <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
-              <ListItem sx={{
-                padding:"0"
-              }}>
+              <ListItem
+                sx={{
+                  padding: '0',
+                }}
+              >
                 <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
                 <ListItemText
-                  primary={item?.text}
-                  slotProps={{ primary: { sx: { fontSize: '1rem' } } }}
+                  primary={
+                    item?.enableLink ? (
+                      item?.linkType === 'external' ? (
+                        <a
+                          href={item?.url}
+                          target={item?.newTab ? '_blank' : '_self'}
+                          rel="noopener noreferrer"
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                          {item?.text}
+                        </a>
+                      ) : item?.reference?.value?.slug ? (
+                        <a
+                          href={`/${item?.reference.value.slug}`}
+                          target={item?.newTab ? '_blank' : '_self'}
+                          style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                          {item?.text}
+                        </a>
+                      ) : (
+                        item?.text
+                      )
+                    ) : (
+                      item?.text
+                    )
+                  }
                 />
               </ListItem>
             </Box>
