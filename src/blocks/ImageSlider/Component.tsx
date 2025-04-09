@@ -10,7 +10,7 @@ type Image = {
   image: { url: string }
 }
 
-type SizeOption = 'small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto'
+type SizeOption = 'small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | '2xl' | '3xl' | '4xl' | 'auto'
 
 type ImageSliderProps = {
   title: string
@@ -44,7 +44,10 @@ export default function ImageSlider({
     'medium+': 350,
     large: 400,
     xl: 500,
-    auto: 600,
+    '2xl': 600,
+    '3xl': 700,
+    '4xl': 800,
+    auto: 1200,
   }
 
   const maxSizeValue = sizeMapping[maxSize]
@@ -135,7 +138,7 @@ export default function ImageSlider({
                   width: '100%',
                   height: '100%',
                   aspectRatio: gridAspectRatio,
-                  objectFit: 'fill',
+                  objectFit: 'cover',
                 }}
               />
             </Box>

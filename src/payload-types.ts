@@ -217,7 +217,7 @@ export interface Page {
         mode?: ('slider' | 'slider-static' | 'grid') | null;
         gridColumns?: ('2' | '3' | '4') | null;
         gridAspectRatio?: ('4/3' | '1/1' | '16/9') | null;
-        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
+        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | '2xl' | '3xl' | '4xl' | 'auto') | null;
         images?:
           | {
               image: string | Media;
@@ -341,7 +341,7 @@ export interface Post {
         mode?: ('slider' | 'slider-static' | 'grid') | null;
         gridColumns?: ('2' | '3' | '4') | null;
         gridAspectRatio?: ('4/3' | '1/1' | '16/9') | null;
-        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | 'auto') | null;
+        maxSize?: ('small' | 'small+' | 'medium' | 'medium+' | 'large' | 'xl' | '2xl' | '3xl' | '4xl' | 'auto') | null;
         images?:
           | {
               image: string | Media;
