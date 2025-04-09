@@ -252,6 +252,7 @@ export interface Page {
     | {
         cards?:
           | {
+              noLink?: boolean | null;
               Images?:
                 | {
                     image?: (string | null) | Media;
@@ -1312,6 +1313,7 @@ export interface PagesSelect<T extends boolean = true> {
               cards?:
                 | T
                 | {
+                    noLink?: T;
                     Images?:
                       | T
                       | {

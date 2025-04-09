@@ -23,6 +23,12 @@ const VerticalCardList: Block = {
       label: 'Cards',
       fields: [
         {
+          name: 'noLink',
+          type: 'checkbox',
+          label: 'No link forvarding (NoLink)',
+          defaultValue: false,
+        },        
+        {
           name: 'Images',
           type: 'array',
           label: 'Left Images',
@@ -61,6 +67,9 @@ const VerticalCardList: Block = {
           name: 'link',
           type: 'group',
           label: 'Link',
+          admin: {
+            condition: (_, siblingData) => siblingData?.noLink !== true,
+          },
           fields: [
             {
               name: 'type',
@@ -102,7 +111,8 @@ const VerticalCardList: Block = {
               defaultValue: false,
             },
           ],
-        },
+        }
+        
       ],
     },
   ],

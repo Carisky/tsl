@@ -32,6 +32,7 @@ interface CardData {
   title: string
   description: string | any
   link: LinkGroup
+  noLink?: boolean
 }
 
 interface VerticalCardListProps {
@@ -131,26 +132,31 @@ export const VerticalCardList: React.FC<VerticalCardListProps> = ({ cards }) => 
           </AnimatedDiv>
         )
 
-        return card.link.type === 'external' ? (
-          <a
-            key={index}
-            href={linkHref}
-            target={targetAttr}
-            rel="noopener noreferrer"
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            {cardContent}
-          </a>
-        ) : (
-          <Link
-            key={index}
-            href={linkHref}
-            target={targetAttr}
-            style={{ textDecoration: 'none', color: 'inherit' }}
-          >
-            {cardContent}
-          </Link>
+        return (
+          <Box key={index}>
+            {card.noLink ? (
+              cardContent
+            ) : card.link.type === 'external' ? (
+              <a
+                href={linkHref}
+                target={targetAttr}
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                {cardContent}
+              </a>
+            ) : (
+              <Link
+                href={linkHref}
+                target={targetAttr}
+                style={{ textDecoration: 'none', color: 'inherit' }}
+              >
+                {cardContent}
+              </Link>
+            )}
+          </Box>
         )
+        
       })}
     </Box>
   )
