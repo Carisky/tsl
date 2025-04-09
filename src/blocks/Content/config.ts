@@ -56,6 +56,15 @@ const columnFields: Field[] = [
     defaultValue: true,
   },
   {
+    name: 'paperCard',
+    type: 'checkbox',
+    label: 'Use Paper Card (MUI)',
+    defaultValue: false,
+    admin: {
+      condition: (_, siblingData) => siblingData?.contentType === 'text',
+    },
+  },
+  {
     name: 'maxImageSize',
     type: 'select',
     label: 'Макс. размер изображения',

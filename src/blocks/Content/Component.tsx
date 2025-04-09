@@ -4,6 +4,7 @@ import RichText from '@/components/RichText'
 import Image from 'next/image'
 import type { ContentBlock as ContentBlockProps } from '@/payload-types'
 import { CMSLink } from '../../components/Link'
+import { Card, CardContent } from '@mui/material'
 
 export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
   const { columns } = props
@@ -30,13 +31,25 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
               })}
               key={index}
             >
-              {contentType === 'text' && richText && (
-                <RichText
-                  data={richText}
-                  enableGutter={false}
-                  textSize={col.textSize ?? 'text-base'}
-                />
-              )}
+              {contentType === 'text' &&
+                richText &&
+                (col.paperCard ? (
+                  <Card elevation={3} className="h-full">
+                    <CardContent>
+                      <RichText
+                        data={richText}
+                        enableGutter={false}
+                        textSize={col.textSize ?? 'text-base'}
+                      />
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <RichText
+                    data={richText}
+                    enableGutter={false}
+                    textSize={col.textSize ?? 'text-base'}
+                  />
+                ))}
               {contentType === 'image' && media && (
                 <div
                   className="relative w-full aspect-square"
