@@ -230,20 +230,7 @@ export interface Page {
       }
     | ContentBlock
     | MediaBlock
-    | {
-        title?: string | null;
-        titleVariant?: ('h2' | 'h3' | 'h4') | null;
-        items?:
-          | {
-              icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'icons-list';
-      }
+    | IconsListBlock
     | {
         height: number;
         id?: string | null;
@@ -342,20 +329,7 @@ export interface Post {
     | CodeBlock
     | MediaBlock
     | ContentBlock
-    | {
-        title?: string | null;
-        titleVariant?: ('h2' | 'h3' | 'h4') | null;
-        items?:
-          | {
-              icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
-              text: string;
-              id?: string | null;
-            }[]
-          | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'icons-list';
-      }
+    | IconsListBlock
     | {
         height: number;
         id?: string | null;
@@ -616,6 +590,24 @@ export interface ContentBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IconsListBlock".
+ */
+export interface IconsListBlock {
+  title?: string | null;
+  titleVariant?: ('h2' | 'h3' | 'h4') | null;
+  items?:
+    | {
+        icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'icons-list';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1295,21 +1287,7 @@ export interface PagesSelect<T extends boolean = true> {
             };
         content?: T | ContentBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
-        'icons-list'?:
-          | T
-          | {
-              title?: T;
-              titleVariant?: T;
-              items?:
-                | T
-                | {
-                    icon?: T;
-                    text?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
+        'icons-list'?: T | IconsListBlockSelect<T>;
         divider?:
           | T
           | {
@@ -1445,6 +1423,23 @@ export interface MediaBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IconsListBlock_select".
+ */
+export interface IconsListBlockSelect<T extends boolean = true> {
+  title?: T;
+  titleVariant?: T;
+  items?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "ArchiveBlock_select".
  */
 export interface ArchiveBlockSelect<T extends boolean = true> {
@@ -1482,21 +1477,7 @@ export interface PostsSelect<T extends boolean = true> {
         code?: T | CodeBlockSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
-        'icons-list'?:
-          | T
-          | {
-              title?: T;
-              titleVariant?: T;
-              items?:
-                | T
-                | {
-                    icon?: T;
-                    text?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
+        'icons-list'?: T | IconsListBlockSelect<T>;
         divider?:
           | T
           | {

@@ -1,4 +1,4 @@
-"use client"
+'use client'
 import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   DefaultNodeTypes,
@@ -24,6 +24,7 @@ import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
 import React, { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
+import { IconsListBlock, IconsListBlockProps } from '@/blocks/IconsList/IconsListBlock'
 
 type AnimatedHTMLProps = {
   children: React.ReactNode
@@ -61,7 +62,7 @@ export const AnimatedHTML: React.FC<AnimatedHTMLProps> = ({ children, className 
 type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps
+      CTABlockProps | MediaBlockProps | BannerBlockProps | CodeBlockProps | IconsListBlockProps
     >
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
@@ -90,16 +91,19 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     ),
     code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    'icons-list': ({ node }: { node: SerializedBlockNode<IconsListBlockProps> }) => (
+      <IconsListBlock {...node.fields} />
+    ),
   },
 })
 
 type Props = {
-  data: DefaultTypedEditorState;
-  enableGutter?: boolean;
-  enableProse?: boolean;
-  animate?: boolean;
-  textSize?: string;
-} & React.HTMLAttributes<HTMLDivElement>;
+  data: DefaultTypedEditorState
+  enableGutter?: boolean
+  enableProse?: boolean
+  animate?: boolean
+  textSize?: string
+} & React.HTMLAttributes<HTMLDivElement>
 
 export default function RichText(props: Props) {
   const {
@@ -109,9 +113,9 @@ export default function RichText(props: Props) {
     animate,
     textSize = 'text-base',
     ...rest
-  } = props;
-  
-  const Wrapper = animate ? AnimatedHTML : 'div';
+  } = props
+
+  const Wrapper = animate ? AnimatedHTML : 'div'
 
   return (
     <Wrapper
@@ -127,6 +131,5 @@ export default function RichText(props: Props) {
     >
       <ConvertRichText converters={jsxConverters} {...rest} />
     </Wrapper>
-  );
+  )
 }
-

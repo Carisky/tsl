@@ -1,8 +1,17 @@
-import { AlignFeature, FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical';
-import { Block } from 'payload';
+import {
+  AlignFeature,
+  BlocksFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
+  InlineToolbarFeature,
+  lexicalEditor,
+} from '@payloadcms/richtext-lexical'
+import { Block } from 'payload'
+import { IconsList } from '../IconsList/config'
 
 const VerticalCardList: Block = {
   slug: 'verticalCardList',
+
   labels: {
     singular: 'Vertical Card List',
     plural: 'Vertical Card Lists',
@@ -35,18 +44,19 @@ const VerticalCardList: Block = {
         {
           localized: true,
           name: 'description',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => [
-                  ...rootFeatures,
-                  HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
-                  FixedToolbarFeature(),
-                  InlineToolbarFeature(),
-                  AlignFeature(),
-                  
-                ],
+          type: 'richText',
+          editor: lexicalEditor({
+            features: ({ rootFeatures }) => [
+              ...rootFeatures,
+              HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
+              AlignFeature(),
+              BlocksFeature({
+                blocks: [IconsList],
               }),
-            },
+              FixedToolbarFeature(),
+            ],
+          }),
+        },
         {
           name: 'link',
           type: 'group',
@@ -96,6 +106,6 @@ const VerticalCardList: Block = {
       ],
     },
   ],
-};
+}
 
-export default VerticalCardList;
+export default VerticalCardList

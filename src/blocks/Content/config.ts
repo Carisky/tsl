@@ -4,9 +4,11 @@ import {
   HeadingFeature,
   InlineToolbarFeature,
   lexicalEditor,
-  AlignFeature
+  AlignFeature,
+  BlocksFeature
 } from '@payloadcms/richtext-lexical'
 import { link } from '@/fields/link'
+import { IconsList } from '../IconsList/config'
 
 const columnFields: Field[] = [
   {
@@ -80,7 +82,11 @@ const columnFields: Field[] = [
         HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
         FixedToolbarFeature(),
         InlineToolbarFeature(),
-        AlignFeature()
+        AlignFeature(),
+        BlocksFeature({
+          blocks: [IconsList],
+        }),
+        FixedToolbarFeature()
       ],
     }),
     label: false,

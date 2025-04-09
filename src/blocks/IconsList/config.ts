@@ -2,6 +2,7 @@ import type { Block } from 'payload'
 
 export const IconsList: Block = {
   slug: 'icons-list',
+  interfaceName:"IconsListBlock",
   labels: {
     singular: 'Icons List',
     plural: 'Icons Lists',
@@ -55,4 +56,5 @@ export const IconsList: Block = {
       ],
     },
   ],
+
 }
