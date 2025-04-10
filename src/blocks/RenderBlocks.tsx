@@ -16,6 +16,7 @@ import { TilesFlexComponent } from "./TilesFlex/Component";
 import ContactsList from "./Contacts/Component";
 import VerticalCardList from "./VerticalCardList/VerticalCardList";
 import SocialMediasBlock from "./SocialMedias/SocialMediasBlock";
+import { ModalForm } from "./ModalForm/Component";
 
 
 
@@ -33,7 +34,8 @@ const blockComponents: Record<string, React.FC<any>> = {
   "tiles-flex": TilesFlexComponent,
   contacts: ContactsList,
   verticalCardList: VerticalCardList,
-  socialMedias: SocialMediasBlock
+  socialMedias: SocialMediasBlock,
+  modalForm: ModalForm
 };
 
 export const RenderBlocks: React.FC<{
