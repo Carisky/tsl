@@ -9,8 +9,7 @@ import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 600
-
+export const revalidate = 60 * 60 * 24 * 7
 type Args = {
   params: Promise<{
     pageNumber: string

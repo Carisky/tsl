@@ -8,7 +8,6 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 
-export const runtime = 'edge'
 export const revalidate = 60 * 60 * 24 * 7
 
 export default async function Page() {
