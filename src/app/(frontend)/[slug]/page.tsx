@@ -63,25 +63,9 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
-      {url == '/home' ? (
-        <>
           <RenderHero {...hero} />
           <RenderBlocks blocks={layout} />
-        </>
-      ) : (
-        <>
-          <RenderBlocks blocks={layout} />
-          <Box sx={{
-            mt:"20%"
-          }}>
-          <RenderHero {...hero} />
-          </Box>
-        </>
-      )}
-
     </article>
   )
 }
