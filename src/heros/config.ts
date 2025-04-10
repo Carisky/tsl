@@ -1,6 +1,7 @@
 import type { Field } from 'payload'
 
 import {
+  BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
   InlineToolbarFeature,
@@ -8,6 +9,8 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
+import { blocks } from 'node_modules/payload/dist/fields/validations'
+import { ModalForm } from '@/blocks/ModalForm/config'
 
 export const hero: Field = {
   name: 'hero',
@@ -39,9 +42,15 @@ export const hero: Field = {
       required: true,
     },
     {
+      name: 'showRichText',
+      type: 'checkbox',
+      label: 'Show Rich Text Block',
+      defaultValue: false,
+    },
+    {
       name: 'richText',
       type: 'richText',
-      localized:true,
+      localized: true,
       editor: lexicalEditor({
         features: ({ rootFeatures }) => {
           return [
@@ -49,6 +58,9 @@ export const hero: Field = {
             HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
             FixedToolbarFeature(),
             InlineToolbarFeature(),
+            BlocksFeature({
+              blocks: [ModalForm],
+            }),
           ]
         },
       }),
