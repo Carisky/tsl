@@ -7,7 +7,7 @@ import { searchPlugin } from '@payloadcms/plugin-search'
 import { Plugin } from 'payload'
 import { revalidateRedirects } from '@/hooks/revalidateRedirects'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
-import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+import { AlignFeature, FixedToolbarFeature, HeadingFeature, InlineToolbarFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
@@ -61,26 +61,55 @@ export const plugins: Plugin[] = [
     },
     formOverrides: {
       fields: ({ defaultFields }) => {
-        return defaultFields.map((field) => {
-          if ('name' in field && field.name === 'confirmationMessage') {
-            return {
-              ...field,
-              editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
-                  return [
-                    ...rootFeatures,
-                    FixedToolbarFeature(),
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-                  ]
-                },
-              }),
+        return [
+          {
+            name: 'introContent',
+            type: 'richText',
+            label: 'Intro Content',
+            localized: true,
+            admin: {
+              condition: (_, { enableIntro }) => Boolean(enableIntro),
+            },
+            editor: lexicalEditor({
+              features: ({ defaultFeatures }) => {
+                return [
+                  ...defaultFeatures,
+                  FixedToolbarFeature(),
+                  HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                  InlineToolbarFeature(),
+                  AlignFeature(),
+                ]
+              },
+            }),
+          },
+          {
+            name: 'enableIntro',
+            type: 'checkbox',
+            label: 'Enable Intro Content',
+          },
+          ...defaultFields.map((field) => {
+            if ('name' in field && field.name === 'confirmationMessage') {
+              return {
+                ...field,
+                editor: lexicalEditor({
+                  features: ({ defaultFeatures }) => {
+                    return [
+                      ...defaultFeatures,
+                      FixedToolbarFeature(),
+                      HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    ]
+                  },
+                }),
+              }
             }
-          }
-          return field
-        })
+
+            return field
+          }),
+        ]
       },
     },
   }),
+
   searchPlugin({
     collections: ['posts'],
     beforeSync: beforeSyncWithSearch,
@@ -91,6 +120,6 @@ export const plugins: Plugin[] = [
     },
   }),
   payloadCloudPlugin({
-    email:false
+    email: false,
   }),
 ]
