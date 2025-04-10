@@ -25,7 +25,7 @@ import { cn } from '@/utilities/ui'
 import React, { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import { IconsListBlock, IconsListBlockProps } from '@/blocks/IconsList/IconsListBlock'
-
+import { ModalForm, ModalFormBlockProps } from '@/blocks/ModalForm/Component'
 type AnimatedHTMLProps = {
   children: React.ReactNode
   className?: string
@@ -94,6 +94,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     'icons-list': ({ node }: { node: SerializedBlockNode<IconsListBlockProps> }) => (
       <IconsListBlock {...node.fields} />
     ),
+    modalForm: ({ node }: { node: SerializedBlockNode<ModalFormBlockProps> }) => (
+      <ModalForm {...node.fields} />
+    ),    
   },
 })
 
