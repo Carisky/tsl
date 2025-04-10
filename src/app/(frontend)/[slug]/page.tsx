@@ -11,7 +11,6 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
-import { Box } from '@mui/material'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })

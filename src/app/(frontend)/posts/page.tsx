@@ -8,8 +8,8 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 
-export const dynamic = 'force-static'
-export const revalidate = 600
+export const runtime = 'edge'
+export const revalidate = 60 * 60 * 24 * 7
 
 export default async function Page() {
   const payload = await getPayload({ config: configPromise })

@@ -31,6 +31,21 @@ const nextConfig = {
   },
   reactStrictMode: false,
   redirects,
+
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=604800, stale-while-revalidate=86400',
+          },
+        ],
+      },
+    ]
+  },
 }
+
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
