@@ -12,7 +12,7 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
-export const revalidate = 60 * 60 * 24 * 7
+export const revalidate = 604800
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
