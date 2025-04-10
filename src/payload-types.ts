@@ -156,6 +156,7 @@ export interface Page {
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
+    showRichText?: boolean | null;
     richText?: {
       root: {
         type: string;
@@ -751,7 +752,16 @@ export interface ArchiveBlock {
  */
 export interface FormBlock {
   form: string | Form;
-  enableIntro?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'formBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms".
+ */
+export interface Form {
+  id: string;
   introContent?: {
     root: {
       type: string;
@@ -767,16 +777,7 @@ export interface FormBlock {
     };
     [k: string]: unknown;
   } | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'formBlock';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "forms".
- */
-export interface Form {
-  id: string;
+  enableIntro?: boolean | null;
   title: string;
   fields?:
     | (
@@ -1247,6 +1248,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         type?: T;
+        showRichText?: T;
         richText?: T;
         links?:
           | T
@@ -1480,8 +1482,6 @@ export interface ArchiveBlockSelect<T extends boolean = true> {
  */
 export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
-  enableIntro?: T;
-  introContent?: T;
   id?: T;
   blockName?: T;
 }
@@ -1748,6 +1748,8 @@ export interface RedirectsSelect<T extends boolean = true> {
  * via the `definition` "forms_select".
  */
 export interface FormsSelect<T extends boolean = true> {
+  introContent?: T;
+  enableIntro?: T;
   title?: T;
   fields?:
     | T
