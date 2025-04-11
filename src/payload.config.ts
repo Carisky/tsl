@@ -23,6 +23,7 @@ import { ru } from '@payloadcms/translations/languages/ru'
 import Contacts from './collections/Contacts'
 import ContactGroups from './collections/ContactGroups'
 import sendToMarketing from './endpoints/sendToMarketing'
+import Organization from './globals/organization'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -98,7 +99,7 @@ export default buildConfig({
   }),
   collections: [Pages, Posts, ContactGroups,Contacts,Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
+  globals: [Header, Footer, Organization],
   plugins: [
     ...plugins,
   ],

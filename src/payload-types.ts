@@ -107,11 +107,13 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    organization: Organization;
     'payload-cloud-instance': PayloadCloudInstance;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    organization: OrganizationSelect<false> | OrganizationSelect<true>;
     'payload-cloud-instance': PayloadCloudInstanceSelect<false> | PayloadCloudInstanceSelect<true>;
   };
   locale: 'en' | 'ua' | 'ru' | 'pl';
@@ -311,6 +313,36 @@ export interface Page {
     image?: (string | null) | Media;
     description?: string | null;
   };
+  microdata?: {
+    /**
+     * Full content of that page <if needed>
+     */
+    articleBody?: string | null;
+    /**
+     * Author name for page
+     */
+    authorName?: string | null;
+    /**
+     * Date of publishing for schema.org/Article
+     */
+    datePublished?: string | null;
+    /**
+     * Date of last modified
+     */
+    dateModified?: string | null;
+    /**
+     * Short Headline for Page
+     */
+    headline?: string | null;
+    /**
+     * Main Image for Page
+     */
+    image?: (string | null) | Media;
+    /**
+     * Keywords, comma separated "logistics,poland,services..."
+     */
+    keywords?: string | null;
+  };
   publishedAt?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
@@ -364,6 +396,36 @@ export interface Post {
      */
     image?: (string | null) | Media;
     description?: string | null;
+  };
+  microdata?: {
+    /**
+     * Full content of that page <if needed>
+     */
+    articleBody?: string | null;
+    /**
+     * Author name for page
+     */
+    authorName?: string | null;
+    /**
+     * Date of publishing for schema.org/Article
+     */
+    datePublished?: string | null;
+    /**
+     * Date of last modified
+     */
+    dateModified?: string | null;
+    /**
+     * Short Headline for Page
+     */
+    headline?: string | null;
+    /**
+     * Main Image for Page
+     */
+    image?: (string | null) | Media;
+    /**
+     * Keywords, comma separated "logistics,poland,services..."
+     */
+    keywords?: string | null;
   };
   publishedAt?: string | null;
   authors?: (string | User)[] | null;
@@ -1364,6 +1426,17 @@ export interface PagesSelect<T extends boolean = true> {
         image?: T;
         description?: T;
       };
+  microdata?:
+    | T
+    | {
+        articleBody?: T;
+        authorName?: T;
+        datePublished?: T;
+        dateModified?: T;
+        headline?: T;
+        image?: T;
+        keywords?: T;
+      };
   publishedAt?: T;
   slug?: T;
   slugLock?: T;
@@ -1533,6 +1606,17 @@ export interface PostsSelect<T extends boolean = true> {
         title?: T;
         image?: T;
         description?: T;
+      };
+  microdata?:
+    | T
+    | {
+        articleBody?: T;
+        authorName?: T;
+        datePublished?: T;
+        dateModified?: T;
+        headline?: T;
+        image?: T;
+        keywords?: T;
       };
   publishedAt?: T;
   authors?: T;
@@ -2043,6 +2127,31 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organization".
+ */
+export interface Organization {
+  id: string;
+  name: string;
+  url?: string | null;
+  logo?: (string | null) | Media;
+  contactPoint?:
+    | {
+        telephone?: string | null;
+        contactType?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  sameAs?:
+    | {
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-cloud-instance".
  */
 export interface PayloadCloudInstance {
@@ -2091,6 +2200,31 @@ export interface FooterSelect<T extends boolean = true> {
               url?: T;
               label?: T;
             };
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "organization_select".
+ */
+export interface OrganizationSelect<T extends boolean = true> {
+  name?: T;
+  url?: T;
+  logo?: T;
+  contactPoint?:
+    | T
+    | {
+        telephone?: T;
+        contactType?: T;
+        id?: T;
+      };
+  sameAs?:
+    | T
+    | {
+        url?: T;
         id?: T;
       };
   updatedAt?: T;
