@@ -132,6 +132,69 @@ export const Pages: CollectionConfig<'pages'> = {
             }),
           ],
         },
+        {
+          name: 'microdata',
+          label: 'Microdata',
+          fields: [
+            {
+              name: 'articleBody',
+              type: 'textarea',
+              label: 'Article Body',
+              admin: {
+                description: 'Full content of that page <if needed>',
+              },
+            },
+            {
+              name: 'authorName',
+              type: 'text',
+              label: 'Author Name',
+              admin: {
+                description: 'Author name for page',
+              },
+            },
+            {
+              name: 'datePublished',
+              type: 'date',
+              label: 'Date Published',
+              admin: {
+                description: 'Date of publishing for schema.org/Article',
+              },
+            },
+            {
+              name: 'dateModified',
+              type: 'date',
+              label: 'Date Modified',
+              admin: {
+                description: 'Date of last modified',
+              },
+            },
+            {
+              name: 'headline',
+              type: 'text',
+              label: 'Headline',
+              admin: {
+                description: 'Short Headline for Page',
+              },
+            },
+            {
+              name: 'image',
+              type: 'upload',
+              label: 'Main Image',
+              relationTo: 'media',
+              admin: {
+                description: 'Main Image for Page',
+              },
+            },
+            {
+              name: 'keywords',
+              type: 'text',
+              label: 'Keywords',
+              admin: {
+                description: 'Keywords, comma separated "logistics,poland,services..."',
+              },
+            },
+          ],
+        },        
       ],
     },
     {
