@@ -17,6 +17,7 @@ import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Chat from './components/Chat/Chat'
+import { OrganizationLD } from './components/SEO/MicroData/OrganizationLD'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -27,6 +28,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+        <OrganizationLD />
         <meta name="google-site-verification" content="d21ZqEL-FsZzFXf9sELoeU6UCFDf6LIV3OmVS6w_P24" />
       </head>
       <body>
