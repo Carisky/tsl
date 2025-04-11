@@ -11,6 +11,9 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import ExtendedMetadata from '../interfaces/ExtendedMetadata'
+import ArticleLD from '../components/SEO/MicroData/ArticleLD'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 604800
 
@@ -48,7 +51,6 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
-
   const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
     slug,
   })
@@ -60,24 +62,60 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { hero, layout } = page
 
   return (
-    <article className="pb-24">
-      <PageClient />
-      {/* Allows redirects for valid pages too */}
-      <PayloadRedirects disableNotFound url={url} />
-      {draft && <LivePreviewListener />}
-          <RenderHero {...hero} />
-          <RenderBlocks blocks={layout} />
-    </article>
+    <>
+      <ArticleLD slug={slug} />
+      <article className="pb-24">
+        <PageClient />
+        <PayloadRedirects disableNotFound url={url} />
+        {draft && <LivePreviewListener />}
+        <RenderHero {...hero} />
+        <RenderBlocks blocks={layout} />
+      </article>
+    </>
   )
 }
 
-export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<ExtendedMetadata> {
   const { slug = 'home' } = await paramsPromise
-  const page = await queryPageBySlug({
-    slug,
-  })
+  const page = await queryPageBySlug({ slug })
 
-  return generateMeta({ doc: page })
+  const baseMetadata = generateMeta({ doc: page }) as ExtendedMetadata
+
+  if (!page?.microdata?.headline) {
+    return baseMetadata
+  }
+  const image = page.microdata.image
+  const imageUrl = typeof image === 'string' ? undefined : image?.url
+  
+  const articleJsonLD = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: page.microdata.headline,
+
+    articleBody: page.microdata.articleBody,
+    author: {
+      '@type': 'Person',
+      name: page.microdata.authorName || 'Unknown',
+      url:getServerSideURL(),
+    },
+    datePublished: page.microdata.datePublished,
+    dateModified: page.microdata.dateModified,
+    image: imageUrl,
+    keywords: page.microdata.keywords,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${getServerSideURL()}/${slug}`,
+    },
+  }
+  
+
+  return {
+    ...baseMetadata,
+    other: {
+      ...(baseMetadata.other || {}),
+      'ld+json-article': JSON.stringify(articleJsonLD),
+    },
+  }
 }
 
 const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
@@ -93,6 +131,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     pagination: false,
     locale,
+    depth: 1,
     overrideAccess: draft,
     where: {
       slug: {

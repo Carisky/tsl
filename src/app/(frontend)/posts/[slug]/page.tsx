@@ -12,6 +12,9 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { cookies } from 'next/headers'
+import PostLD from '../../components/SEO/MicroData/PostLD'
+import ExtendedMetadata from '../../interfaces/ExtendedMetadata'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export const revalidate = 604800
 
@@ -45,6 +48,7 @@ export default async function Post({ params: paramsPromise }: Args) {
 
   return (
     <article className="pt-16 pb-16">
+      <PostLD slug={slug} />
       <PageClient />
       {/* Разрешаем редиректы даже для валидных постов */}
       <PayloadRedirects disableNotFound url={url} />
@@ -69,13 +73,48 @@ export default async function Post({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { slug = '' } = await paramsPromise
   const post = await queryPostBySlug({ slug })
-  return generateMeta({ doc: post })
-}
 
+  const baseMetadata = generateMeta({ doc: post }) as ExtendedMetadata
+
+  if (!post?.microdata?.headline) {
+    return baseMetadata
+  }
+  const image = post.microdata.image
+  const imageUrl = typeof image === 'string' ? undefined : image?.url
+
+  const articleJsonLD = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: post.microdata.headline,
+
+    articleBody: post.microdata.articleBody,
+    author: {
+      '@type': 'Person',
+      name: post.microdata.authorName || 'Unknown',
+      url: getServerSideURL(),
+    },
+    datePublished: post.microdata.datePublished,
+    dateModified: post.microdata.dateModified,
+    image: imageUrl,
+    keywords: post.microdata.keywords,
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `${getServerSideURL()}/${slug}`,
+    },
+  }
+
+  return {
+    ...baseMetadata,
+    other: {
+      ...(baseMetadata.other || {}),
+      'ld+json-article': JSON.stringify(articleJsonLD),
+    },
+  }
+}
 const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
   // Получаем locale из cookies
   const localeCookie = (await cookies()).get('locale')
-  const locale = (localeCookie?.value as "pl" | "en" | "ua" | "ru" | "all" | undefined) || 'pl'
+  const locale = (localeCookie?.value as 'pl' | 'en' | 'ua' | 'ru' | 'all' | undefined) || 'pl'
 
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
