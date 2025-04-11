@@ -26,11 +26,11 @@ export const HeaderClient: React.FC = () => {
 
   useEffect(() => {
     setHeaderTheme(null)
-  }, [pathname])
+  }, [pathname,setHeaderTheme])
 
   useEffect(() => {
     if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
-  }, [headerTheme])
+  }, [headerTheme,theme])
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev)

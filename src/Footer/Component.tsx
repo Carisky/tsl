@@ -18,7 +18,6 @@ import DescriptionIcon from '@mui/icons-material/Description'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd'
 import InfoIcon from '@mui/icons-material/Info'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { MarketingContacts } from './MarketingContacts'
 
 export async function Footer() {

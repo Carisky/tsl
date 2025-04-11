@@ -9,7 +9,6 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
-import { blocks } from 'node_modules/payload/dist/fields/validations'
 import { ModalForm } from '@/blocks/ModalForm/config'
 
 export const hero: Field = {

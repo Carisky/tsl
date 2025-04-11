@@ -1,5 +1,3 @@
-import type { Metadata } from 'next'
-
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
@@ -131,7 +129,7 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     pagination: false,
     locale,
-    depth: 1,
+    depth: 2,
     overrideAccess: draft,
     where: {
       slug: {

@@ -1,5 +1,4 @@
 import type { PayloadRequest } from 'payload';
-import payload from 'payload';
 
 export default async function sendToMarketing(req: PayloadRequest) {
   if (req.method !== 'POST') {

@@ -39,10 +39,10 @@ const ContactsList: React.FC<ContactsBlockProps> = ({
 }) => {
   const [mounted, setMounted] = useState(false)
   const locale = Cookies.get('locale')
-  const [contacts, setContacts] = useState<Contact[]>(initialContacts)
-  const [loading, setLoading] = useState<boolean>(!initialContacts.length)
-  const [error, setError] = useState<string | null>(null)
-
+  const [contacts] = useState<Contact[]>(initialContacts)
+  const [loading] = useState<boolean>(!initialContacts.length)
+  const [error] = useState<string | null>(null)
+  
   const animationProps = useSpring({
     opacity: 1,
     transform: 'translateY(20px)',

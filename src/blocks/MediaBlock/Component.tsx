@@ -18,7 +18,7 @@ type Props = MediaBlockProps & {
   staticImage?: StaticImageData
   disableInnerContainer?: boolean
   // Новые поля
-  caption?: any
+  caption?: object
   imageAlignment?: 'left' | 'center' | 'right' | null;
   captionPosition?: 'left' | 'right' | 'bottom' | 'top' | null;
 }

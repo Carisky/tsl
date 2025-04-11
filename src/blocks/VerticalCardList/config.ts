@@ -3,7 +3,6 @@ import {
   BlocksFeature,
   FixedToolbarFeature,
   HeadingFeature,
-  InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { Block } from 'payload'
