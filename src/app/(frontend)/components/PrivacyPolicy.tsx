@@ -6,8 +6,8 @@ import Cookies from 'js-cookie';
 const translations = {
   pl: {
     info: 'Używamy plików cookie, aby ulepszyć działanie strony i analizować ruch. Zapoznaj się z naszą polityką prywatności.',
-    accept: 'Przyjmij politykę',
-    read: 'Przeczytaj więc',
+    accept: 'Zaakceptuj politykę',
+    read: 'Przeczytaj więcej',
   },
   ru: {
     info: 'Мы используем файлы cookie для улучшения работы сайта и анализа трафика. Ознакомьтесь с нашей политикой конфиденциальности.',
