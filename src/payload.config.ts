@@ -24,6 +24,7 @@ import Contacts from './collections/Contacts'
 import ContactGroups from './collections/ContactGroups'
 import sendToMarketing from './endpoints/sendToMarketing'
 import Organization from './globals/organization'
+import Services from './collections/Services'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -97,7 +98,7 @@ export default buildConfig({
     // URL is required.
     url: process.env.DATABASE_URI,
   }),
-  collections: [Pages, Posts, ContactGroups,Contacts,Media, Categories, Users],
+  collections: [Pages, Posts, ContactGroups,Contacts,Media, Categories, Users, Services],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, Organization],
   plugins: [

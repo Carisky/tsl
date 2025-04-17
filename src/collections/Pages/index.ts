@@ -27,6 +27,7 @@ import TilesFlex from '@/blocks/TilesFlex/config'
 import ContactsBlock from '@/blocks/Contacts/config'
 import VerticalCardList from '@/blocks/VerticalCardList/config'
 import { SocialMedias } from '@/blocks/SocialMedias/config'
+import { InquiryFormBlock } from '@/blocks/InquiryForm/config'
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -95,7 +96,8 @@ export const Pages: CollectionConfig<'pages'> = {
                 FormBlock,
                 ContactsBlock,
                 VerticalCardList,
-                SocialMedias
+                SocialMedias,
+                InquiryFormBlock
               ],
               required: true,
               admin: {

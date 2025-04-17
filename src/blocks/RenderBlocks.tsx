@@ -17,6 +17,7 @@ import ContactsList from "./Contacts/Component";
 import VerticalCardList from "./VerticalCardList/VerticalCardList";
 import SocialMediasBlock from "./SocialMedias/SocialMediasBlock";
 import { ModalForm } from "./ModalForm/Component";
+import InquiryForm from "./InquiryForm/InquiryForm";
 
 
 
@@ -35,7 +36,8 @@ const blockComponents: Record<string, React.FC<any>> = {
   contacts: ContactsList,
   verticalCardList: VerticalCardList,
   socialMedias: SocialMediasBlock,
-  modalForm: ModalForm
+  modalForm: ModalForm,
+  inquiryForm: InquiryForm
 };
 
 export const RenderBlocks: React.FC<{
