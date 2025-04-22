@@ -61,7 +61,8 @@ const columnFields: Field[] = [
     label: 'Use Paper Card (MUI)',
     defaultValue: false,
     admin: {
-      condition: (_, siblingData) => siblingData?.contentType === 'text',
+      condition: (_, siblingData) =>
+        siblingData?.contentType === 'text' || siblingData?.contentType === 'image',
     },
   },
   {

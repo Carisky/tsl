@@ -50,18 +50,35 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
                     textSize={col.textSize ?? 'text-base'}
                   />
                 ))}
-              {contentType === 'image' && media && (
-                <div
-                  className="relative w-full aspect-square"
-                  style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
-                >
-                  {typeof media === 'string' ? (
-                    <Image src={media} alt="Column image" fill className="object-cover" />
-                  ) : media.url ? (
-                    <Image src={media.url} alt="Column image" fill className="object-cover" />
-                  ) : null}
-                </div>
-              )}
+              {contentType === 'image' &&
+                media &&
+                (col.paperCard ? (
+                  <Card elevation={3} className="h-full">
+                    <CardContent>
+                      <div
+                        className="relative w-full aspect-square"
+                        style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
+                      >
+                        {typeof media === 'string' ? (
+                          <Image src={media} alt="Column image" fill className="object-cover" />
+                        ) : media.url ? (
+                          <Image src={media.url} alt="Column image" fill className="object-cover" />
+                        ) : null}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : (
+                  <div
+                    className="relative w-full aspect-square"
+                    style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
+                  >
+                    {typeof media === 'string' ? (
+                      <Image src={media} alt="Column image" fill className="object-cover" />
+                    ) : media.url ? (
+                      <Image src={media.url} alt="Column image" fill className="object-cover" />
+                    ) : null}
+                  </div>
+                ))}
               {enableLink && <CMSLink {...link} />}
             </div>
           )
