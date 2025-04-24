@@ -50,12 +50,14 @@ export default function SocialMediasBlock() {
 
   return (
     <Box
-      className="container"
       sx={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        display: 'flex',
-        flexWrap:"wrap"
+        position: 'fixed',
+        bottom: 20,
+        right: 20,
+        top:"35%",
+        zIndex: 20,
+        cursor: 'pointer',
+
       }}
       gap={2}
     >
@@ -68,12 +70,14 @@ export default function SocialMediasBlock() {
           style={{ textDecoration: 'none' }}
         >
           <Box
-            width={60}
-            height={60}
+            width={40}
+            height={40}
             display="flex"
+            flexDirection="column"
             alignItems="center"
             justifyContent="center"
             gap={4}
+            margin={2}
             sx={{ backgroundColor: item.bgColor, borderRadius: '8px' }}
           >
             {item.icon}

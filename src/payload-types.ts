@@ -675,6 +675,11 @@ export interface IconsListBlock {
    * Hex color for icons (e.g. #8d004c)
    */
   iconColor?: string | null;
+  renderAsButtons?: boolean | null;
+  /**
+   * Used only if "Render as buttons" is enabled. Hex color, e.g. #8d004c
+   */
+  buttonBgColor?: string | null;
   /**
    * Hex color for text (e.g. #8d004c)
    */
@@ -685,7 +690,7 @@ export interface IconsListBlock {
   textSize?: number | null;
   items?:
     | {
-        icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
+        icon?: ('ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check') | null;
         text: string;
         enableLink?: boolean | null;
         linkType?: ('internal' | 'external') | null;
@@ -1564,6 +1569,8 @@ export interface IconsListBlockSelect<T extends boolean = true> {
   titleVariant?: T;
   layoutMode?: T;
   iconColor?: T;
+  renderAsButtons?: T;
+  buttonBgColor?: T;
   textColor?: T;
   textSize?: T;
   items?:

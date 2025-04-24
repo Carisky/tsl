@@ -18,6 +18,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import Chat from './components/Chat/Chat'
 import { OrganizationLD } from './components/SEO/MicroData/OrganizationLD'
+import SocialMediasBlock from '@/blocks/SocialMedias/SocialMediasBlock'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -46,6 +47,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
         </Providers>
         <Chat/>
+        <SocialMediasBlock/>
       </body>
     </html>
   )

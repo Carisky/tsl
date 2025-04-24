@@ -38,6 +38,7 @@ export const IconsList: Block = {
       defaultValue: 'vertical',
       required: true,
     },
+    
     {
       name: 'iconColor',
       type: 'text',
@@ -45,6 +46,22 @@ export const IconsList: Block = {
       defaultValue: '#8d004c',
       admin: {
         description: 'Hex color for icons (e.g. #8d004c)',
+      },
+    },
+    {
+      name: 'renderAsButtons',
+      type: 'checkbox',
+      label: 'Render items as buttons',
+      defaultValue: false,
+    },
+    {
+      name: 'buttonBgColor',
+      type: 'text',
+      label: 'Button Background Color',
+      defaultValue: '#8d004c',
+      admin: {
+        description: 'Used only if "Render as buttons" is enabled. Hex color, e.g. #8d004c',
+        condition: (_, siblingData) => siblingData?.renderAsButtons === true,
       },
     },
     {
@@ -64,7 +81,6 @@ export const IconsList: Block = {
       admin: {
         description: 'Size of text in rem units',
         step: 0.1,
-
       },
     },
     {
@@ -85,7 +101,11 @@ export const IconsList: Block = {
             { label: 'Check', value: 'Check' },
           ],
           defaultValue: 'ChevronRight',
+          admin: {
+            condition: (_, siblingData) => siblingData?.renderAsButtons !== true,
+          },
         },
+        
         {
           name: 'text',
           type: 'text',

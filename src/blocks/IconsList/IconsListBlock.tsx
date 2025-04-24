@@ -8,6 +8,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
 import CheckIcon from '@mui/icons-material/Check'
 import { useTrail, animated } from 'react-spring'
 import { useInView } from 'react-intersection-observer'
+import { Button } from '@mui/material'
 
 export interface IconsListItem {
   id: string
@@ -28,6 +29,8 @@ export interface IconsListBlockProps {
   textColor?: string
   textSize?: number
   items?: IconsListItem[]
+  renderAsButtons?: boolean
+  buttonBgColor?: string
 }
 
 const titleFontSizeMap: Record<string, string> = {
@@ -43,6 +46,8 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
   iconColor = '#8d004c',
   textColor = '#000000',
   textSize = 1,
+  renderAsButtons,
+  buttonBgColor,
   items,
 }) => {
   const safeItems = items || []
@@ -88,34 +93,88 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
           const item = safeItems[index]
           const content = item?.enableLink ? (
             item?.linkType === 'external' ? (
-              <a
+              <Button
+                component="a"
                 href={item.url}
                 target={item.newTab ? '_blank' : '_self'}
                 rel="noopener noreferrer"
-                style={{ textDecoration: 'none', color: textColor, fontSize: `${textSize}rem` }}
+                variant="contained"
+                sx={{
+                  backgroundColor: renderAsButtons ? buttonBgColor : 'transparent',
+                  color: textColor,
+                  fontSize: `${textSize}rem`,
+                  textTransform: 'none',
+                  boxShadow: 'none',
+                  '&:hover': {
+                    backgroundColor: renderAsButtons ? buttonBgColor : 'transparent',
+                    opacity: 0.9,
+                  },
+                }}
               >
                 {item.text}
-              </a>
+              </Button>
             ) : item.reference?.value?.slug ? (
-              <a
+              <Button
+                component="a"
                 href={`/${item.reference.value.slug}`}
                 target={item.newTab ? '_blank' : '_self'}
-                style={{ textDecoration: 'none', color: textColor, fontSize: `${textSize}rem` }}
+                variant="contained"
+                sx={{
+                  backgroundColor: renderAsButtons ? buttonBgColor : 'transparent',
+                  color: textColor,
+                  fontSize: `${textSize}rem`,
+                  textTransform: 'none',
+                  boxShadow: 'none',
+                  '&:hover': {
+                    backgroundColor: renderAsButtons ? buttonBgColor : 'transparent',
+                    opacity: 0.9,
+                  },
+                }}
               >
                 {item.text}
-              </a>
+              </Button>
             ) : (
-              <span style={{ color: textColor, fontSize: `${textSize}rem` }}>{item.text}</span>
+              <Typography sx={{ color: textColor, fontSize: `${textSize}rem` }}>
+                {item.text}
+              </Typography>
             )
+          ) : renderAsButtons ? (
+            <Button
+              variant="contained"
+              fullWidth
+              sx={{
+                backgroundColor: buttonBgColor,
+                color: textColor,
+                fontSize: `${textSize}rem`,
+                textTransform: 'none',
+                boxShadow: 'none',
+                width: '100%',
+                maxWidth: '300px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                '&:hover': {
+                  backgroundColor: buttonBgColor,
+                  opacity: 0.9,
+                },
+              }}
+            >
+              {item?.text}
+            </Button>
           ) : (
-            <span style={{ color: textColor, fontSize: `${textSize}rem` }}>{item?.text}</span>
+            <Typography sx={{ color: textColor, fontSize: `${textSize}rem` }}>
+              {item?.text}
+            </Typography>
           )
 
           return (
             <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
-              <ListItem sx={itemSx}>
-                <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
-                <ListItemText primary={content} />
+              <ListItem sx={{ ...itemSx, display: 'flex', justifyContent: 'center' }}>
+                {!renderAsButtons && (
+                  <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
+                )}
+
+                <Box sx={{ width: '100%', maxWidth: 300 }}>{content}</Box>
               </ListItem>
             </Box>
           )
