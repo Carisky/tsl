@@ -168,13 +168,14 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
           )
 
           return (
-            <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
-              <ListItem sx={{ ...itemSx, display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{
+              padding:0
+            }} key={item?.id} component={animated.div as React.ElementType} style={animation}>
+              <ListItem sx={{ ...itemSx, display: 'flex' }}>
                 {!renderAsButtons && (
                   <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
                 )}
-
-                <Box sx={{ width: '100%', maxWidth: 300 }}>{content}</Box>
+                <Box sx={{ width: '100%' }}>{content}</Box>
               </ListItem>
             </Box>
           )

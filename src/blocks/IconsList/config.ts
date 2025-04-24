@@ -68,7 +68,7 @@ export const IconsList: Block = {
       name: 'textColor',
       type: 'text',
       label: 'Text Color',
-      defaultValue: '#8d004c',
+      defaultValue: '#010101',
       admin: {
         description: 'Hex color for text (e.g. #8d004c)',
       },

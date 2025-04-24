@@ -25,7 +25,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
   }, [setHeaderTheme])
 
   const minHeightClass = isRoot ? 'min-h-[125vh]' : 'min-h-[125vh]'
-  const imgClassName = isRoot ? '-z-10 object-contain' : '-z-10 object-cover'
+  const imgClassName = isRoot ? '-z-10 object-contain' : '-z-10 object-contain'
 
   return (
     <div className="relative -mt-[5rem] flex items-center justify-center" data-theme="dark">
