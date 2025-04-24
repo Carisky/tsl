@@ -1,6 +1,7 @@
 'use client'
 import { useHeaderTheme } from '@/providers/HeaderTheme'
 import React, { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 
 import type { Page } from '@/payload-types'
 
@@ -16,10 +17,15 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
   showRichText,
 }) => {
   const { setHeaderTheme } = useHeaderTheme()
+  const pathname = usePathname()
+  const isRoot = pathname === '/'
 
   useEffect(() => {
     setHeaderTheme('dark')
-  })
+  }, [setHeaderTheme])
+
+  const minHeightClass = isRoot ? 'min-h-[125vh]' : 'min-h-[95vh]'
+  const imgClassName = isRoot ? '-z-10 object-contain' : '-z-10 object-cover'
 
   return (
     <div className="relative -mt-[10.4rem] flex items-center justify-center" data-theme="dark">
@@ -43,9 +49,9 @@ export const HighImpactHero: React.FC<Page['hero']> = ({
           </ul>
         )}
       </div>
-      <div className="min-h-[100vh] select-none">
+      <div className={`${minHeightClass} select-none`}>
         {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
+          <Media fill imgClassName={imgClassName} priority resource={media} />
         )}
       </div>
     </div>

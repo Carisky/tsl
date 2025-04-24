@@ -2,7 +2,7 @@ import type { Block } from 'payload'
 
 export const IconsList: Block = {
   slug: 'icons-list',
-  interfaceName:"IconsListBlock",
+  interfaceName: 'IconsListBlock',
   labels: {
     singular: 'Icons List',
     plural: 'Icons Lists',
@@ -26,6 +26,46 @@ export const IconsList: Block = {
         { label: 'h4', value: 'h4' },
       ],
       defaultValue: 'h4',
+    },
+    {
+      name: 'layoutMode',
+      type: 'select',
+      label: 'Layout Mode',
+      options: [
+        { label: 'Vertical', value: 'vertical' },
+        { label: 'Horizontal', value: 'horizontal' },
+      ],
+      defaultValue: 'vertical',
+      required: true,
+    },
+    {
+      name: 'iconColor',
+      type: 'text',
+      label: 'Icon Color',
+      defaultValue: '#8d004c',
+      admin: {
+        description: 'Hex color for icons (e.g. #8d004c)',
+      },
+    },
+    {
+      name: 'textColor',
+      type: 'text',
+      label: 'Text Color',
+      defaultValue: '#8d004c',
+      admin: {
+        description: 'Hex color for text (e.g. #8d004c)',
+      },
+    },
+    {
+      name: 'textSize',
+      type: 'number',
+      label: 'Text Size (rem)',
+      defaultValue: 1,
+      admin: {
+        description: 'Size of text in rem units',
+        step: 0.1,
+
+      },
     },
     {
       name: 'items',
@@ -66,9 +106,7 @@ export const IconsList: Block = {
             { label: 'Internal', value: 'internal' },
             { label: 'External', value: 'external' },
           ],
-          admin: {
-            condition: (_, siblingData) => siblingData?.enableLink === true,
-          },
+          admin: { condition: (_, sibling) => sibling?.enableLink },
         },
         {
           name: 'reference',
@@ -76,8 +114,7 @@ export const IconsList: Block = {
           label: 'Internal Page',
           relationTo: ['pages', 'posts'],
           admin: {
-            condition: (_, siblingData) =>
-              siblingData?.enableLink === true && siblingData?.linkType === 'internal',
+            condition: (_, sibling) => sibling?.enableLink && sibling?.linkType === 'internal',
           },
         },
         {
@@ -85,8 +122,7 @@ export const IconsList: Block = {
           type: 'text',
           label: 'External URL',
           admin: {
-            condition: (_, siblingData) =>
-              siblingData?.enableLink === true && siblingData?.linkType === 'external',
+            condition: (_, sibling) => sibling?.enableLink && sibling?.linkType === 'external',
           },
         },
         {
@@ -94,13 +130,9 @@ export const IconsList: Block = {
           type: 'checkbox',
           label: 'Open in new tab',
           defaultValue: false,
-          admin: {
-            condition: (_, siblingData) => siblingData?.enableLink === true,
-          },
+          admin: { condition: (_, sibling) => sibling?.enableLink },
         },
       ],
     },
-    
   ],
-
 }

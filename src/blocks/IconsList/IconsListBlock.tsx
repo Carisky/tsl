@@ -23,23 +23,30 @@ export interface IconsListItem {
 export interface IconsListBlockProps {
   title?: string
   titleVariant?: 'h2' | 'h3' | 'h4'
+  layoutMode?: 'vertical' | 'horizontal'
+  iconColor?: string
+  textColor?: string
+  textSize?: number
   items?: IconsListItem[]
 }
+
 const titleFontSizeMap: Record<string, string> = {
   h2: '2rem',
   h3: '1.75rem',
   h4: '1.5rem',
 }
+
 export const IconsListBlock: React.FC<IconsListBlockProps> = ({
   title,
   titleVariant = 'h4',
+  layoutMode = 'vertical',
+  iconColor = '#8d004c',
+  textColor = '#000000',
+  textSize = 1,
   items,
 }) => {
   const safeItems = items || []
-  const { ref, inView } = useInView({
-    threshold: 0.3,
-    triggerOnce: true,
-  })
+  const { ref, inView } = useInView({ threshold: 0.3, triggerOnce: true })
   const trail = useTrail(safeItems.length, {
     opacity: inView ? 1 : 0,
     transform: inView ? 'translateY(0px)' : 'translateY(20px)',
@@ -47,15 +54,23 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
     config: { tension: 200, friction: 20 },
   })
 
-  if (safeItems.length === 0) return null
+  if (!safeItems.length) return null
 
   const iconMapping: Record<string, React.ReactNode> = {
-    ChevronRight: <ChevronRightIcon sx={{ color: '#8d004c' }} />,
-    ChevronLeft: <ChevronLeftIcon sx={{ color: '#8d004c' }} />,
-    Info: <InfoIcon sx={{ color: '#8d004c' }} />,
-    Alert: <ErrorOutlineIcon sx={{ color: '#8d004c' }} />,
-    Check: <CheckIcon sx={{ color: '#8d004c' }} />,
+    ChevronRight: <ChevronRightIcon sx={{ color: iconColor }} />,
+    ChevronLeft: <ChevronLeftIcon sx={{ color: iconColor }} />,
+    Info: <InfoIcon sx={{ color: iconColor }} />,
+    Alert: <ErrorOutlineIcon sx={{ color: iconColor }} />,
+    Check: <CheckIcon sx={{ color: iconColor }} />,
   }
+
+  const listSx =
+    layoutMode === 'horizontal'
+      ? { display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', p: 0 }
+      : { p: 0 }
+
+  const itemSx =
+    layoutMode === 'horizontal' ? { flex: '0 1 calc(33% - 1rem)', m: '0.5rem 0', p: 0 } : { p: 0 }
 
   return (
     <Box ref={ref} className="container">
@@ -63,50 +78,44 @@ export const IconsListBlock: React.FC<IconsListBlockProps> = ({
         <Typography
           variant={titleVariant}
           color="primary"
-          sx={{ mb: 2, fontWeight: '600', fontSize: titleFontSizeMap[titleVariant] }}
+          sx={{ mb: 2, fontWeight: 600, fontSize: titleFontSizeMap[titleVariant] }}
         >
           {title}
         </Typography>
       )}
-      <List>
+      <List sx={listSx}>
         {trail.map((animation, index) => {
           const item = safeItems[index]
+          const content = item?.enableLink ? (
+            item?.linkType === 'external' ? (
+              <a
+                href={item.url}
+                target={item.newTab ? '_blank' : '_self'}
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: textColor, fontSize: `${textSize}rem` }}
+              >
+                {item.text}
+              </a>
+            ) : item.reference?.value?.slug ? (
+              <a
+                href={`/${item.reference.value.slug}`}
+                target={item.newTab ? '_blank' : '_self'}
+                style={{ textDecoration: 'none', color: textColor, fontSize: `${textSize}rem` }}
+              >
+                {item.text}
+              </a>
+            ) : (
+              <span style={{ color: textColor, fontSize: `${textSize}rem` }}>{item.text}</span>
+            )
+          ) : (
+            <span style={{ color: textColor, fontSize: `${textSize}rem` }}>{item?.text}</span>
+          )
+
           return (
             <Box key={item?.id} component={animated.div as React.ElementType} style={animation}>
-              <ListItem
-                sx={{
-                  padding: '0',
-                }}
-              >
+              <ListItem sx={itemSx}>
                 <ListItemIcon>{iconMapping[item!.icon] || item?.icon}</ListItemIcon>
-                <ListItemText
-                  primary={
-                    item?.enableLink ? (
-                      item?.linkType === 'external' ? (
-                        <a
-                          href={item?.url}
-                          target={item?.newTab ? '_blank' : '_self'}
-                          rel="noopener noreferrer"
-                          style={{ textDecoration: 'none', color: 'inherit' }}
-                        >
-                          {item?.text}
-                        </a>
-                      ) : item?.reference?.value?.slug ? (
-                        <a
-                          href={`/${item?.reference.value.slug}`}
-                          target={item?.newTab ? '_blank' : '_self'}
-                          style={{ textDecoration: 'none', color: 'inherit' }}
-                        >
-                          {item?.text}
-                        </a>
-                      ) : (
-                        item?.text
-                      )
-                    ) : (
-                      item?.text
-                    )
-                  }
-                />
+                <ListItemText primary={content} />
               </ListItem>
             </Box>
           )

@@ -670,6 +670,19 @@ export interface ContentBlock {
 export interface IconsListBlock {
   title?: string | null;
   titleVariant?: ('h2' | 'h3' | 'h4') | null;
+  layoutMode: 'vertical' | 'horizontal';
+  /**
+   * Hex color for icons (e.g. #8d004c)
+   */
+  iconColor?: string | null;
+  /**
+   * Hex color for text (e.g. #8d004c)
+   */
+  textColor?: string | null;
+  /**
+   * Size of text in rem units
+   */
+  textSize?: number | null;
   items?:
     | {
         icon: 'ChevronRight' | 'ChevronLeft' | 'Info' | 'Alert' | 'Check';
@@ -1549,6 +1562,10 @@ export interface MediaBlockSelect<T extends boolean = true> {
 export interface IconsListBlockSelect<T extends boolean = true> {
   title?: T;
   titleVariant?: T;
+  layoutMode?: T;
+  iconColor?: T;
+  textColor?: T;
+  textSize?: T;
   items?:
     | T
     | {
