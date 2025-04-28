@@ -8,6 +8,7 @@ export const IconsList: Block = {
     plural: 'Icons Lists',
   },
   fields: [
+    
     {
       name: 'title',
       type: 'text',
@@ -36,7 +37,7 @@ export const IconsList: Block = {
         { label: 'Horizontal', value: 'horizontal' },
       ],
       defaultValue: 'vertical',
-      required: true,
+      required: false,
     },
     
     {
@@ -152,7 +153,11 @@ export const IconsList: Block = {
           defaultValue: false,
           admin: { condition: (_, sibling) => sibling?.enableLink },
         },
+        
       ],
+
+
     },
   ],
+  
 }

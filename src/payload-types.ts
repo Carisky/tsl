@@ -670,7 +670,7 @@ export interface ContentBlock {
 export interface IconsListBlock {
   title?: string | null;
   titleVariant?: ('h2' | 'h3' | 'h4') | null;
-  layoutMode: 'vertical' | 'horizontal';
+  layoutMode?: ('vertical' | 'horizontal') | null;
   /**
    * Hex color for icons (e.g. #8d004c)
    */
