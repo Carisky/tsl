@@ -49,15 +49,14 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
   const { slug = 'home' } = await paramsPromise
   const url = '/' + slug
-  const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({
-    slug,
-  })
+  const page: RequiredDataFromCollectionSlug<'pages'> | null = await queryPageBySlug({ slug })
 
   if (!page) {
     return <PayloadRedirects url={url} />
   }
 
   const { hero, layout } = page
+  const isHome = slug === 'home'
 
   return (
     <>
@@ -66,12 +65,24 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PageClient />
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
-        <RenderHero {...hero} />
-        <RenderBlocks blocks={layout} />
+
+        {/* Условная магия начинается здесь */}
+        {isHome ? (
+          <>
+            <RenderHero {...hero} />
+            <RenderBlocks blocks={layout} />
+          </>
+        ) : (
+          <>
+            <RenderBlocks blocks={layout} />
+            <RenderHero {...hero} />
+          </>
+        )}
       </article>
     </>
   )
 }
+
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<ExtendedMetadata> {
   const { slug = 'home' } = await paramsPromise
