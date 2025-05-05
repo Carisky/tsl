@@ -22,6 +22,7 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, mobile }) => {
     : "flex w-full gap-3 justify-between items-center h-20 text-white" 
   const linkColor = mobile ? "text-black" : "text-white"
   const navElementStyle = mobile ? "flex justify-center w-full" : ""
+  const navItemsSize = navItems.length > 12? "text-xs" : ""
   return (
     <nav className={navClassName}>
       {navItems.map(({ link }, i) => {
@@ -42,14 +43,14 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ data, mobile }) => {
             key={i}
             {...link}
             appearance="link"
-            className={`${linkColor} ${navElementStyle} ${isActive ? "underline decoration-pink-500 decoration-2" : ""}`}
+            className={`${linkColor} ${navItemsSize} ${navElementStyle} ${isActive ? "underline decoration-pink-500 decoration-2" : ""}`}
           />
         )
       })}
 
       <Link href="/search">
         <span className="sr-only">Search</span>
-        <SearchIcon className={`w-5 ${pathname === "/search" ? "text-pink-500 underline" : linkColor}`} />
+        <SearchIcon className={`w-5 $ ${pathname === "/search" ? "text-pink-500 underline" : linkColor}`} />
       </Link>
     </nav>
   )

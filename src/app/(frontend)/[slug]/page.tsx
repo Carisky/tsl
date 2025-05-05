@@ -12,6 +12,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import ExtendedMetadata from '../interfaces/ExtendedMetadata'
 import ArticleLD from '../components/SEO/MicroData/ArticleLD'
 import { getServerSideURL } from '@/utilities/getURL'
+import { Box } from '@mui/material'
 
 export const revalidate = 604800
 
@@ -68,10 +69,13 @@ export default async function Page({ params: paramsPromise }: Args) {
 
         {/* Условная магия начинается здесь */}
         {isHome ? (
-          <>
+          
+          <Box sx={{
+            mt:4
+          }}>
             <RenderHero {...hero} />
             <RenderBlocks blocks={layout} />
-          </>
+          </Box>
         ) : (
           <>
             <RenderBlocks blocks={layout} />

@@ -12,37 +12,37 @@ export default function SocialMediasBlock() {
   const icons = [
     {
       id: 'tg',
-      icon: <TelegramIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <TelegramIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#0088cc',
       link: 'http://t.me/WiktoriaKwiatkowska',
     },
     {
       id: 'inst',
-      icon: <InstagramIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <InstagramIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#E1306C',
       link: 'https://www.instagram.com/tsl_silesia/',
     },
     {
       id: 'youtube',
-      icon: <YouTubeIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <YouTubeIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#FF0000',
       link: 'https://www.youtube.com/@tslsilesia9930',
     },
     {
       id: 'fb',
-      icon: <FacebookIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <FacebookIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#1877F2',
       link: 'https://www.facebook.com/TSLSilesia',
     },
     {
       id: 'whatsapp',
-      icon: <WhatsAppIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <WhatsAppIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#25D366',
       link: 'https://wa.me/+48608675834',
     },
     {
       id: 'linkedin',
-      icon: <LinkedInIcon sx={{ color: 'white', fontSize: 30 }} />,
+      icon: <LinkedInIcon sx={{ color: 'white', fontSize: 20 }} />,
       bgColor: '#0A66C2',
       link: 'https://www.linkedin.com/company/104711986/admin/dashboard/',
     },
@@ -54,7 +54,7 @@ export default function SocialMediasBlock() {
         position: 'fixed',
         bottom: 20,
         right: 20,
-        top:"35%",
+        top:"25%",
         zIndex: 20,
         cursor: 'pointer',
 
@@ -70,8 +70,8 @@ export default function SocialMediasBlock() {
           style={{ textDecoration: 'none' }}
         >
           <Box
-            width={40}
-            height={40}
+            width={30}
+            height={30}
             display="flex"
             flexDirection="column"
             alignItems="center"
