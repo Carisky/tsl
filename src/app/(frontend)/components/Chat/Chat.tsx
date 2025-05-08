@@ -90,8 +90,10 @@ export default function Chat(): JSX.Element {
           position: 'fixed',
           bottom: 20,
           right: 20,
-          zIndex: 10,
+          zIndex: 100,
           cursor: 'pointer',
+          height: 75,
+          width: 75,
         }}
         onClick={handleOpen}
       >
@@ -106,8 +108,9 @@ export default function Chat(): JSX.Element {
             alignItems: 'center',
             padding: 1.5,
           }}
+          
         >
-          <img src="/api/media/file/chat.png" />
+          <img style={{ pointerEvents: 'none' }} src="/api/media/file/chat.png" />
         </Box>
       </Box>
       <Drawer anchor="right" open={open} onClose={handleClose}>

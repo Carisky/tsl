@@ -56,7 +56,7 @@ export default function SocialMediasBlock() {
         right: 20,
         top:"25%",
         zIndex: 20,
-        cursor: 'pointer',
+
 
       }}
       gap={2}
