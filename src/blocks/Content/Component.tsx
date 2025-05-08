@@ -53,16 +53,23 @@ export const ContentBlock: React.FC<ContentBlockProps> = (props) => {
               {contentType === 'image' &&
                 media &&
                 (col.paperCard ? (
-                  <Card elevation={3} className="h-full">
-                    <CardContent>
+                  <Card elevation={3} sx={{
+                    margin:"auto"
+                  }}>
+                    <CardContent sx={{
+                      margin:"auto",
+                      display:"flex",
+                      justifyContent:"center",
+                      alignItems:"center"
+                    }}>
                       <div
                         className="relative w-full aspect-square"
                         style={{ maxWidth: `${maxSize}px`, maxHeight: `${maxSize}px` }}
                       >
                         {typeof media === 'string' ? (
-                          <Image src={media} alt="Column image" fill className="object-cover" />
+                          <Image src={media} alt="Column image" fill className="object-cover mx-auto" />
                         ) : media.url ? (
-                          <Image src={media.url} alt="Column image" fill className="object-cover" />
+                          <Image src={media.url} alt="Column image" fill className="object-cover mx-auto" />
                         ) : null}
                       </div>
                     </CardContent>
