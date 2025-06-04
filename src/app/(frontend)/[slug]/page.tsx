@@ -58,6 +58,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { hero, layout } = page
   const isHome = slug === 'home'
+  const isMaps = slug === 'maps'
 
   return (
     <>
@@ -68,7 +69,7 @@ export default async function Page({ params: paramsPromise }: Args) {
         {draft && <LivePreviewListener />}
 
         {/* Условная магия начинается здесь */}
-        {isHome ? (
+        {isHome || isMaps ? (
           
           <Box sx={{
             mt:4

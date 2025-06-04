@@ -18,11 +18,12 @@ const serverUrls = [primaryUrl, secondaryUrl, thirdUrl]
 const remotePatterns = serverUrls.map((item) => {
   const url = new URL(item)
   return {
-    hostname: url.hostname,
     protocol: url.protocol.replace(':', ''),
+    hostname: url.hostname,
+    port: url.port || undefined, // explicitly include the port
   }
 })
-
+console.log(remotePatterns)
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -46,6 +47,6 @@ const nextConfig = {
     ]
   },
 }
-
+console.log('FINAL image config:', nextConfig.images.remotePatterns)
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
