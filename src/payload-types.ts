@@ -110,13 +110,11 @@ export interface Config {
     header: Header;
     footer: Footer;
     organization: Organization;
-    'payload-cloud-instance': PayloadCloudInstance;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     organization: OrganizationSelect<false> | OrganizationSelect<true>;
-    'payload-cloud-instance': PayloadCloudInstanceSelect<false> | PayloadCloudInstanceSelect<true>;
   };
   locale: 'en' | 'ua' | 'ru' | 'pl';
   user: User & {
@@ -2216,16 +2214,6 @@ export interface Organization {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-cloud-instance".
- */
-export interface PayloadCloudInstance {
-  id: string;
-  instance: string;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -2291,16 +2279,6 @@ export interface OrganizationSelect<T extends boolean = true> {
         url?: T;
         id?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "payload-cloud-instance_select".
- */
-export interface PayloadCloudInstanceSelect<T extends boolean = true> {
-  instance?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

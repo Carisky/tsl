@@ -65,6 +65,7 @@
     "sharp": "0.32.6",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
+    "ts-node": "^10.9.2",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
@@ -83,7 +84,7 @@
     "tailwindcss": "^3.4.3",
     "typescript": "5.7.3"
   },
-  "packageManager": "pnpm@10.3.0",
+  "packageManager": "yarn@1.22.22",
   "engines": {
     "node": "^18.20.2 || >=20.9.0"
   },
