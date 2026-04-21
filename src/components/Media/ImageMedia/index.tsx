@@ -10,6 +10,7 @@ import type { Props as MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
+import { appendCacheTag, resolveURL } from '@/utilities/resolveURL'
 
 const { breakpoints } = cssVariables
 
@@ -41,9 +42,8 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     height = fullHeight!
     alt = altFromResource || ''
 
-    const cacheTag = resource.updatedAt
-
-    src = `${getClientSideURL()}${url}?${cacheTag}`
+    const absoluteURL = url ? resolveURL(url, getClientSideURL()) : ''
+    src = absoluteURL ? appendCacheTag(absoluteURL, resource.updatedAt) : ''
   }
 
   const loading = loadingFromProps || (!priority ? 'lazy' : undefined)
