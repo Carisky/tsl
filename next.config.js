@@ -1,29 +1,47 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import redirects from './redirects.js'
 
-// Первый адрес определяется через VERCEL_PROJECT_PRODUCTION_URL или NEXT_PUBLIC_SERVER_URL, либо localhost
 const primaryUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
   ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
   : process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
 
-// Второй адрес берётся из переменной окружения NEXT_PUBLIC_SECONDARY_URL, если она не задана, используется дефолт
 const secondaryUrl = process.env.NEXT_PUBLIC_SECONDARY_URL || 'http://localhost:3000'
-// Третий адрес берётся из переменной окружения NEXT_PUBLIC_THIRD_URL, если она не задана, используется дефолт
 const thirdUrl = process.env.NEXT_PUBLIC_THIRD_URL || 'http://localhost:3000'
 
-// Собираем массив URL-адресов
 const serverUrls = [primaryUrl, secondaryUrl, thirdUrl]
 
-// Преобразуем каждый URL в объект для remotePatterns
 const remotePatterns = serverUrls.map((item) => {
   const url = new URL(item)
   return {
     protocol: url.protocol.replace(':', ''),
     hostname: url.hostname,
-    port: url.port || undefined, // explicitly include the port
+    port: url.port || undefined,
   }
 })
-console.log(remotePatterns)
+
+const parseOriginHost = (value) => {
+  if (!value) return null
+
+  const candidate = value.trim()
+  if (!candidate) return null
+
+  try {
+    return new URL(candidate).host
+  } catch {
+    return candidate.replace(/^https?:\/\//i, '').split('/')[0] || null
+  }
+}
+
+const allowedOriginsFromEnv = (process.env.NEXT_SERVER_ACTIONS_ALLOWED_ORIGINS || '')
+  .split(',')
+  .map((item) => parseOriginHost(item))
+  .filter(Boolean)
+
+const serverActionAllowedOrigins = [...new Set([
+  ...serverUrls.map((url) => parseOriginHost(url)),
+  ...allowedOriginsFromEnv,
+])]
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
@@ -32,7 +50,11 @@ const nextConfig = {
   },
   reactStrictMode: false,
   redirects,
-
+  experimental: {
+    serverActions: {
+      allowedOrigins: serverActionAllowedOrigins,
+    },
+  },
   async headers() {
     return [
       {
@@ -47,6 +69,5 @@ const nextConfig = {
     ]
   },
 }
-console.log('FINAL image config:', nextConfig.images.remotePatterns)
 
 export default withPayload(nextConfig, { devBundleServerPackages: false })
